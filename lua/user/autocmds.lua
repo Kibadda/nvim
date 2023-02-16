@@ -60,3 +60,37 @@ autocmd("BufReadPost", {
     end
   end,
 })
+
+local group = augroup("OpenTelescopeFindFilesIfDirectory", { clear = true })
+autocmd("VimEnter", {
+  group = group,
+  callback = function(data)
+    if vim.fn.isdirectory(data.file) == 1 then
+      vim.cmd.cd(data.file)
+      vim.cmd.argdelete "*"
+      vim.cmd.bdelete()
+      vim.cmd.Telescope "find_files"
+    end
+  end,
+})
+
+autocmd("BufEnter", {
+  group = group,
+  pattern = "*/",
+  callback = function(data)
+    if vim.fn.isdirectory(data.file) == 1 then
+      vim.cmd.bdelete()
+      vim.cmd {
+        cmd = "Telescope",
+        args = { "find_files", "search_dirs=" .. vim.fn.fnamemodify(data.file, ":.") },
+      }
+    end
+  end,
+})
+
+autocmd("VimResized", {
+  group = augroup("EqualizeSplitsOnResize", { clear = true }),
+  callback = function()
+    vim.cmd.wincmd "="
+  end,
+})
