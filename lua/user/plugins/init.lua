@@ -12,7 +12,7 @@ return {
   {
     "tpope/vim-dotenv",
     config = function()
-      local envfile = "~/.dotfiles/.env"
+      local envfile = vim.fn.stdpath "config" .. "/.env"
       if vim.fn.filereadable(vim.fn.expand(envfile)) == 0 then
         return
       end
