@@ -44,7 +44,7 @@ function M.config()
     plugin = "mini-starter",
     main_section = {
       name = "Dotfiles",
-      sessions = { "dotfiles", "notes" },
+      sessions = { "config", "notes" },
     },
   }
 
