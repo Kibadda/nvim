@@ -30,6 +30,33 @@ function M.init()
       ["<M-e>"] = { "<Cmd>Telescope symbols<CR>", "Emojis" },
     },
   }
+
+  local group = vim.api.nvim_create_augroup("OpenTelescopeFindFilesIfDirectory", { clear = true })
+  vim.api.nvim_create_autocmd("VimEnter", {
+    group = group,
+    callback = function(data)
+      if vim.fn.isdirectory(data.file) == 1 then
+        vim.cmd.cd(data.file)
+        vim.cmd.argdelete "*"
+        vim.cmd.bdelete()
+        vim.cmd.Telescope "find_files"
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("BufEnter", {
+    group = group,
+    pattern = "*/",
+    callback = function(data)
+      if vim.fn.isdirectory(data.file) == 1 then
+        vim.cmd.bdelete()
+        vim.cmd {
+          cmd = "Telescope",
+          args = { "find_files", "search_dirs=" .. vim.fn.fnamemodify(data.file, ":.") },
+        }
+      end
+    end,
+  })
 end
 
 function M.config()
