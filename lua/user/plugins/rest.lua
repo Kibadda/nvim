@@ -1,6 +1,6 @@
 local M = {
   "rest-nvim/rest.nvim",
-  keys = { "<Leader>Hr", "<Leader>Hp", "<Leader>Hl" },
+  ft = "http",
 }
 
 function M.init()
