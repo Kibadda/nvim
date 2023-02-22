@@ -1,6 +1,6 @@
-local utils_options = require "user.utils.options"
+local options = require "user.utils.options"
 
-utils_options.set {
+options.set {
   completeopt = "menuone,noselect",
   pumblend = 0,
   wildmode = "longest:full,full",
@@ -47,7 +47,7 @@ utils_options.set {
 
 vim.on_key(function(char)
   if vim.fn.mode() == "n" then
-    utils_options.set {
+    options.set {
       hlsearch = vim.tbl_contains({ "n", "N", "*", "#", "?", "/", "z" }, vim.fn.keytrans(char)),
     }
   end
