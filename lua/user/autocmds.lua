@@ -23,19 +23,6 @@ autocmd("BufWritePre", {
   end,
 })
 
-autocmd("User", {
-  group = augroup("RemoveWinbarOnFileBufType", { clear = true }),
-  pattern = "HeirlineInitWinbar",
-  callback = function(args)
-    if
-      vim.tbl_contains({ "prompt", "nofile", "help", "quickfix", "startify", "starter" }, vim.bo[args.buf].buftype)
-      or vim.tbl_contains({ "gitcommit", "fugitive", "startify", "starter" }, vim.bo[args.buf].filetype)
-    then
-      vim.opt_local.winbar = nil
-    end
-  end,
-})
-
 autocmd("BufEnter", {
   group = augroup("PluginFileKeymap", { clear = true }),
   pattern = "*/lua/user/plugins/{*.lua,*/init.lua}",
