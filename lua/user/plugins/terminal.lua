@@ -1,8 +1,11 @@
 local M = {
   "Kibadda/terminal.nvim",
   dev = true,
-  event = "VeryLazy",
-  config = true,
+  cmd = "TerminalOpen",
 }
+
+function M.init()
+  vim.cmd.cabbrev "T TerminalOpen"
+end
 
 return M
