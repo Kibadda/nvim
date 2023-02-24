@@ -18,6 +18,7 @@ require("lazy").setup("user.plugins", {
   dev = {
     pattern = { "Kibadda" },
     path = "~/plugins",
+    fallback = true,
   },
   install = {
     -- missing = false,
