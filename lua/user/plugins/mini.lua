@@ -1,14 +1,5 @@
 local M = {
   "echasnovski/mini.starter",
-  dependencies = {
-    {
-      "Kibadda/projectodo.nvim",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-      },
-      dev = true,
-    },
-  },
   event = "VimEnter",
 }
 
@@ -40,13 +31,7 @@ function M.init()
 end
 
 function M.config()
-  local sections = require("projectodo").get_sections {
-    plugin = "mini-starter",
-    main_section = {
-      name = "Dotfiles",
-      sessions = { "config", "notes" },
-    },
-  }
+  local sections = require("projectodo").get_sections()
 
   table.insert(sections, 1, function()
     return {
