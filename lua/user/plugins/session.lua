@@ -21,7 +21,7 @@ function M.init()
             function()
               require("session.telescope").list()
             end,
-            "New",
+            "List",
           },
         },
       },
