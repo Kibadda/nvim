@@ -54,3 +54,12 @@ autocmd("VimResized", {
     vim.cmd.wincmd "="
   end,
 })
+
+autocmd("FileType", {
+  group = augroup("UseSpellInGitCommits", { clear = true }),
+  pattern = { "gitcommit" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = true
+  end,
+})
