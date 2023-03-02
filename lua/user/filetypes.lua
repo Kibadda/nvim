@@ -4,4 +4,8 @@ vim.filetype.add {
     snippets = "snippets",
     http = "http",
   },
+  pattern = {
+    [".*/kitty/.*%.conf"] = "kitty",
+    [".*/nginx/.*"] = "nginx",
+  },
 }
