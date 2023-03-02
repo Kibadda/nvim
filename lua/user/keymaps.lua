@@ -44,5 +44,8 @@ require("user.utils.register").keymaps {
     ["<C-CR>"] = { "<C-o>O", "New line on top" },
     -- <C-h> == <C-BS>
     ["<C-h>"] = { "<C-w>", "Remove previous word" },
+    [","] = { ",<C-g>u", "" },
+    [";"] = { ";<C-g>u", "" },
+    ["."] = { ".<C-g>u", "" },
   },
 }
