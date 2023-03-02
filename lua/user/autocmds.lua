@@ -1,8 +1,10 @@
 local autocmd = vim.api.nvim_create_autocmd
-local augroup = vim.api.nvim_create_augroup
+local function augroup(name)
+  return vim.api.nvim_create_augroup(name, { clear = true })
+end
 
 autocmd("TextYankPost", {
-  group = augroup("HighlightYank", { clear = true }),
+  group = augroup "HighlightYank",
   pattern = "*",
   callback = function()
     vim.highlight.on_yank {
@@ -13,7 +15,7 @@ autocmd("TextYankPost", {
 })
 
 autocmd("BufWritePre", {
-  group = augroup("AutoCreateDir", { clear = true }),
+  group = augroup "AutoCreateDir",
   callback = function(event)
     local file = vim.loop.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
@@ -24,7 +26,7 @@ autocmd("BufWritePre", {
 })
 
 autocmd("BufEnter", {
-  group = augroup("PluginFileKeymap", { clear = true }),
+  group = augroup "PluginFileKeymap",
   pattern = "*/lua/user/plugins/{*.lua,*/init.lua}",
   callback = function(args)
     require("user.utils.register").keymaps {
@@ -38,7 +40,7 @@ autocmd("BufEnter", {
 })
 
 autocmd("BufReadPost", {
-  group = augroup("GotoLastPlace", { clear = true }),
+  group = augroup "GotoLastPlace",
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local lcount = vim.api.nvim_buf_line_count(0)
@@ -49,14 +51,14 @@ autocmd("BufReadPost", {
 })
 
 autocmd("VimResized", {
-  group = augroup("EqualizeSplitsOnResize", { clear = true }),
+  group = augroup "EqualizeSplitsOnResize",
   callback = function()
     vim.cmd.wincmd "="
   end,
 })
 
 autocmd("FileType", {
-  group = augroup("UseSpellInGitCommits", { clear = true }),
+  group = augroup "UseSpellInGitCommits",
   pattern = { "gitcommit" },
   callback = function()
     vim.opt_local.wrap = true
