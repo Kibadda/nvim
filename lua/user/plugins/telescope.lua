@@ -58,6 +58,13 @@ function M.init()
       end
     end,
   })
+
+  -- telescope-ui-select is lazy loaded
+  -- on first time using vim.ui.select -> also load telescope
+  vim.ui.select = function(...)
+    require "telescope"
+    vim.ui.select(...)
+  end
 end
 
 function M.config()
