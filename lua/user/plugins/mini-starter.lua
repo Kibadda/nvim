@@ -33,7 +33,9 @@ function M.init()
     group = vim.api.nvim_create_augroup("UpdateLazyStatsInMiniStarter", { clear = true }),
     pattern = "LazyVimStarted",
     callback = function()
-      MiniStarter.refresh()
+      if vim.api.nvim_buf_get_option(0, "filetype") == "starter" then
+        MiniStarter.refresh()
+      end
     end,
   })
 end
