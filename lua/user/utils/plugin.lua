@@ -53,7 +53,9 @@ function M.open()
     for id, node in pairs(match) do
       if query.captures[id] == "plugin" then
         local text = vim.treesitter.query.get_node_text(node, 0)
-        plugins[#plugins + 1] = text:gsub('"', "")
+        if text then
+          plugins[#plugins + 1] = text:gsub('"', "")
+        end
       end
     end
   end
@@ -69,7 +71,6 @@ function M.open()
   if #plugins == 1 then
     open(plugins[1])
   else
-    require "telescope"
     vim.ui.select(plugins, {
       prompt = "Select plugin to open",
     }, function(choice)
@@ -80,21 +81,26 @@ function M.open()
   end
 end
 
+local function search_files(dir, prefix)
+  local files = {}
+  for name, type in vim.fs.dir(dir) do
+    if type == "directory" then
+      vim.list_extend(files, search_files(dir .. "/" .. name, name .. "/"))
+    else
+      table.insert(files, (prefix or "") .. name)
+    end
+  end
+
+  return files
+end
+
 function M.new()
   local dir = vim.fn.stdpath "config" .. "/lua/user/plugins"
 
-  local files = {}
-  for name, type in vim.fs.dir(dir) do
-    if type == "dir" then
-      name = name .. "/init.lua"
-    end
-
-    table.insert(files, name)
-  end
+  local files = search_files(dir)
 
   table.insert(files, 1, "New File")
 
-  require "telescope"
   vim.ui.select(files, {}, function(choice, idx)
     if not choice then
       return
