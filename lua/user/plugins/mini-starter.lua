@@ -28,6 +28,14 @@ function M.init()
       }
     end,
   })
+
+  vim.api.nvim_create_autocmd("User", {
+    group = vim.api.nvim_create_augroup("UpdateLazyStatsInMiniStarter", { clear = true }),
+    pattern = "LazyVimStarted",
+    callback = function()
+      MiniStarter.refresh()
+    end,
+  })
 end
 
 function M.config()
