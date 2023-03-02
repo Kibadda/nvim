@@ -35,6 +35,15 @@ M.opts = {
       save = function()
         vim.cmd.Neotree "close"
       end,
+      load = function()
+        vim.cmd.LspStop()
+      end,
+    },
+    post = {
+      load = function()
+        vim.cmd.clearjumps()
+        vim.cmd.LspRestart()
+      end,
     },
   },
 }
