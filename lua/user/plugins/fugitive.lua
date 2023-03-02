@@ -1,6 +1,12 @@
 local M = {
-  "tpope/vim-fugitive",
-  cmd = "G",
+  "tpope/vim-rhubarb",
+  dependencies = {
+    "tpope/vim-fugitive",
+  },
+  cmd = {
+    "G",
+    "GBrowse",
+  },
 }
 
 return M
