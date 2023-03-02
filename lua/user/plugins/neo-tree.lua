@@ -2,6 +2,9 @@ local M = {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v2.x",
   cmd = "Neotree",
+  dependencies = {
+    "MunifTanjim/nui.nvim",
+  },
 }
 
 function M.init()
