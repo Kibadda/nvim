@@ -127,9 +127,11 @@ function M.config()
     },
   }
 
-  local colors = require "nvim-tundra.palette.arctic"
-  vim.cmd.highlight("MiniStarterHeader guifg=" .. colors.red._600)
-  vim.cmd.highlight("MiniStarterSection guifg=" .. colors.green._600)
+  local ok, colors = pcall(require, "nvim-tundra.palette.arctic")
+  if ok then
+    vim.cmd.highlight("MiniStarterHeader guifg=" .. colors.red._600)
+    vim.cmd.highlight("MiniStarterSection guifg=" .. colors.green._600)
+  end
 end
 
 return M
