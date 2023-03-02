@@ -3,6 +3,7 @@ local M = {
   dependencies = {
     "nvim-telescope/telescope-symbols.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
+    "aaronhallaert/ts-advanced-git-search.nvim",
   },
   cmd = "Telescope",
 }
@@ -92,6 +93,7 @@ function M.config()
   }
 
   require("telescope").load_extension "ui-select"
+  require("telescope").load_extension "advanced_git_search"
 end
 
 return M
