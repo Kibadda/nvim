@@ -8,6 +8,7 @@ require("user.utils.register").keymaps {
       P = { require("user.utils.plugin").new, "New Plugin File" },
       T = { utils.open_terminal, "Terminal" },
       n = { utils.new_scratch, "New Scratch" },
+      K = { utils.load_extra_keymaps, "Load .nvim-keymaps.lua" },
     },
     g = {
       B = { utils.open_url, "Open URL" },

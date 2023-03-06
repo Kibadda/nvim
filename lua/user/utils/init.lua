@@ -116,4 +116,17 @@ function M.new_scratch()
   end)
 end
 
+function M.load_extra_keymaps()
+  local files = vim.fs.find(".nvim-keymaps.lua", {
+    type = "file",
+    path = vim.loop.cwd(),
+  })
+
+  if #files == 0 then
+    return
+  end
+
+  vim.cmd.luafile(files[1])
+end
+
 return M
