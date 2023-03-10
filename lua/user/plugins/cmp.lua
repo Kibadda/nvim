@@ -54,18 +54,16 @@ function M.config()
       { name = "buffer" },
       { name = "snippy" },
     },
+    completion = {
+      completeopt = "menu,menuone,noinsert,noselect,preview",
+    },
     mapping = cmp.mapping.preset.insert {
-      ["<C-k>"] = cmp.mapping.select_prev_item(),
-      ["<C-j>"] = cmp.mapping.select_next_item(),
-      ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<CR>"] = cmp.mapping.confirm { select = false },
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
         elseif snippy.can_expand_or_advance() then
           snippy.expand_or_advance()
-        -- elseif luasnip.expand_or_locally_jumpable() then
-        --   luasnip.expand_or_jump()
         elseif has_words_before() then
           cmp.complete()
         else
@@ -77,35 +75,12 @@ function M.config()
           cmp.select_prev_item()
         elseif snippy.can_jump(-1) then
           snippy.previous()
-        -- elseif luasnip.jumpable(-1) then
-        --   luasnip.jump(-1)
         else
           fallback()
         end
       end, { "i", "s" }),
-      ["<C-l>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          if snippy.can_expand_or_advance() then
-            snippy.expand_or_advance()
-          -- if luasnip.expand_or_locally_jumpable() then
-          --   luasnip.expand_or_jump()
-          else
-            fallback()
-          end
-        else
-          cmp.complete()
-        end
-      end),
-      ["<C-h>"] = cmp.mapping(function(fallback)
-        if cmp.visible() and snippy.can_jump(-1) then
-          snippy.previous()
-        -- if cmp.visible() and luasnip.jumpable(-1) then
-        --   luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end),
-      ["<C-e>"] = cmp.mapping.abort(),
+      ["<C-k>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-j>"] = cmp.mapping.scroll_docs(4),
     },
   }
 end
