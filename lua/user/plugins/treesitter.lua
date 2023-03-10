@@ -9,24 +9,24 @@ local M = {
 }
 
 function M.init()
-  require("nvim-treesitter.parsers").get_parser_configs().smarty = {
+  local parsers = require("nvim-treesitter.parsers").get_parser_configs()
+
+  parsers.smarty = {
     install_info = {
       url = "https://github.com/Kibadda/tree-sitter-smarty",
       -- url = "/home/michael/plugins/tree-sitter-smarty",
       files = { "src/parser.c", "src/scanner.cc" },
       branch = "master",
     },
-    filetype = "smarty",
   }
 
-  require("nvim-treesitter.parsers").get_parser_configs().snippets = {
+  parsers.snippets = {
     install_info = {
-      url = "https://github.com/Kibadda/tree-sitter-snippets.git",
+      url = "https://github.com/Kibadda/tree-sitter-snippets",
       -- url = "/home/michael/plugins/tree-sitter-snippets",
       files = { "src/parser.c" },
       branch = "main",
     },
-    filetype = "snippets",
   }
 end
 
