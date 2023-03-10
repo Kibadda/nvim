@@ -31,7 +31,6 @@ function M.config()
     transparent_background = true,
     overwrite = {
       highlights = {
-        ["@constant"] = { fg = "#DE935F", bold = true },
         NormalFloat = { link = "Normal" },
       },
     },
