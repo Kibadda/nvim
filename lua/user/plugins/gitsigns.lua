@@ -10,7 +10,6 @@ M.opts = {
         ["<Leader>"] = {
           g = {
             name = "Git",
-            d = { "<Cmd>Gitsigns diffthis<CR>", "Diff" },
             j = { "<Cmd>Gitsigns next_hunk<CR>", "Next Hunk" },
             k = { "<Cmd>Gitsigns prev_hunk<CR>", "Prev Hunk" },
             l = { "<Cmd>Gitsigns blame_line<CR>", "Blame Line" },
