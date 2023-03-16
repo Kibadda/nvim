@@ -21,9 +21,9 @@ function M.init()
 end
 
 function M.config()
-  require("user.utils.globals").set("", {
+  require("user.utils").set_global_options {
     deepl_api_auth_key = vim.env.DEEPL_API_AUTH_KEY,
-  })
+  }
 
   require("translate").setup {
     default = {

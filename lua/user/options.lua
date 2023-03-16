@@ -1,6 +1,4 @@
-local options = require "user.utils.options"
-
-options.set {
+for k, v in pairs {
   completeopt = "menuone,noselect",
   pumblend = 0,
   wildmode = "longest:full,full",
@@ -37,18 +35,17 @@ options.set {
   showtabline = 2,
   timeoutlen = 100,
   termguicolors = true,
-  formatoptions = require("user.utils.globals").get("", "formatoptions"),
   textwidth = 120,
   fileformats = "unix",
   sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals",
   spell = false,
   showmode = false,
-}
+} do
+  vim.opt[k] = v
+end
 
 vim.on_key(function(char)
   if vim.fn.mode() == "n" then
-    options.set {
-      hlsearch = vim.tbl_contains({ "n", "N", "*", "#", "?", "/", "z" }, vim.fn.keytrans(char)),
-    }
+    vim.opt.hlsearch = vim.tbl_contains({ "n", "N", "*", "#", "?", "/", "z" }, vim.fn.keytrans(char))
   end
 end, vim.api.nvim_create_namespace "auto_hlsearch")

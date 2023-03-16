@@ -12,10 +12,7 @@ _ = {
 require "user.options"
 require "user.filetypes"
 
-require("user.utils.globals").set("", {
-  mapleader = " ",
-  formatoptions = "nljqrc",
-})
+vim.g.mapleader = " "
 
 require "user.lazy"
 

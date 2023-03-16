@@ -31,7 +31,7 @@ function M.init()
 end
 
 function M.config()
-  require("user.utils.globals").set("startify", {
+  require("user.utils").set_global_options({
     session_persistence = true,
     session_before_save = {
       "silent! Neotree close",
@@ -49,13 +49,8 @@ function M.config()
       "│                                                       │",
       "└───────────────────────────────────────────────────────┘",
     },
-    lists = require("projectodo").get_sections {
-      main_section = {
-        name = "Dotfiles",
-        sessions = { "dotfiles", "notes", "advent-of-code" },
-      },
-    },
-  })
+    lists = require("projectodo").get_sections(),
+  }, "startify")
 end
 
 return M

@@ -118,4 +118,11 @@ function M.load_extra_keymaps()
   vim.cmd.luafile(files[1])
 end
 
+function M.set_global_options(options, prefix)
+  prefix = prefix and prefix .. "_" or ""
+  for option_name, option_value in pairs(options) do
+    vim.g[("%s%s"):format(prefix, option_name)] = option_value
+  end
+end
+
 return M
