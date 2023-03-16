@@ -65,3 +65,16 @@ autocmd("FileType", {
     vim.opt_local.spell = true
   end,
 })
+
+autocmd("BufEnter", {
+  group = augroup "DefaultBufferOptions",
+  callback = function(args)
+    vim.opt_local.formatoptions:remove "t"
+    vim.opt_local.formatoptions:remove "o"
+    vim.opt_local.formatoptions:append "n"
+
+    if vim.bo[args.buf].buftype == "nofile" then
+      vim.opt_local.statuscolumn = nil
+    end
+  end,
+})
