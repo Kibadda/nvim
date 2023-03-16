@@ -3,25 +3,6 @@ local M = {
   event = "VimEnter",
 }
 
-function M.init()
-  vim.api.nvim_create_autocmd("User", {
-    group = vim.api.nvim_create_augroup("RemoveHeirlineOnFileBufType", { clear = true }),
-    pattern = "HeirlineInitWinbar",
-    callback = function(args)
-      if
-        vim.tbl_contains({ "prompt", "nofile", "help", "quickfix" }, vim.bo[args.buf].buftype)
-        or vim.tbl_contains({ "gitcommit", "fugitive" }, vim.bo[args.buf].filetype)
-      then
-        vim.opt_local.winbar = nil
-        vim.opt_local.statuscolumn = nil
-        vim.opt_local.relativenumber = false
-        vim.opt_local.number = false
-        vim.opt_local.signcolumn = "yes:1"
-      end
-    end,
-  })
-end
-
 function M.opts()
   local statuscolumn = require "user.plugins.heirline.statuscolumn"
   local statusline = require "user.plugins.heirline.statusline"
@@ -46,18 +27,6 @@ function M.opts()
       init = function(self)
         self.mode = vim.fn.mode()
       end,
-      -- default highlight
-      -- hl = function(self)
-      --   local name = self.modes.names[self.mode]
-      --   if name == "NORMAL" or name == "TERMINAL" then
-      --     return { bold = true }
-      --   end
-
-      --   return {
-      --     fg = self.modes.colors[name].bg,
-      --     bold = true,
-      --   }
-      -- end,
       static = {
         colors = colors,
         modes = {
@@ -137,6 +106,12 @@ function M.opts()
     --     utils.make_tablist(tabline.tabpage),
     --   },
     -- },
+    opts = {
+      disable_winbar_cb = function(args)
+        return vim.tbl_contains({ "prompt", "nofile", "help", "quickfix" }, vim.bo[args.buf].buftype)
+          or vim.tbl_contains({ "gitcommit", "fugitive" }, vim.bo[args.buf].filetype)
+      end,
+    },
   }
 end
 
