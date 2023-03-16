@@ -45,7 +45,7 @@ function M.setup(client, bufnr)
     })
   end
 
-  require("user.utils.register").keymaps {
+  require("user.utils").keymaps {
     n = {
       ["<Leader>"] = {
         l = {

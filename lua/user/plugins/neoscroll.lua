@@ -4,7 +4,7 @@ local M = {
 }
 
 function M.init()
-  require("user.utils.register").keymaps {
+  require("user.utils").keymaps {
     n = {
       ["<C-u>"] = "Scroll cursor up half page",
       ["<C-d>"] = "Scroll cursor down half page",

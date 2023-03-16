@@ -5,7 +5,7 @@ local M = {
 }
 
 function M.init()
-  require("user.utils.register").keymaps {
+  require("user.utils").keymaps {
     n = {
       H = { "<Cmd>BufferLineCyclePrev<CR>", "Buffer prev" },
       L = { "<Cmd>BufferLineCycleNext<CR>", "Buffer next" },

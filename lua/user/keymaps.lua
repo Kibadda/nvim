@@ -1,6 +1,6 @@
 local utils = require "user.utils"
 
-require("user.utils.register").keymaps {
+require("user.utils").keymaps {
   n = {
     ["<Leader>"] = {
       L = { "<Cmd>Lazy<CR>", "Lazy" },

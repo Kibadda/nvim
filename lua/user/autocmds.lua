@@ -29,7 +29,7 @@ autocmd("BufEnter", {
   group = augroup "PluginFileKeymap",
   pattern = "*/lua/user/plugins/{*.lua,*/init.lua}",
   callback = function(args)
-    require("user.utils.register").keymaps {
+    require("user.utils").keymaps {
       [{ mode = "n", buffer = args.buf }] = {
         g = {
           P = { require("user.utils.plugin").open, "Open Plugin" },

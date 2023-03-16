@@ -4,7 +4,7 @@ local M = {
 }
 
 function M.init()
-  require("user.utils.register").keymaps {
+  require("user.utils").keymaps {
     n = {
       g = {
         J = { "<Cmd>TSJJoin<CR>", "Join Lines" },

@@ -4,7 +4,7 @@ local M = {
 }
 
 function M.init()
-  require("user.utils.register").keymaps {
+  require("user.utils").keymaps {
     n = {
       ["<C-q>"] = { "<Plug>(qf_qf_toggle_stay)", "QF: toggle" },
       ["<C-Up>"] = { "<Plug>(qf_qf_previous)", "QF: prev" },

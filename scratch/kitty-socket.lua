@@ -7,7 +7,7 @@ vim.api.nvim_create_user_command("SetRemoteTerminalCommand", function(options)
     vim.api.nvim_exec('!i3-msg exec -- kitty --listen-on="unix:@' .. socket_name .. '"', true)
   end
 
-  require("user.utils.register").keymaps {
+  require("user.utils").keymaps {
     n = {
       ["<Leader>"] = {
         X = {

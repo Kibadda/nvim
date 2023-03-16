@@ -8,7 +8,7 @@ local M = {
 }
 
 function M.init()
-  require("user.utils.register").keymaps {
+  require("user.utils").keymaps {
     x = {
       ["<Leader>"] = {
         r = { ":lua require('refactoring').select_refactor()<CR>", "Refactor" },

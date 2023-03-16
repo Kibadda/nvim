@@ -5,7 +5,7 @@ local M = {
 
 M.opts = {
   on_attach = function(bufnr)
-    require("user.utils.register").keymaps {
+    require("user.utils").keymaps {
       [{ mode = "n", buffer = bufnr }] = {
         ["<Leader>"] = {
           g = {

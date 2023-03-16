@@ -10,7 +10,7 @@ function M.init()
     callback = function(args)
       vim.opt_local.statuscolumn = nil
       vim.opt_local.winbar = nil
-      require("user.utils.register").keymaps {
+      require("user.utils").keymaps {
         [{ mode = "n", buffer = args.buf }] = {
           ["<C-j>"] = {
             function()
