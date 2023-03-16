@@ -42,8 +42,6 @@ function M.open_in_github()
   os.execute(("xdg-open %s"):format(remote_url))
 end
 
----for wrapped lines: gj/gk, for large jumps: add to jump list
----@param direction string
 function M.jump_direction(direction)
   return function()
     local count = vim.v.count
@@ -61,34 +59,8 @@ function M.jump_direction(direction)
   end
 end
 
----check if current project is work
 function M.is_work()
   return string.find(vim.fn.getcwd(), "^/media/")
-end
-
-function M.open_terminal(opts)
-  opts = vim.tbl_extend("keep", opts or {}, {
-    position = "right",
-    size = 60,
-  })
-
-  vim.cmd(
-    ("%s%s%ssplit"):format(
-      (opts.position == "top" or opts.position == "left") and "topleft " or "",
-      opts.size or "",
-      (opts.position == "left" or opts.position == "right") and "v" or ""
-    )
-  )
-
-  local winid = vim.api.nvim_get_current_win()
-  local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_set_current_win(winid)
-  vim.api.nvim_win_set_buf(winid, buf)
-  vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w><C-h>", { buffer = buf })
-  vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w><C-j>", { buffer = buf })
-  vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w><C-k>", { buffer = buf })
-  vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w><C-l>", { buffer = buf })
-  vim.fn.termopen(vim.env.SHELL)
 end
 
 function M.open_url()

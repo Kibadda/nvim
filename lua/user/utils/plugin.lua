@@ -81,41 +81,41 @@ function M.open()
   end
 end
 
-local function search_files(dir, prefix)
-  local files = {}
-  for name, type in vim.fs.dir(dir) do
-    if type == "directory" then
-      vim.list_extend(files, search_files(dir .. "/" .. name, name .. "/"))
-    else
-      table.insert(files, (prefix or "") .. name)
+function M.list()
+  local directory = vim.fn.stdpath "config" .. "/lua/user/plugins"
+
+  local function search_files(dir, prefix)
+    local files = {}
+    for name, type in vim.fs.dir(dir) do
+      if type == "directory" then
+        vim.list_extend(files, search_files(dir .. "/" .. name, name .. "/"))
+      else
+        table.insert(files, (prefix or "") .. name)
+      end
     end
+
+    return files
   end
 
-  return files
-end
-
-function M.new()
-  local dir = vim.fn.stdpath "config" .. "/lua/user/plugins"
-
-  local files = search_files(dir)
+  local files = search_files(directory)
 
   table.insert(files, 1, "New File")
 
-  vim.ui.select(files, {}, function(choice, idx)
+  vim.ui.select(files, {}, function(choice, id)
     if not choice then
       return
     end
 
-    if idx == 1 then
+    if id == 1 then
       vim.ui.input({
         prompt = "Name: ",
       }, function(input)
         if input then
-          vim.cmd(("e %s/%s.lua"):format(dir, input))
+          vim.cmd(("e %s/%s.lua"):format(directory, input))
         end
       end)
     else
-      vim.cmd(("e %s/%s"):format(dir, choice))
+      vim.cmd(("e %s/%s"):format(directory, choice))
     end
   end)
 end

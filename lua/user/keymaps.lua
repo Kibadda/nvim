@@ -5,8 +5,7 @@ require("user.utils.register").keymaps {
     ["<Leader>"] = {
       L = { "<Cmd>Lazy<CR>", "Lazy" },
       Q = { utils.detach_from_tmux, "Detach" },
-      P = { require("user.utils.plugin").new, "New Plugin File" },
-      T = { utils.open_terminal, "Terminal" },
+      P = { require("user.utils.plugin").list, "New Plugin File" },
       n = { utils.new_scratch, "New Scratch" },
       K = { utils.load_extra_keymaps, "Load .nvim-keymaps.lua" },
     },
