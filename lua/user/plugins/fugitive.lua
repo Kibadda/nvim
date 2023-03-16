@@ -1,7 +1,7 @@
 local M = {
-  "tpope/vim-rhubarb",
+  "tpope/vim-fugitive",
   dependencies = {
-    "tpope/vim-fugitive",
+    "tpope/vim-rhubarb",
     "shumphrey/fugitive-gitlab.vim",
   },
   cmd = {
@@ -17,6 +17,14 @@ function M.init()
       ["<Leader>"] = {
         g = {
           d = { "<Cmd>Gvdiffsplit<CR>", "Diff" },
+          D = {
+            function()
+              local branch =
+                vim.fn.system("git branch -l master main | sed 's/^* //'"):gsub("^%s+", ""):gsub("%s+$", "")
+              vim.cmd.Gvdiffsplit(branch)
+            end,
+            "Diff with Main",
+          },
         },
       },
     },
