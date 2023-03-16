@@ -4,7 +4,6 @@ local M = {
     "tpope/vim-dotenv",
   },
   cmd = "Calendar",
-  enabled = false,
 }
 
 function M.init()
