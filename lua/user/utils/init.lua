@@ -61,20 +61,9 @@ function M.jump_direction(direction)
   end
 end
 
----set options depending if cwd is cortex
----@param value_if_work any
----@param default any
-function M.set_cwd_options(value_if_work, default)
-  local ts = default
-  if string.find(vim.fn.getcwd(), "^/media/") then
-    ts = value_if_work
-  end
-
-  require("user.utils.options").set {
-    tabstop = ts,
-    shiftwidth = ts,
-    formatoptions = require("user.utils.globals").get("", "formatoptions"),
-  }
+---check if current project is work
+function M.is_work()
+  return string.find(vim.fn.getcwd(), "^/media/")
 end
 
 function M.open_terminal(opts)

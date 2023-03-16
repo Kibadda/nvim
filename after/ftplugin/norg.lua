@@ -1,3 +1,1 @@
-require("user.utils.options").set {
-  conceallevel = 1,
-}
+vim.opt_local.conceallevel = 1
