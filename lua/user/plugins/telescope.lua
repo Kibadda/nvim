@@ -14,6 +14,7 @@ function M.init()
       ["<Leader>"] = {
         f = { "<Cmd>Telescope find_files<CR>", "Find Files" },
         F = { "<Cmd>Telescope find_files no_ignore=true hidden=true<CR>", "Find All Files" },
+        b = { "<Cmd>Telescope buffers<CR>", "Buffers" },
         s = {
           name = "Search",
           g = { "<Cmd>Telescope live_grep<CR>", "Live Grep" },

@@ -2,6 +2,7 @@ local M = {
   "tpope/vim-rhubarb",
   dependencies = {
     "tpope/vim-fugitive",
+    "shumphrey/fugitive-gitlab.vim",
   },
   cmd = {
     "G",
@@ -19,6 +20,10 @@ function M.init()
         },
       },
     },
+  }
+
+  vim.g.fugitive_gitlab_domains = {
+    "https://git.cortex-media.de",
   }
 end
 

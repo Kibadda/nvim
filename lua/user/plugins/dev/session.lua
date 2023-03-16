@@ -33,6 +33,7 @@ M.opts = {
   hooks = {
     pre = {
       save = function()
+        pcall(vim.cmd.argdelete, "*")
         vim.cmd.Neotree "close"
       end,
       load = function()
