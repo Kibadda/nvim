@@ -1,9 +1,7 @@
 for k, v in pairs {
-  completeopt = "menuone,noselect",
+  completeopt = "menuone,noselect,preview",
   pumblend = 0,
   wildmode = "longest:full,full",
-  wildoptions = "pum",
-  cmdheight = 1,
   relativenumber = true,
   number = true,
   ignorecase = true,
@@ -22,9 +20,7 @@ for k, v in pairs {
   showbreak = "|-> ",
   linebreak = true,
   foldenable = false,
-  modelines = 1,
-  clipboard = "unnamedplus",
-  inccommand = "split",
+  clipboard = "unnamed,unnamedplus",
   swapfile = false,
   undofile = true,
   shada = "!,'1000,<50,s10,h",
@@ -38,7 +34,6 @@ for k, v in pairs {
   textwidth = 120,
   fileformats = "unix",
   sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals",
-  spell = false,
   showmode = false,
 } do
   vim.opt[k] = v
