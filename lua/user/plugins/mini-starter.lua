@@ -58,7 +58,7 @@ function M.config()
     }
   end)
 
-  local day = table.concat(require("user.utils.weekdays")[tonumber(os.date "%w")], "\n")
+  local day = table.concat(require("user.data.weekdays")[tonumber(os.date "%w")], "\n")
 
   local starter = require "mini.starter"
   starter.setup {
