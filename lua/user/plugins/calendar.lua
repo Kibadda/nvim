@@ -10,7 +10,7 @@ function M.init()
   require("user.utils").keymaps {
     n = {
       ["<Leader>"] = {
-        C = { "<Plug>(calendar)", "Open calendar" },
+        C = { "<Cmd>Calendar<CR>", "Open calendar" },
       },
     },
   }
