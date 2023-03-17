@@ -1,4 +1,6 @@
-vim.api.nvim_create_user_command("D", function(argument)
+local usercmd = vim.api.nvim_create_user_command
+
+usercmd("D", function(argument)
   vim.cmd.BufferLineCyclePrev()
   if vim.fn.expand("#"):sub(1, 8) ~= "fugitive" then
     vim.cmd.split()
@@ -11,7 +13,7 @@ end, {
   desc = "Bdelete",
 })
 
-vim.api.nvim_create_user_command("X", require("user.utils").save_and_source, {
+usercmd("X", require("user.utils").save_and_source, {
   bang = false,
   nargs = 0,
   desc = "Save and source",

@@ -18,4 +18,4 @@ require "user.lazy"
 
 require "user.keymaps"
 require "user.autocmds"
-require "user.commands"
+require "user.usercmds"
