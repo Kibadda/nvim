@@ -46,13 +46,13 @@ function M.open()
     ]]
 
   local root = vim.treesitter.get_parser(0, "lua", {}):parse()[1]:root()
-  local query = vim.treesitter.query.parse_query("lua", query_string)
+  local query = vim.treesitter.query.parse("lua", query_string)
 
   local plugins = {}
   for _, match in query:iter_matches(root, 0, 0, -1) do
     for id, node in pairs(match) do
       if query.captures[id] == "plugin" then
-        local text = vim.treesitter.query.get_node_text(node, 0)
+        local text = vim.treesitter.get_node_text(node, 0)
         if text then
           plugins[#plugins + 1] = text:gsub('"', "")
         end
