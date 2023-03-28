@@ -21,6 +21,8 @@ return {
         },
       },
     }
+  end,
+  config = function()
     require("user.utils").set_global_options {
       deepl_api_auth_key = vim.env.DEEPL_API_AUTH_KEY,
     }

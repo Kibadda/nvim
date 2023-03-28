@@ -14,9 +14,6 @@ return {
     week_number = true,
     frame = "default",
     google_calendar = true,
-    google_api_key = vim.env.CALENDAR_GOOGLE_API_KEY,
-    google_client_id = vim.env.CALENDAR_GOOGLE_CLIENT_ID,
-    google_client_secret = vim.env.CALENDAR_GOOGLE_CLIENT_SECRET,
   },
   init = function()
     require("user.utils").keymaps {
@@ -28,6 +25,9 @@ return {
     }
   end,
   config = function(_, opts)
+    opts.google_api_key = vim.env.CALENDAR_GOOGLE_API_KEY
+    opts.google_client_id = vim.env.CALENDAR_GOOGLE_CLIENT_ID
+    opts.google_client_secret = vim.env.CALENDAR_GOOGLE_CLIENT_SECRET
     require("user.utils").set_global_options(opts, "calendar")
   end,
 }
