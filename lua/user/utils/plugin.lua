@@ -2,48 +2,29 @@ local M = {}
 
 function M.open()
   local query_string = [[
-      [
-        (variable_declaration
-          (assignment_statement
-            (variable_list
-              name: (identifier) @module (#eq? @module "M"))
-            (expression_list
+    (return_statement
+      (expression_list
+        (table_constructor
+          [
+            (field
+              !name
+              value: (string) @plugin)
+            (field
+              name: (identifier) @dependencies (#eq? @dependencies "dependencies")
               value: (table_constructor
                 [
                   (field
                     !name
                     value: (string) @plugin)
                   (field
-                    name: (identifier) @dependencies (#eq? @dependencies "dependencies")
+                    !name
                     value: (table_constructor
-                      [
-                        (field
-                          !name
-                          value: (string) @plugin)
-                        (field
-                          !name
-                          value: (table_constructor
-                            (field
-                              !name
-                              value: (string) @plugin)))
-                      ]))
-                ]))))
-        (return_statement
-          (expression_list
-            (table_constructor
-              [
-                (field
-                  !name
-                  value: (string) @plugin)
-                (field
-                  !name
-                  value: (table_constructor
-                    (field
-                      !name
-                      value: (string) @plugin)))
-              ])))
-      ]
-    ]]
+                      (field
+                        !name
+                        value: (string) @plugin)))
+                ]))
+          ])))
+  ]]
 
   local root = vim.treesitter.get_parser(0, "lua", {}):parse()[1]:root()
   local query = vim.treesitter.query.parse("lua", query_string)
