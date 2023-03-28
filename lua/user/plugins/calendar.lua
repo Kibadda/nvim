@@ -1,23 +1,10 @@
-local M = {
+return {
   "itchyny/calendar.vim",
   dependencies = {
     "tpope/vim-dotenv",
   },
   cmd = "Calendar",
-}
-
-function M.init()
-  require("user.utils").keymaps {
-    n = {
-      ["<Leader>"] = {
-        C = { "<Cmd>Calendar<CR>", "Open calendar" },
-      },
-    },
-  }
-end
-
-function M.config()
-  require("user.utils").set_global_options({
+  opts = {
     locale = "de",
     first_day = "monday",
     date_endian = "little",
@@ -30,7 +17,17 @@ function M.config()
     google_api_key = vim.env.CALENDAR_GOOGLE_API_KEY,
     google_client_id = vim.env.CALENDAR_GOOGLE_CLIENT_ID,
     google_client_secret = vim.env.CALENDAR_GOOGLE_CLIENT_SECRET,
-  }, "calendar")
-end
-
-return M
+  },
+  init = function()
+    require("user.utils").keymaps {
+      n = {
+        ["<Leader>"] = {
+          C = { "<Cmd>Calendar<CR>", "Open calendar" },
+        },
+      },
+    }
+  end,
+  config = function(_, opts)
+    require("user.utils").set_global_options(opts, "calendar")
+  end,
+}

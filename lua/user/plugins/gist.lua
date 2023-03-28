@@ -1,6 +1,7 @@
-local M = {
+return {
   "Rawnly/gist.nvim",
-  cmd = { "CreateGist", "CreateGistFromFile" },
+  cmd = {
+    "CreateGist",
+    "CreateGistFromFile",
+  },
 }
-
-return M

@@ -1,34 +1,29 @@
-local M = {
+return {
   "akinsho/bufferline.nvim",
   event = "VimEnter",
-  -- enabled = false,
-}
-
-function M.init()
-  require("user.utils").keymaps {
-    n = {
-      H = { "<Cmd>BufferLineCyclePrev<CR>", "Buffer prev" },
-      L = { "<Cmd>BufferLineCycleNext<CR>", "Buffer next" },
+  opts = {
+    options = {
+      show_buffer_close_icons = false,
+      show_close_icon = false,
+      right_mouse_command = "",
+      left_mouse_command = "",
+      separator_style = { "|", "|" },
+      indicator = {
+        style = "none",
+      },
+      truncate_names = false,
+      custom_filter = function(buf_number)
+        local filetype = vim.bo[buf_number].filetype
+        return filetype ~= "qf" and filetype ~= "fugitive" and filetype ~= "term"
+      end,
     },
-  }
-end
-
-M.opts = {
-  options = {
-    show_buffer_close_icons = false,
-    show_close_icon = false,
-    right_mouse_command = "",
-    left_mouse_command = "",
-    separator_style = { "|", "|" },
-    indicator = {
-      style = "none",
-    },
-    truncate_names = false,
-    custom_filter = function(buf_number)
-      local filetype = vim.bo[buf_number].filetype
-      return filetype ~= "qf" and filetype ~= "fugitive" and filetype ~= "term"
-    end,
   },
+  init = function()
+    require("user.utils").keymaps {
+      n = {
+        H = { "<Cmd>BufferLineCyclePrev<CR>", "Buffer prev" },
+        L = { "<Cmd>BufferLineCycleNext<CR>", "Buffer next" },
+      },
+    }
+  end,
 }
-
-return M

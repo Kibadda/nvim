@@ -1,10 +1,7 @@
-local M = {
+return {
   "alanfortlink/blackjack.nvim",
   cmd = "BlackJackNewGame",
+  opts = {
+    card_style = "large",
+  },
 }
-
-M.opts = {
-  card_style = "large",
-}
-
-return M

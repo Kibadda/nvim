@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup(_, bufnr)
+function M.setup(bufnr)
   require("user.utils").keymaps {
     [{ mode = "n", buffer = bufnr }] = {
       ["<Leader>"] = {

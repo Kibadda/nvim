@@ -1,139 +1,137 @@
-local M = {
+return {
   "echasnovski/mini.starter",
   event = "VimEnter",
-}
+  opts = function()
+    local sections = require("projectodo").get_sections()
 
-function M.init()
-  vim.api.nvim_create_autocmd("User", {
-    group = vim.api.nvim_create_augroup("MiniStarterKeymaps", { clear = true }),
-    pattern = "MiniStarterOpened",
-    callback = function(args)
-      vim.opt_local.statuscolumn = nil
-      vim.opt_local.winbar = nil
-      require("user.utils").keymaps {
-        [{ mode = "n", buffer = args.buf }] = {
-          ["<C-j>"] = {
-            function()
-              MiniStarter.update_current_item "next"
-            end,
-            "Move down",
-          },
-          ["<C-k>"] = {
-            function()
-              MiniStarter.update_current_item "prev"
-            end,
-            "Move down",
-          },
+    table.insert(sections, 1, function()
+      return {
+        {
+          name = "Quit",
+          action = "q",
+          section = "",
+        },
+        {
+          name = "Edit New Buffer",
+          action = "enew",
+          section = "",
         },
       }
-    end,
-  })
+    end)
 
-  vim.api.nvim_create_autocmd("User", {
-    group = vim.api.nvim_create_augroup("UpdateLazyStatsInMiniStarter", { clear = true }),
-    pattern = "LazyVimStarted",
-    callback = function()
-      if vim.api.nvim_buf_get_option(0, "filetype") == "starter" then
-        MiniStarter.refresh()
-      end
-    end,
-  })
-end
+    local day = table.concat(require("user.data.weekdays")[tonumber(os.date "%w")], "\n")
 
-function M.config()
-  local sections = require("projectodo").get_sections()
-
-  table.insert(sections, 1, function()
     return {
-      {
-        name = "Quit",
-        action = "q",
-        section = "",
-      },
-      {
-        name = "Edit New Buffer",
-        action = "enew",
-        section = "",
+      header = function()
+        return day:gsub("AAAAAAAAAAAAAAAAAAA", os.date "%d.%m.%Y %H:%M:%S")
+      end,
+      items = sections,
+      footer = function()
+        local stats = require("lazy").stats()
+        return ("Loaded %d/%d plugins in %dms"):format(stats.loaded, stats.count, stats.startuptime)
+      end,
+      content_hooks = {
+        require("mini.starter").gen_hook.adding_bullet(),
+        function(content, buf_id)
+          local win_id = vim.fn.bufwinid(buf_id)
+          if win_id < 0 then
+            return
+          end
+
+          local splitted = {
+            header = {
+              lines = {},
+              width = 0,
+              pad = 0,
+            },
+            items = {
+              lines = {},
+              width = 0,
+              pad = 0,
+            },
+            footer = {
+              lines = {},
+              width = 0,
+              pad = 0,
+            },
+          }
+
+          for _, c in ipairs(content) do
+            if c[1].type == "header" then
+              table.insert(splitted.header.lines, c)
+            elseif c[1].type == "footer" then
+              table.insert(splitted.footer.lines, c)
+            else
+              table.insert(splitted.items.lines, c)
+            end
+          end
+
+          for _, val in pairs(splitted) do
+            for _, l in ipairs(MiniStarter.content_to_lines(val.lines)) do
+              val.width = math.max(val.width, vim.fn.strdisplaywidth(l))
+            end
+            val.pad = math.max(math.floor(0.5 * (vim.api.nvim_win_get_width(win_id) - val.width)), 0)
+          end
+
+          local bottom_space = vim.api.nvim_win_get_height(win_id) - #content
+          local top_pad = math.max(math.floor(0.5 * bottom_space), 0)
+
+          content = MiniStarter.gen_hook.padding(splitted.header.pad, top_pad)(splitted.header.lines)
+          for _, c in ipairs(MiniStarter.gen_hook.padding(splitted.items.pad, 0)(splitted.items.lines)) do
+            table.insert(content, c)
+          end
+          for _, c in ipairs(MiniStarter.gen_hook.padding(splitted.footer.pad, 0)(splitted.footer.lines)) do
+            table.insert(content, c)
+          end
+
+          return content
+        end,
       },
     }
-  end)
-
-  local day = table.concat(require("user.data.weekdays")[tonumber(os.date "%w")], "\n")
-
-  local starter = require "mini.starter"
-  starter.setup {
-    header = function()
-      return day:gsub("AAAAAAAAAAAAAAAAAAA", os.date "%d.%m.%Y %H:%M:%S")
-    end,
-    items = sections,
-    footer = function()
-      local stats = require("lazy").stats()
-      return ("Loaded %d/%d plugins in %dms"):format(stats.loaded, stats.count, stats.startuptime)
-    end,
-    content_hooks = {
-      starter.gen_hook.adding_bullet(),
-      function(content, buf_id)
-        local win_id = vim.fn.bufwinid(buf_id)
-        if win_id < 0 then
-          return
-        end
-
-        local splitted = {
-          header = {
-            lines = {},
-            width = 0,
-            pad = 0,
-          },
-          items = {
-            lines = {},
-            width = 0,
-            pad = 0,
-          },
-          footer = {
-            lines = {},
-            width = 0,
-            pad = 0,
+  end,
+  init = function()
+    vim.api.nvim_create_autocmd("User", {
+      group = vim.api.nvim_create_augroup("MiniStarterKeymaps", { clear = true }),
+      pattern = "MiniStarterOpened",
+      callback = function(args)
+        vim.opt_local.statuscolumn = nil
+        vim.opt_local.winbar = nil
+        require("user.utils").keymaps {
+          [{ mode = "n", buffer = args.buf }] = {
+            ["<C-j>"] = {
+              function()
+                MiniStarter.update_current_item "next"
+              end,
+              "Move down",
+            },
+            ["<C-k>"] = {
+              function()
+                MiniStarter.update_current_item "prev"
+              end,
+              "Move down",
+            },
           },
         }
-
-        for _, c in ipairs(content) do
-          if c[1].type == "header" then
-            table.insert(splitted.header.lines, c)
-          elseif c[1].type == "footer" then
-            table.insert(splitted.footer.lines, c)
-          else
-            table.insert(splitted.items.lines, c)
-          end
-        end
-
-        for _, val in pairs(splitted) do
-          for _, l in ipairs(MiniStarter.content_to_lines(val.lines)) do
-            val.width = math.max(val.width, vim.fn.strdisplaywidth(l))
-          end
-          val.pad = math.max(math.floor(0.5 * (vim.api.nvim_win_get_width(win_id) - val.width)), 0)
-        end
-
-        local bottom_space = vim.api.nvim_win_get_height(win_id) - #content
-        local top_pad = math.max(math.floor(0.5 * bottom_space), 0)
-
-        content = MiniStarter.gen_hook.padding(splitted.header.pad, top_pad)(splitted.header.lines)
-        for _, c in ipairs(MiniStarter.gen_hook.padding(splitted.items.pad, 0)(splitted.items.lines)) do
-          table.insert(content, c)
-        end
-        for _, c in ipairs(MiniStarter.gen_hook.padding(splitted.footer.pad, 0)(splitted.footer.lines)) do
-          table.insert(content, c)
-        end
-
-        return content
       end,
-    },
-  }
+    })
 
-  local ok, colors = pcall(require, "nvim-tundra.palette.arctic")
-  if ok then
-    vim.cmd.highlight("MiniStarterHeader guifg=" .. colors.red._600)
-    vim.cmd.highlight("MiniStarterSection guifg=" .. colors.green._600)
-  end
-end
+    vim.api.nvim_create_autocmd("User", {
+      group = vim.api.nvim_create_augroup("UpdateLazyStatsInMiniStarter", { clear = true }),
+      pattern = "LazyVimStarted",
+      callback = function()
+        if vim.api.nvim_buf_get_option(0, "filetype") == "starter" then
+          MiniStarter.refresh()
+        end
+      end,
+    })
+  end,
+  config = function(_, opts)
+    require("mini.starter").setup(opts)
 
-return M
+    local ok, colors = pcall(require, "nvim-tundra.palette.arctic")
+    if ok then
+      vim.cmd.highlight("MiniStarterHeader guifg=" .. colors.red._600)
+      vim.cmd.highlight("MiniStarterSection guifg=" .. colors.green._600)
+    end
+  end,
+}

@@ -1,6 +1,4 @@
-local M = {
+return {
   "Kibadda/advent-of-code",
   dev = true,
 }
-
-return M

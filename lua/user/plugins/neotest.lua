@@ -1,18 +1,15 @@
-local M = {
+return {
   "nvim-neotest/neotest",
   dependencies = {
-    "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-plenary",
   },
+  enabled = false,
+  opts = function()
+    return {
+      adapters = {
+        require "neotest-plenary",
+      },
+    }
+  end,
 }
-
-function M.config()
-  require("neotest").setup {
-    adapters = {
-      require "neotest-plenary",
-    },
-  }
-end
-
-return M

@@ -1,6 +1,4 @@
-local M = {
+return {
   "sickill/vim-pasta",
   event = "VeryLazy",
 }
-
-return M

@@ -1,11 +1,17 @@
-local M = {
+return {
   "Kibadda/laravel-docs.nvim",
   dev = true,
-  cmd = "LaravelDocs",
+  cmd = { "LaravelDocs", "LaravelDocsUpdate" },
+  init = function()
+    require("user.utils").keymaps {
+      n = {
+        ["<Leader>"] = {
+          s = {
+            l = { "<Cmd>LaravelDocs<CR>", "Laravel Docs" },
+          },
+        },
+      },
+    }
+  end,
+  config = true,
 }
-
-function M.config()
-  require("telescope").load_extension "laravel-docs"
-end
-
-return M

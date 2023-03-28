@@ -1,69 +1,65 @@
-local M = {
+return {
   "williamboman/mason.nvim",
   dependencies = {
     "jayp0521/mason-null-ls.nvim",
     "jose-elias-alvarez/null-ls.nvim",
     "williamboman/mason-lspconfig.nvim",
   },
-}
-
-function M.init()
-  require("user.utils").keymaps {
-    n = {
-      ["<Leader>"] = {
-        l = {
-          name = "Lsp",
-          M = { "<Cmd>Mason<CR>", "Mason" },
-          L = { "<Cmd>LspInfo<CR>", "LspInfo" },
+  init = function()
+    require("user.utils").keymaps {
+      n = {
+        ["<Leader>"] = {
+          l = {
+            name = "Lsp",
+            M = { "<Cmd>Mason<CR>", "Mason" },
+            -- L = { "<Cmd>LspInfo<CR>", "LspInfo" },
+          },
         },
       },
-    },
-  }
-end
-
-function M.config()
-  require("mason").setup {
-    ui = {
-      border = "single",
-      icons = {
-        package_installed = "✓",
-        package_pending = "➜",
-        package_uninstalled = "✗",
+    }
+  end,
+  config = function()
+    require("mason").setup {
+      ui = {
+        border = "single",
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗",
+        },
       },
-    },
-  }
+    }
 
-  require("mason-lspconfig").setup {
-    ensure_installed = vim.tbl_keys(require "user.plugins.lsp.servers"),
-  }
+    require("mason-lspconfig").setup {
+      ensure_installed = vim.tbl_keys(require "user.plugins.lsp.servers"),
+    }
 
-  require("mason-null-ls").setup {
-    ensure_installed = {
-      "stylua",
-      "beautysh",
-    },
-    automatic_installation = true,
-  }
-
-  local null_ls = require "null-ls"
-  require("mason-null-ls").setup_handlers {
-    stylua = function()
-      null_ls.register(null_ls.builtins.formatting.stylua)
-    end,
-    beautysh = function()
-      null_ls.register(null_ls.builtins.formatting.beautysh.with {
-        extra_args = function(params)
-          return params.options
-            and params.options.tabSize
-            and {
-              "-i",
-              params.options.tabSize,
-            }
+    local null_ls = require "null-ls"
+    require("mason-null-ls").setup {
+      ensure_installed = {
+        "stylua",
+        "beautysh",
+      },
+      automatic_installation = true,
+      handlers = {
+        stylua = function()
+          null_ls.register(null_ls.builtins.formatting.stylua)
         end,
-      })
-    end,
-  }
-  null_ls.setup {}
-end
+        beautysh = function()
+          null_ls.register(null_ls.builtins.formatting.beautysh.with {
+            extra_args = function(params)
+              return params.options
+                and params.options.tabSize
+                and {
+                  "-i",
+                  params.options.tabSize,
+                }
+            end,
+          })
+        end,
+      },
+    }
 
-return M
+    null_ls.setup {}
+  end,
+}

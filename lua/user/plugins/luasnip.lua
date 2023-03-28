@@ -1,15 +1,12 @@
-local M = {
+return {
   "L3MON4D3/LuaSnip",
   event = "InsertEnter",
   enabled = false,
+  config = function()
+    require("luasnip").cleanup()
+
+    require("luasnip.loaders.from_lua").load {
+      paths = vim.fn.stdpath "config" .. "/snippets",
+    }
+  end,
 }
-
-function M.config()
-  require("luasnip").cleanup()
-
-  require("luasnip.loaders.from_lua").load {
-    paths = vim.fn.stdpath "config" .. "/snippets",
-  }
-end
-
-return M

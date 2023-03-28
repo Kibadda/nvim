@@ -1,4 +1,4 @@
-local M = {
+return {
   "mhinz/vim-startify",
   dependencies = {
     {
@@ -12,45 +12,44 @@ local M = {
   lazy = false,
   priority = 999,
   enabled = false,
-}
-
-function M.init()
-  require("user.utils").keymaps {
-    n = {
-      ["<Leader>"] = {
-        S = {
-          name = "Startify",
-          c = { "<Cmd>SClose<CR>", "Close" },
-          l = { "<Cmd>SLoad<CR>", "Load" },
-          d = { "<Cmd>SDelete<CR>", "Delete" },
-          s = { "<Cmd>SSave<CR>", "Save" },
+  opts = function()
+    return {
+      session_persistence = true,
+      session_before_save = {
+        "silent! Neotree close",
+      },
+      change_to_vcs_root = true,
+      custom_header = vim.fn["startify#pad"] {
+        "┌───────────────────────────────────────────────────────┐",
+        "│                                                       │",
+        "│  ██┐  ██┐██┐██████┐  █████┐ ██████┐ ██████┐  █████┐   │",
+        "│  ██│ ██┌┘██│██┌──██┐██┌──██┐██┌──██┐██┌──██┐██┌──██┐  │",
+        "│  █████┌┘ ██│██████┌┘███████│██│  ██│██│  ██│███████│  │",
+        "│  ██┌─██┐ ██│██┌──██┐██┌──██│██│  ██│██│  ██│██┌──██│  │",
+        "│  ██│ └██┐██│██████┌┘██│  ██│██████┌┘██████┌┘██│  ██│  │",
+        "│  └─┘  └─┘└─┘└─────┘ └─┘  └─┘└─────┘ └─────┘ └─┘  └─┘  │",
+        "│                                                       │",
+        "└───────────────────────────────────────────────────────┘",
+      },
+      lists = require("projectodo").get_sections(),
+    }
+  end,
+  init = function()
+    require("user.utils").keymaps {
+      n = {
+        ["<Leader>"] = {
+          S = {
+            name = "Startify",
+            c = { "<Cmd>SClose<CR>", "Close" },
+            l = { "<Cmd>SLoad<CR>", "Load" },
+            d = { "<Cmd>SDelete<CR>", "Delete" },
+            s = { "<Cmd>SSave<CR>", "Save" },
+          },
         },
       },
-    },
-  }
-end
-
-function M.config()
-  require("user.utils").set_global_options({
-    session_persistence = true,
-    session_before_save = {
-      "silent! Neotree close",
-    },
-    change_to_vcs_root = true,
-    custom_header = vim.fn["startify#pad"] {
-      "┌───────────────────────────────────────────────────────┐",
-      "│                                                       │",
-      "│  ██┐  ██┐██┐██████┐  █████┐ ██████┐ ██████┐  █████┐   │",
-      "│  ██│ ██┌┘██│██┌──██┐██┌──██┐██┌──██┐██┌──██┐██┌──██┐  │",
-      "│  █████┌┘ ██│██████┌┘███████│██│  ██│██│  ██│███████│  │",
-      "│  ██┌─██┐ ██│██┌──██┐██┌──██│██│  ██│██│  ██│██┌──██│  │",
-      "│  ██│ └██┐██│██████┌┘██│  ██│██████┌┘██████┌┘██│  ██│  │",
-      "│  └─┘  └─┘└─┘└─────┘ └─┘  └─┘└─────┘ └─────┘ └─┘  └─┘  │",
-      "│                                                       │",
-      "└───────────────────────────────────────────────────────┘",
-    },
-    lists = require("projectodo").get_sections(),
-  }, "startify")
-end
-
-return M
+    }
+  end,
+  config = function(_, opts)
+    require("user.utils").set_global_options(opts, "startify")
+  end,
+}

@@ -1,26 +1,22 @@
-local M = {
+return {
   "Wansmer/treesj",
   cmd = { "TSJJoin", "TSJSplit", "TSJToggle" },
-}
-
-function M.init()
-  require("user.utils").keymaps {
-    n = {
-      g = {
-        J = { "<Cmd>TSJJoin<CR>", "Join Lines" },
-        S = { "<Cmd>TSJSplit<CR>", "Split Lines" },
+  opts = function()
+    return {
+      use_default_keymaps = false,
+      langs = {
+        smarty = require("treesj.lang.utils").merge_preset(require "treesj.lang.html", {}),
       },
-    },
-  }
-end
-
-function M.opts()
-  return {
-    use_default_keymaps = false,
-    langs = {
-      smarty = require("treesj.langs.utils").merge_preset(require "treesj.langs.html", {}),
-    },
-  }
-end
-
-return M
+    }
+  end,
+  init = function()
+    require("user.utils").keymaps {
+      n = {
+        g = {
+          J = { "<Cmd>TSJJoin<CR>", "Join Lines" },
+          S = { "<Cmd>TSJSplit<CR>", "Split Lines" },
+        },
+      },
+    }
+  end,
+}

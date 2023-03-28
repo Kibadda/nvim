@@ -1,27 +1,23 @@
-local M = {
+return {
   "folke/which-key.nvim",
-}
-
-function M.init()
-  require("user.utils").keymaps {
-    n = {
-      ["<Leader>"] = {
-        name = "<Leader>",
+  opts = {
+    plugins = {
+      spelling = {
+        enabled = true,
+        suggestions = 20,
       },
     },
-  }
-end
-
-M.opts = {
-  plugins = {
-    spelling = {
-      enabled = true,
-      suggestions = 20,
+    window = {
+      border = "single",
     },
   },
-  window = {
-    border = "single",
-  },
+  init = function()
+    require("user.utils").keymaps {
+      n = {
+        ["<Leader>"] = {
+          name = "<Leader>",
+        },
+      },
+    }
+  end,
 }
-
-return M

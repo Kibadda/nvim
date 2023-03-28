@@ -1,6 +1,4 @@
-local M = {
+return {
   "tpope/vim-repeat",
   event = "VeryLazy",
 }
-
-return M

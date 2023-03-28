@@ -1,10 +1,7 @@
-local M = {
+return {
   "numToStr/Comment.nvim",
   event = "VeryLazy",
-}
-
-function M.config()
-  require("Comment").setup {
+  opts = {
     opleader = {
       line = "gc",
       block = "gb",
@@ -18,10 +15,11 @@ function M.config()
       block = "gbc",
     },
     ignore = "^$",
-  }
+  },
+  config = function(_, opts)
+    require("Comment").setup(opts)
 
-  local comment_ft = require "Comment.ft"
-  comment_ft.set("smarty", { "{*%s*}", "{*%s*}" })
-end
-
-return M
+    local comment_ft = require "Comment.ft"
+    comment_ft.set("smarty", { "{*%s*}", "{*%s*}" })
+  end,
+}

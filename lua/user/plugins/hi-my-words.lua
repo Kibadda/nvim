@@ -1,10 +1,5 @@
-local M = {
+return {
   "dvoytik/hi-my-words.nvim",
   cmd = { "HiMyWordsToggle", "HiMyWordsClear" },
+  config = true,
 }
-
-function M.config()
-  require "hi-my-words"
-end
-
-return M

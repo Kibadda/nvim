@@ -1,35 +1,31 @@
-local M = {
+return {
   "toppair/peek.nvim",
   build = "deno task --quiet build:fast",
   ft = "markdown",
-}
-
-function M.init()
-  require("user.utils").keymaps {
-    n = {
-      ["<Leader>"] = {
-        m = {
-          name = "Markdown",
-          p = {
-            function()
-              require("peek").open()
-            end,
-            "Start",
-          },
-          s = {
-            function()
-              require("peek").close()
-            end,
-            "Stop",
+  opts = {
+    update_on_change = false,
+  },
+  init = function()
+    require("user.utils").keymaps {
+      n = {
+        ["<Leader>"] = {
+          m = {
+            name = "Markdown",
+            p = {
+              function()
+                require("peek").open()
+              end,
+              "Start",
+            },
+            s = {
+              function()
+                require("peek").close()
+              end,
+              "Stop",
+            },
           },
         },
       },
-    },
-  }
-end
-
-M.opts = {
-  update_on_change = false,
+    }
+  end,
 }
-
-return M

@@ -1,12 +1,9 @@
-local M = {
+return {
   "folke/tokyonight.nvim",
   lazy = false,
   priority = 1000,
   enabled = false,
-}
-
-function M.config()
-  require("tokyonight").setup {
+  opts = {
     transparent = true,
     sidebars = {},
     styles = "storm",
@@ -18,9 +15,9 @@ function M.config()
       highlights.WhichKeyFloat.bg = "NONE"
       highlights.NeoTreeNormal.bg = "NONE"
     end,
-  }
-
-  vim.cmd.colorscheme "tokyonight"
-end
-
-return M
+  },
+  config = function(_, opts)
+    require("tokyonight").setup(opts)
+    vim.cmd.colorscheme "tokyonight"
+  end,
+}

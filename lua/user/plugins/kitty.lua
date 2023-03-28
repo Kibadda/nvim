@@ -1,6 +1,4 @@
-local M = {
+return {
   "fladson/vim-kitty",
   ft = "kitty",
 }
-
-return M

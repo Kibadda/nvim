@@ -1,7 +1,5 @@
-local M = {
+return {
   "dcampos/nvim-snippy",
   event = "InsertEnter",
-  opts = true,
+  config = true,
 }
-
-return M

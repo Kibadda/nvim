@@ -1,21 +1,18 @@
-local M = {
+return {
   "olimorris/onedarkpro.nvim",
   lazy = false,
   priority = 1000,
   enabled = false,
-}
-
-function M.config()
-  require("onedarkpro").setup {
+  opts = {
     highlights = {
       ["@field.lua"] = { link = "@keyword" },
     },
     options = {
       transparency = true,
     },
-  }
-
-  vim.cmd.colorscheme "onedark"
-end
-
-return M
+  },
+  config = function(_, opts)
+    require("onedarkpro").setup(opts)
+    vim.cmd.colorscheme "onedark"
+  end,
+}

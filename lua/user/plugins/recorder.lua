@@ -1,7 +1,7 @@
-local M = {
+return {
   "chrisgrieser/nvim-recorder",
   keys = { "q" },
-  config = true,
+  opts = {
+    lessNotifications = true,
+  },
 }
-
-return M

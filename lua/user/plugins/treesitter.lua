@@ -1,4 +1,4 @@
-local M = {
+return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdateSync",
   dependencies = {
@@ -6,121 +6,116 @@ local M = {
     "nvim-treesitter/nvim-treesitter-textobjects",
     "windwp/nvim-ts-autotag",
   },
-}
-
-function M.init()
-  local parsers = require("nvim-treesitter.parsers").get_parser_configs()
-
-  parsers.smarty = {
-    install_info = {
-      url = "https://github.com/Kibadda/tree-sitter-smarty",
-      -- url = "/home/michael/plugins/tree-sitter-smarty",
-      files = { "src/parser.c", "src/scanner.cc" },
-      branch = "master",
-    },
-  }
-
-  parsers.snippets = {
-    install_info = {
-      url = "https://github.com/Kibadda/tree-sitter-snippets",
-      -- url = "/home/michael/plugins/tree-sitter-snippets",
-      files = { "src/parser.c" },
-      branch = "main",
-    },
-  }
-end
-
-M.opts = {
-  ensure_installed = {
-    "bash",
-    "javascript",
-    "json",
-    "lua",
-    "python",
-    "typescript",
-    "tsx",
-    "css",
-    "yaml",
-    "php",
-    "phpdoc",
-    "vue",
-    "haskell",
-    "html",
-    "sql",
-    "http",
-    "markdown",
-    "markdown_inline",
-    "regex",
-    "gitcommit",
-    "gitignore",
-    "gitattributes",
-    "git_rebase",
-    "smarty",
-    "norg",
-    "norg_meta",
-    "snippets",
-  },
-  highlight = {
-    enable = true,
-  },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "<CR>",
-      node_incremental = "<CR>",
-      scope_incremental = "<S-CR>",
-      node_decremental = "<BS>",
-    },
-  },
-  playground = {
-    enable = true,
-  },
-  indent = {
-    enable = true,
-  },
-  autotag = {
-    enable = true,
-    filetypes = {
+  opts = {
+    ensure_installed = {
+      "bash",
+      "javascript",
+      "json",
+      "lua",
+      "python",
+      "typescript",
+      "tsx",
+      "css",
+      "yaml",
+      "php",
+      "phpdoc",
+      "vue",
+      "haskell",
       "html",
+      "sql",
+      "http",
+      "markdown",
+      "markdown_inline",
+      "regex",
+      "gitcommit",
+      "gitignore",
+      "gitattributes",
+      "git_rebase",
       "smarty",
+      "norg",
+      "norg_meta",
+      "snippets",
     },
-  },
-  textobjects = {
-    select = {
+    highlight = {
       enable = true,
-      lookahead = true,
+    },
+    incremental_selection = {
+      enable = true,
       keymaps = {
-        ["af"] = { query = "@function.outer", desc = "outer function" },
-        ["if"] = { query = "@function.inner", desc = "inner function" },
-        ["aa"] = { query = "@parameter.outer", desc = "outer function argument" },
-        ["ia"] = { query = "@parameter.inner", desc = "inner function argument" },
-      },
-      selection_modes = {
-        ["@function.outer"] = "V",
-        ["@function.inner"] = "V",
+        init_selection = "<CR>",
+        node_incremental = "<CR>",
+        scope_incremental = "<S-CR>",
+        node_decremental = "<BS>",
       },
     },
-    move = {
+    playground = {
       enable = true,
-      set_jumps = true,
-      goto_next_start = {
-        ["]a"] = "@parameter.inner",
+    },
+    indent = {
+      enable = true,
+    },
+    autotag = {
+      enable = true,
+      filetypes = {
+        "html",
+        "smarty",
       },
-      goto_next_end = {
-        ["]A"] = "@parameter.inner",
+    },
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ["af"] = { query = "@function.outer", desc = "outer function" },
+          ["if"] = { query = "@function.inner", desc = "inner function" },
+          ["aa"] = { query = "@parameter.outer", desc = "outer function argument" },
+          ["ia"] = { query = "@parameter.inner", desc = "inner function argument" },
+        },
+        selection_modes = {
+          ["@function.outer"] = "V",
+          ["@function.inner"] = "V",
+        },
       },
-      goto_previous_start = {
-        ["[a"] = "@parameter.inner",
-      },
-      goto_previous_end = {
-        ["[A"] = "@parameter.inner",
+      move = {
+        enable = true,
+        set_jumps = true,
+        goto_next_start = {
+          ["]a"] = "@parameter.inner",
+        },
+        goto_next_end = {
+          ["]A"] = "@parameter.inner",
+        },
+        goto_previous_start = {
+          ["[a"] = "@parameter.inner",
+        },
+        goto_previous_end = {
+          ["[A"] = "@parameter.inner",
+        },
       },
     },
   },
+  init = function()
+    local parsers = require("nvim-treesitter.parsers").get_parser_configs()
+
+    parsers.smarty = {
+      install_info = {
+        url = "https://github.com/Kibadda/tree-sitter-smarty",
+        -- url = "/home/michael/plugins/tree-sitter-smarty",
+        files = { "src/parser.c", "src/scanner.cc" },
+        branch = "master",
+      },
+    }
+
+    parsers.snippets = {
+      install_info = {
+        url = "https://github.com/Kibadda/tree-sitter-snippets",
+        -- url = "/home/michael/plugins/tree-sitter-snippets",
+        files = { "src/parser.c" },
+        branch = "main",
+      },
+    }
+  end,
+  config = function(_, opts)
+    require("nvim-treesitter.configs").setup(opts)
+  end,
 }
-
-function M.config(_, opts)
-  require("nvim-treesitter.configs").setup(opts)
-end
-
-return M

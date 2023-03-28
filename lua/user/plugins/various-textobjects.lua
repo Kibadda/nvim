@@ -1,9 +1,7 @@
-local M = {
+return {
   "chrisgrieser/nvim-various-textobjs",
+  event = "VeryLazy",
   opts = {
     useDefaultKeymaps = true,
   },
-  event = "VeryLazy",
 }
-
-return M
