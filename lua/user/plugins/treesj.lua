@@ -5,7 +5,7 @@ return {
     return {
       use_default_keymaps = false,
       langs = {
-        smarty = require("treesj.lang.utils").merge_preset(require "treesj.lang.html", {}),
+        smarty = require("treesj.langs.utils").merge_preset(require "treesj.langs.html", {}),
       },
     }
   end,
