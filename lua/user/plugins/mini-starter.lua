@@ -2,7 +2,7 @@ return {
   "echasnovski/mini.starter",
   event = "VimEnter",
   opts = function()
-    local sections = require("projectodo").get_sections()
+    local sections = require("projectodo").get_sections "mini-starter"
 
     table.insert(sections, 1, function()
       return {
@@ -94,6 +94,9 @@ return {
       group = vim.api.nvim_create_augroup("MiniStarterKeymaps", { clear = true }),
       pattern = "MiniStarterOpened",
       callback = function(args)
+        vim.opt.cmdheight = 0
+        vim.opt.showtabline = 0
+        vim.opt.laststatus = 0
         vim.opt_local.statuscolumn = nil
         vim.opt_local.winbar = nil
         require("user.utils").keymaps {
@@ -112,6 +115,16 @@ return {
             },
           },
         }
+
+        vim.api.nvim_create_autocmd("BufUnload", {
+          group = vim.api.nvim_create_augroup("ResetOptionsOnMiniStarterLeave", { clear = true }),
+          buffer = args.buf,
+          callback = function()
+            vim.opt.cmdheight = 1
+            vim.opt.showtabline = 2
+            vim.opt.laststatus = 3
+          end,
+        })
       end,
     })
 
