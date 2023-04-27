@@ -35,6 +35,7 @@ for k, v in pairs {
   fileformats = "unix",
   sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals",
   showmode = false,
+  shortmess = "filmnxtToOWAIcCFS",
 } do
   vim.opt[k] = v
 end
