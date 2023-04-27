@@ -5,15 +5,15 @@ return {
   opts = {
     load = {
       ["core.defaults"] = {},
-      ["core.norg.dirman"] = {
+      ["core.dirman"] = {
         config = {
           workspaces = {
             notes = "~/notes",
           },
         },
       },
-      ["core.norg.concealer"] = {},
-      ["core.norg.completion"] = {
+      ["core.concealer"] = {},
+      ["core.completion"] = {
         config = {
           engine = "nvim-cmp",
         },
