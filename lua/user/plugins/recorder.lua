@@ -1,6 +1,6 @@
 return {
   "chrisgrieser/nvim-recorder",
-  keys = { "q" },
+  keys = { "q", "Q" },
   opts = {
     lessNotifications = true,
   },
