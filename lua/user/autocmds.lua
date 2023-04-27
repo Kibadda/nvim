@@ -14,17 +14,6 @@ autocmd("TextYankPost", {
   end,
 })
 
-autocmd("BufWritePre", {
-  group = augroup "AutoCreateDir",
-  callback = function(event)
-    local file = vim.loop.fs_realpath(event.match) or event.match
-    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-    local backup = vim.fn.fnamemodify(file, ":p:~:h")
-    backup = backup:gsub("[/\\]", "%%")
-    vim.go.backupext = backup
-  end,
-})
-
 autocmd("BufEnter", {
   group = augroup "PluginFileKeymap",
   pattern = "*/lua/user/plugins/{*.lua,*/init.lua}",
