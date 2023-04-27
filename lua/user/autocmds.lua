@@ -67,3 +67,17 @@ autocmd("BufEnter", {
     end
   end,
 })
+
+autocmd("BufRead", {
+  group = augroup "AutocloseBuffer",
+  pattern = "*",
+  callback = function(args)
+    vim.api.nvim_create_autocmd({ "InsertEnter", "BufModifiedSet" }, {
+      buffer = args.buf,
+      once = true,
+      callback = function()
+        vim.fn.setbufvar(args.buf, "bufpersist", 1)
+      end,
+    })
+  end,
+})

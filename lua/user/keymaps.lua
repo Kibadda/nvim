@@ -8,6 +8,18 @@ utils.keymaps {
       P = { require("user.utils.plugin").list, "New Plugin File" },
       n = { utils.new_scratch, "New Scratch" },
       K = { utils.load_extra_keymaps, "Load .nvim-keymaps.lua" },
+      c = {
+        function()
+          local curbufnr = vim.api.nvim_get_current_buf()
+          local buflist = vim.api.nvim_list_bufs()
+          for _, bufnr in ipairs(buflist) do
+            if vim.bo[bufnr].buflisted and bufnr ~= curbufnr and vim.fn.getbufvar(bufnr, "bufpersist") ~= 1 then
+              vim.cmd.bd(tostring(bufnr))
+            end
+          end
+        end,
+        "Close unused buffers",
+      },
     },
     g = {
       B = { utils.open_url, "Open URL" },
