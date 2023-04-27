@@ -42,6 +42,11 @@ return {
         completion = cmp.config.window.bordered(window_options),
         documentation = cmp.config.window.bordered(window_options),
       },
+      snippet = {
+        expand = function(args)
+          snippy.expand_snippet(args.body)
+        end,
+      },
       sources = {
         { name = "nvim_lsp" },
         { name = "path" },
