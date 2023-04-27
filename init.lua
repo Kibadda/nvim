@@ -9,10 +9,10 @@ _ = {
   ]======================================],
 }
 
+vim.g.mapleader = vim.keycode "<Space>"
+
 require "user.options"
 require "user.filetypes"
-
-vim.g.mapleader = " "
 
 require "user.lazy"
 
