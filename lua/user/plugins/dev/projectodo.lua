@@ -11,7 +11,7 @@ return {
         enabled = vim.env.LOCATION == "work",
         url = "https://git.cortex-media.de/api/v4/projects/197/issues?state=opened",
         ignore_labels = { "Doing", "Recurring" },
-        force = false,
+        force = true,
         uses_session = true,
         adapter = "gitlab",
       },
