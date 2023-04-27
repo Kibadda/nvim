@@ -2,6 +2,7 @@ return {
   "sam4llis/nvim-tundra",
   lazy = false,
   priority = 1000,
+  enabled = true,
   opts = {
     transparent_background = true,
     overwrite = {

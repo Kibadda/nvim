@@ -13,6 +13,7 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup({
   { import = "user.plugins.dev" },
+  { import = "user.plugins.themes" },
   { import = "user.plugins" },
 }, {
   defaults = {
