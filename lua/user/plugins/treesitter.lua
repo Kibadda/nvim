@@ -35,6 +35,7 @@ return {
       "norg",
       "norg_meta",
       "snippets",
+      "vimdoc",
     },
     highlight = {
       enable = true,
