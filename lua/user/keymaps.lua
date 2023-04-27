@@ -4,10 +4,34 @@ utils.keymaps {
   n = {
     ["<Leader>"] = {
       L = { "<Cmd>Lazy<CR>", "Lazy" },
-      Q = { utils.detach_from_tmux, "Detach" },
-      P = { require("user.utils.plugin").list, "New Plugin File" },
-      n = { utils.new_scratch, "New Scratch" },
-      K = { utils.load_extra_keymaps, "Load .nvim-keymaps.lua" },
+      P = { "<Cmd>PluginList<CR>", "New Plugin File" },
+      n = {
+        function()
+          vim.ui.input({
+            prompt = "Filename: ",
+          }, function(input)
+            if input and input ~= "" then
+              vim.cmd(("e %s/%s.lua"):format(vim.fn.stdpath "config" .. "/scratch", input))
+            end
+          end)
+        end,
+        "New Scratch",
+      },
+      K = {
+        function()
+          local files = vim.fs.find(".nvim-keymaps.lua", {
+            type = "file",
+            path = vim.loop.cwd(),
+          })
+
+          if #files == 0 then
+            return
+          end
+
+          vim.cmd.luafile(files[1])
+        end,
+        "Load .nvim-keymaps.lua",
+      },
       c = {
         function()
           local curbufnr = vim.api.nvim_get_current_buf()
@@ -22,8 +46,13 @@ utils.keymaps {
       },
     },
     g = {
-      B = { utils.open_url, "Open URL" },
-      H = { utils.open_in_github, "Open current github" },
+      B = {
+        function()
+          os.execute("xdg-open " .. vim.fn.expand "<cWORD>")
+        end,
+        "Open URL",
+      },
+      H = { "<Cmd>OpenGitInBrowser<CR>", "Open current github" },
     },
     y = {
       A = { "<Cmd>%y+<CR>", "Yank file content" },

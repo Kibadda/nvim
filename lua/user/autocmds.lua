@@ -21,7 +21,7 @@ autocmd("BufEnter", {
     require("user.utils").keymaps {
       [{ mode = "n", buffer = args.buf }] = {
         g = {
-          P = { require("user.utils.plugin").open, "Open Plugin" },
+          P = { "<Cmd>PluginOpen<CR>", "Open Plugin" },
         },
       },
     }
