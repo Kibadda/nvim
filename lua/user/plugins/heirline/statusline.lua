@@ -14,6 +14,13 @@ M.git = {
   init = function(self)
     self.status = vim.b.gitsigns_status_dict or {}
   end,
+  update = {
+    "User",
+    pattern = "GitSignsUpdate",
+    callback = vim.schedule_wrap(function()
+      vim.cmd.redrawstatus()
+    end),
+  },
   {
     provider = function(self)
       return (" %s "):format(self.status.head or "no git")
@@ -23,24 +30,24 @@ M.git = {
     provider = function(self)
       return "+" .. (self.status.added or 0)
     end,
-    hl = function(self)
-      return { fg = self.colors.green._600 }
+    hl = function()
+      return { fg = "#98BC99" }
     end,
   },
   {
     provider = function(self)
       return "-" .. (self.status.removed or 0)
     end,
-    hl = function(self)
-      return { fg = self.colors.red._500 }
+    hl = function()
+      return { fg = "#FCA5A5" }
     end,
   },
   {
     provider = function(self)
       return "~" .. (self.status.changed or 0)
     end,
-    hl = function(self)
-      return { fg = self.colors.orange._500 }
+    hl = function()
+      return { fg = "#FBC19D" }
     end,
   },
 }
@@ -51,7 +58,12 @@ M.diagnostics = {
       self[severity:lower()] = #vim.diagnostic.get(0, { severity = severity })
     end
   end,
-  update = { "DiagnosticChanged", "BufEnter" },
+  update = {
+    "DiagnosticChanged",
+    callback = vim.schedule_wrap(function()
+      vim.cmd.redrawstatus()
+    end),
+  },
   {
     provider = function(self)
       return "E" .. (self.error < 10 and self.error or "#")
@@ -119,7 +131,7 @@ M.filetype = {
     end,
     hl = { bold = false },
   },
-  update = { "BufEnter" },
+  update = { "FileType" },
 }
 
 M.lsp = {
@@ -142,13 +154,13 @@ M.lsp = {
 
     self.servers = vim.list_extend(buf_client_names, sources)
   end,
+  update = { "LspAttach", "LspDetach" },
   {
     provider = function(self)
       return #self.servers > 0 and table.concat(self.servers, ", ") or "LS inactive"
     end,
     hl = { bold = true, fg = nil },
   },
-  update = { "LspAttach", "LspDetach" },
 }
 
 M.formatting = {
@@ -156,8 +168,8 @@ M.formatting = {
     provider = function()
       return ("Format: %s"):format(vim.g.LspAutoFormat == 1 and " " or " ")
     end,
-    hl = function(self)
-      return { fg = vim.g.LspAutoFormat == 1 and self.colors.green._600 or self.colors.red._600 }
+    hl = function()
+      return { fg = vim.g.LspAutoFormat == 1 and "#98BC99" or "#BF7471" }
     end,
   },
 }

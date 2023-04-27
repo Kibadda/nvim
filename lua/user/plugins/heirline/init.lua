@@ -8,7 +8,7 @@ return {
     -- local tabline = require "user.plugins.heirline.tabline"
 
     -- local utils = require "heirline.utils"
-    local colors = require "nvim-tundra.palette.arctic"
+    -- local colors = require "nvim-tundra.palette.arctic"
 
     local align = { provider = "%=", hl = { bg = "" } }
     local space = { provider = " " }
@@ -26,7 +26,7 @@ return {
           self.mode = vim.fn.mode()
         end,
         static = {
-          colors = colors,
+          -- colors = colors,
           modes = {
             names = {
               n = "NORMAL",
@@ -44,14 +44,14 @@ return {
               t = "TERMINAL",
             },
             colors = {
-              NORMAL = { bg = colors.indigo._900, fg = colors.gray._400, bold = true },
-              VISUAL = { bg = colors.orange._500, fg = colors.indigo._900, bold = true },
-              SELECT = { bg = colors.orange._500, fg = colors.indigo._900, bold = true },
-              INSERT = { bg = colors.green._500, fg = colors.indigo._900, bold = true },
-              REPLACE = { bg = colors.sand._500, fg = colors.indigo._900, bold = true },
-              COMMAND = { bg = colors.indigo._500, fg = colors.indigo._900, bold = true },
-              CONFIRM = { bg = colors.red._600, fg = colors.indigo._900, bold = true },
-              TERMINAL = { bg = colors.indigo._900, fg = colors.gray._400, bold = true },
+              NORMAL = { bg = "#28304D", fg = "#9CA3AF", bold = true },
+              VISUAL = { bg = "#FBC19D", fg = "#28304D", bold = true },
+              SELECT = { bg = "#FBC19D", fg = "#28304D", bold = true },
+              INSERT = { bg = "#B5E8B0", fg = "#28304D", bold = true },
+              REPLACE = { bg = "#E8D4B0", fg = "#28304D", bold = true },
+              COMMAND = { bg = "#A5B4FC", fg = "#28304D", bold = true },
+              CONFIRM = { bg = "#BF7471", fg = "#28304D", bold = true },
+              TERMINAL = { bg = "#28304D", fg = "#9CA3AF", bold = true },
             },
           },
         },
