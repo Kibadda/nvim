@@ -28,6 +28,9 @@ return {
       col_offset = -3,
     }
     return {
+      experimental = {
+        ghost_text = false,
+      },
       formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
