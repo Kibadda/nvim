@@ -81,3 +81,22 @@ autocmd("BufRead", {
     })
   end,
 })
+
+local group = augroup "ChangeKittyTabName"
+autocmd("SessionLoadPost", {
+  group = group,
+  callback = function()
+    os.execute(
+      ("kitty @ --to %s set-tab-title %s"):format(
+        vim.env.KITTY_LISTEN_ON,
+        "nvim " .. table.remove(vim.split(vim.v.this_session, "/"))
+      )
+    )
+  end,
+})
+autocmd("VimLeave", {
+  group = group,
+  callback = function()
+    os.execute(("kitty @ --to %s set-tab-title"):format(vim.env.KITTY_LISTEN_ON))
+  end,
+})
