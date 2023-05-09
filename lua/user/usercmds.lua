@@ -49,9 +49,11 @@ usercmd("OpenGitInBrowser", function()
   }
   job2:sync()
   local remote_url = job2:result()[1]
-  remote_url = string.gsub(remote_url, "%.git", "")
-  remote_url = string.gsub(remote_url, ":", "/")
-  remote_url = string.gsub(remote_url, "git@", "https://")
+  if vim.startswith(remote_url, "git") then
+    remote_url = string.gsub(remote_url, "%.git", "")
+    remote_url = string.gsub(remote_url, ":", "/")
+    remote_url = string.gsub(remote_url, "git@", "https://")
+  end
   os.execute(("xdg-open %s"):format(remote_url))
 end, {
   bang = false,
