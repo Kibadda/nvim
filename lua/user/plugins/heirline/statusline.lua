@@ -131,7 +131,7 @@ M.filetype = {
     end,
     hl = { bold = false },
   },
-  update = { "FileType" },
+  update = { "FileType", "BufEnter", "BufNew" },
 }
 
 M.lsp = {
