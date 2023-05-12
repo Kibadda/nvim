@@ -78,13 +78,9 @@ utils.keymaps {
     k = { utils.jump_direction "k", "Up" },
   },
   i = {
-    -- this needs mapping in kitty.conf
-    -- default behaviour <S-CR> == <C-CR> == <CR>
-    -- explanation: https://www.reddit.com/r/neovim/comments/mbj8m5/how_to_setup_ctrlshiftkey_mappings_in_neovim_and/
     ["<S-CR>"] = { "<C-o>o", "New line on bottom" },
     ["<C-CR>"] = { "<C-o>O", "New line on top" },
-    -- <C-h> == <C-BS>
-    ["<C-h>"] = { "<C-w>", "Remove previous word" },
+    ["<C-BS>"] = { "<C-w>", "Remove previous word" },
     [","] = { ",<C-g>u", "" },
     [";"] = { ";<C-g>u", "" },
     ["."] = { ".<C-g>u", "" },
