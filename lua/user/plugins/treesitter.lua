@@ -116,5 +116,14 @@ return {
   end,
   config = function(_, opts)
     require("nvim-treesitter.configs").setup(opts)
+
+    local ts = require "nvim-treesitter.textobjects.repeatable_move"
+
+    require("user.utils").keymaps {
+      [{ mode = { "n", "x", "o" } }] = {
+        [";"] = { ts.repeat_last_move, "Repeat move" },
+        [","] = { ts.repeat_last_move_opposite, "Repeat move opposite" },
+      },
+    }
   end,
 }
