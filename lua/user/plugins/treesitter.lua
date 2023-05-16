@@ -11,7 +11,6 @@ return {
       "bash",
       "javascript",
       "json",
-      "lua",
       "python",
       "typescript",
       "tsx",
@@ -35,7 +34,6 @@ return {
       "norg",
       "norg_meta",
       "snippets",
-      "vimdoc",
     },
     highlight = {
       enable = true,
