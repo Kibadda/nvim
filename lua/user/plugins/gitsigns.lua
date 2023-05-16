@@ -25,6 +25,18 @@ return {
         },
         [{ mode = { "o", "x" }, buffer = bufnr }] = {
           ih = { ":<C-u>Gitsigns select_hunk<CR>", "Hunk" },
+          ah = { ":<C-u>Gitsigns select_hunk<CR>", "Hunk" },
+        },
+      }
+
+      local ts = require "nvim-treesitter.textobjects.repeatable_move"
+      local gs = require "gitsigns"
+      local next_hunk_repeat, prev_hunk_repeat = ts.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
+
+      require("user.utils").keymaps {
+        [{ mode = { "n", "x", "o" } }] = {
+          ["]h"] = { next_hunk_repeat, "Next Hunk" },
+          ["[h"] = { prev_hunk_repeat, "Prev Hunk" },
         },
       }
     end,
