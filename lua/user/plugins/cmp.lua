@@ -12,6 +12,10 @@ return {
   },
   event = "InsertEnter",
   opts = function()
+    if vim.g.started_by_firenvim then
+      return
+    end
+
     local cmp = require "cmp"
     local lspkind = require "lspkind"
     local snippy = require "snippy.main"
