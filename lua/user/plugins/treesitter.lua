@@ -41,10 +41,9 @@ return {
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = "<CR>",
-        node_incremental = "<CR>",
-        scope_incremental = "<S-CR>",
-        node_decremental = "<BS>",
+        init_selection = "<C-Space>",
+        node_incremental = "<C-Space>",
+        node_decremental = "<C-BS>",
       },
     },
     playground = {
