@@ -5,18 +5,7 @@ utils.keymaps {
     ["<Leader>"] = {
       L = { "<Cmd>Lazy<CR>", "Lazy" },
       P = { "<Cmd>PluginList<CR>", "New Plugin File" },
-      n = {
-        function()
-          vim.ui.input({
-            prompt = "Filename: ",
-          }, function(input)
-            if input and input ~= "" then
-              vim.cmd(("e %s/%s.lua"):format(vim.fn.stdpath "config" .. "/scratch", input))
-            end
-          end)
-        end,
-        "New Scratch",
-      },
+      n = { "<Cmd>ScratchList<CR>", "New Scratch" },
       K = {
         function()
           local files = vim.fs.find(".nvim-keymaps.lua", {
