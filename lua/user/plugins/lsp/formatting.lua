@@ -46,7 +46,7 @@ function M.setup(client, bufnr)
   end
 
   require("user.utils").keymaps {
-    n = {
+    [{ mode = "n", buffer = bufnr }] = {
       ["<Leader>"] = {
         l = {
           t = { M.toggle, "Toggle Auto Format" },
