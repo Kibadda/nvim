@@ -187,33 +187,34 @@ end, {
 })
 
 usercmd("PluginOpen", function()
-  local query_string = [[
-    (return_statement
-      (expression_list
-        (table_constructor
-          [
-            (field
-              !name
-              value: (string) @plugin)
-            (field
-              name: (identifier) @dependencies (#eq? @dependencies "dependencies")
-              value: (table_constructor
-                [
-                  (field
-                    !name
-                    value: (string) @plugin)
-                  (field
-                    !name
-                    value: (table_constructor
-                      (field
-                        !name
-                        value: (string) @plugin)))
-                ]))
-          ])))
-  ]]
-
   local root = vim.treesitter.get_parser(0, "lua", {}):parse()[1]:root()
-  local query = vim.treesitter.query.parse("lua", query_string)
+  local query = vim.treesitter.query.parse(
+    "lua",
+    [[
+      (return_statement
+        (expression_list
+          (table_constructor
+            [
+              (field
+                !name
+                value: (string) @plugin)
+              (field
+                name: (identifier) @dependencies (#eq? @dependencies "dependencies")
+                value: (table_constructor
+                  [
+                    (field
+                      !name
+                      value: (string) @plugin)
+                    (field
+                      !name
+                      value: (table_constructor
+                        (field
+                          !name
+                          value: (string) @plugin)))
+                  ]))
+            ])))
+    ]]
+  )
 
   local plugins = {}
   for _, match in query:iter_matches(root, 0, 0, -1) do
