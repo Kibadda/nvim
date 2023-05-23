@@ -22,6 +22,10 @@ function M.setup()
     border = "single",
     title = " Documentation ",
   })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers["textDocument/signatureHelp"], {
+    border = "single",
+    title = " Signature ",
+  })
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
