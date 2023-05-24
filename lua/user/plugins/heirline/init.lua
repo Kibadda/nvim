@@ -72,6 +72,8 @@ return {
           statusline.lsp,
           bar,
           statusline.formatting,
+          bar,
+          statusline.inlay_hints,
           space,
           statusline.position,
         },

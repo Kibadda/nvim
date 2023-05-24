@@ -174,6 +174,17 @@ M.formatting = {
   },
 }
 
+M.inlay_hints = {
+  {
+    provider = function()
+      return ("Hints: %s"):format(vim.g.InlayHints == 1 and " " or " ")
+    end,
+    hl = function()
+      return { fg = vim.g.InlayHints == 1 and "#98BC99" or "#BF7471" }
+    end,
+  },
+}
+
 M.position = {
   init = function(self)
     self.cursor = vim.api.nvim_win_get_cursor(0)
