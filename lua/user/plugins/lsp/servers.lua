@@ -42,6 +42,9 @@ return {
         codeLens = {
           enable = false,
         },
+        hint = {
+          enable = true,
+        },
       },
     },
   },

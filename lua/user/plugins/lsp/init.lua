@@ -38,7 +38,10 @@ return {
       require("user.plugins.lsp.formatting").setup(client, bufnr)
       require("user.plugins.lsp.highlighting").setup(client, bufnr)
       require("user.plugins.lsp.codelens").setup(client, bufnr)
-      require("user.plugins.lsp.inlay_hints").setup(client, bufnr)
+
+      if client.server_capabilities.inlayHintProvider then
+        require("user.plugins.lsp.inlay_hints").setup()
+      end
     end
 
     for server, opts in pairs(require "user.plugins.lsp.servers") do
