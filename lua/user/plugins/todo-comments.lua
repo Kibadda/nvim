@@ -6,7 +6,7 @@ return {
       CRTX = { icon = "🔥", color = "warning" },
     },
     highlight = {
-      pattern = [[.*<(KEYWORDS)>\s*]],
+      pattern = [[.*<(KEYWORDS)\s*]],
     },
   },
   init = function()
