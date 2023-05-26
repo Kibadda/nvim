@@ -41,4 +41,11 @@ return {
       }
     end,
   },
+  config = function(_, opts)
+    require("gitsigns").setup(opts)
+
+    for _, name in ipairs { "Add", "Change", "Delete" } do
+      vim.api.nvim_set_hl(0, "GitSigns" .. name .. name, { link = "GitSigns" .. name })
+    end
+  end,
 }
