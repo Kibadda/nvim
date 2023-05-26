@@ -7,7 +7,7 @@ return {
     "williamboman/mason.nvim",
     "SmiteshP/nvim-navic",
   },
-  event = "VeryLazy",
+  lazy = false,
   init = function()
     require("user.utils").keymaps {
       n = {
