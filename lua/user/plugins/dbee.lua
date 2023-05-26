@@ -1,10 +1,8 @@
 return {
   "kndndrj/nvim-dbee",
   dependencies = {
-    "tpope/vim-dotenv",
     "MunifTanjim/nui.nvim",
   },
-  enabled = true,
   build = function()
     require("dbee").install "curl"
   end,
@@ -16,9 +14,7 @@ return {
             name = "DB",
             o = {
               function()
-                if vim.fn.filereadable ".db.env" == 1 then
-                  require("dbee").open()
-                end
+                require("dbee").open()
               end,
               "open",
             },
@@ -34,32 +30,33 @@ return {
     }
   end,
   config = function()
-    vim.cmd.Dotenv ".db.env"
+    local path = vim.fn.stdpath "cache" .. "/dbee/connections.json"
+
+    if vim.fn.filereadable(path) == 0 then
+      os.execute("mkdir -p " .. vim.fs.dirname(path))
+      os.execute("touch " .. path)
+    end
 
     require("dbee").setup {
       lazy = false,
-      connections = {
-        {
-          name = vim.env.DB_NAME,
-          type = vim.env.DB_DRIVER,
-          url = vim.env.DB_USER .. ":" .. vim.env.DB_PASS .. "@" .. vim.env.DB_HOST .. "/" .. vim.env.DB_NAME,
-        },
+      sources = {
+        require("dbee.sources").FileSource:new(vim.fn.stdpath "cache" .. "/dbee/connections.json"),
       },
       extra_helpers = {
         mysql = {
-          List = "SELECT * FROM {table} LIMIT 500",
+          ["List All"] = { "SELECT * FROM `{table}`" },
         },
-      },
-      drawer = {
-        window_command = "to 60vsplit",
-      },
-      result = {
-        window_command = "bo 30split",
       },
       editor = {
         mappings = {
           run_file = { key = "<C-CR>", mode = "n" },
           run_selection = { key = "<C-CR>", mode = "v" },
+        },
+      },
+      ui = {
+        window_commands = {
+          drawer = "to 60vsplit",
+          result = "bo 30split",
         },
       },
     }
