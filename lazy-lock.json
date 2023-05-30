@@ -8,6 +8,7 @@
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
   "cmp-snippy": { "branch": "master", "commit": "9af1635fe40385ffa3dabf322039cb5ae1fd7d35" },
   "colorful-winsep.nvim": { "branch": "main", "commit": "0576a11c1b2af468019f2b8bc942ec384ccb9aeb" },
+  "dropbar.nvim": { "branch": "master", "commit": "df8f410612714f3d43d971d5c5ce0709769cf23b" },
   "firenvim": { "branch": "master", "commit": "386239e1b1e6e3884db4da8bb7057709bec3dc51" },
   "fugitive-gitlab.vim": { "branch": "master", "commit": "55fed481c0309b3405dd3d72921d687bf36873a8" },
   "gist.nvim": { "branch": "main", "commit": "a4f1060d0635b3b0ed3ad6c7558b2dee1d3ba4f7" },
