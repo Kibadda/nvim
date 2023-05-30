@@ -94,11 +94,3 @@ autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
     os.execute(("kitty @ --to %s set-tab-title %s"):format(vim.env.KITTY_LISTEN_ON, name))
   end,
 })
-
-autocmd("FileType", {
-  group = augroup "OpenHelpVertical",
-  pattern = "help",
-  callback = function()
-    vim.cmd.wincmd "H"
-  end,
-})
