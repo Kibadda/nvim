@@ -2,15 +2,13 @@ return {
   "ThePrimeagen/refactoring.nvim",
   config = true,
   keys = {
-    { "<Leader>r", mode = "x" },
+    {
+      "<Leader>r",
+      function()
+        require("refactoring").select_refactor()
+      end,
+      desc = "Refactor",
+      mode = "x",
+    },
   },
-  init = function()
-    require("user.utils").keymaps {
-      x = {
-        ["<Leader>"] = {
-          r = { ":lua require('refactoring').select_refactor()<CR>", "Refactor" },
-        },
-      },
-    }
-  end,
 }

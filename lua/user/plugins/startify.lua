@@ -11,7 +11,12 @@ return {
   },
   lazy = false,
   priority = 999,
-  enabled = false,
+  keys = {
+    { "<Leader>Sc", "<Cmd>SClose<CR>", desc = "Close" },
+    { "<Leader>Sl", "<Cmd>SLoad<CR>", desc = "Load" },
+    { "<Leader>Sd", "<Cmd>SDelete<CR>", desc = "Delete" },
+    { "<Leader>Ss", "<Cmd>SSave<CR>", desc = "Save" },
+  },
   opts = function()
     return {
       session_persistence = true,
@@ -31,25 +36,11 @@ return {
         "│                                                       │",
         "└───────────────────────────────────────────────────────┘",
       },
-      lists = require("projectodo").get_sections(),
-    }
-  end,
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          S = {
-            name = "Startify",
-            c = { "<Cmd>SClose<CR>", "Close" },
-            l = { "<Cmd>SLoad<CR>", "Load" },
-            d = { "<Cmd>SDelete<CR>", "Delete" },
-            s = { "<Cmd>SSave<CR>", "Save" },
-          },
-        },
-      },
+      -- lists = require("projectodo").get_sections(),
     }
   end,
   config = function(_, opts)
     require("user.utils").set_global_options(opts, "startify")
   end,
+  enabled = false,
 }

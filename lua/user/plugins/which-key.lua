@@ -1,5 +1,6 @@
 return {
   "folke/which-key.nvim",
+  event = "VeryLazy",
   opts = {
     plugins = {
       spelling = {
@@ -11,12 +12,16 @@ return {
       border = "single",
     },
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          name = "<Leader>",
-        },
+  config = function(_, opts)
+    local wk = require "which-key"
+    wk.setup(opts)
+    wk.register {
+      ["<Leader>"] = {
+        name = "<Leader>",
+        D = { name = "DB" },
+        g = { name = "Git" },
+        l = { name = "LSP" },
+        s = { name = "Seach" },
       },
     }
   end,

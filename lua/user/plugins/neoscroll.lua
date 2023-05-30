@@ -1,6 +1,13 @@
 return {
   "karb94/neoscroll.nvim",
-  keys = { "<C-u>", "<C-d>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+  keys = {
+    { "<C-u>", desc = "Scroll cursor up half page" },
+    { "<C-d>", desc = "Scroll curosr down half page" },
+    { "<C-b>", desc = "Scroll cursor up full page" },
+    { "<C-f>", desc = "Scroll cursor down full page" },
+    { "<C-e>", desc = "Scroll page up" },
+    { "<C-y>", desc = "Scroll page down" },
+  },
   opts = {
     mappings = {
       "<C-u>",
@@ -14,16 +21,4 @@ return {
       "zb",
     },
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<C-u>"] = "Scroll cursor up half page",
-        ["<C-d>"] = "Scroll cursor down half page",
-        ["<C-b>"] = "Scroll cursor up full page",
-        ["<C-f>"] = "Scroll cursor down full page",
-        ["<C-y>"] = "Scroll page down",
-        ["<C-e>"] = "Scroll page up",
-      },
-    }
-  end,
 }

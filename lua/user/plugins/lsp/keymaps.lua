@@ -1,28 +1,28 @@
 local M = {}
 
 function M.setup(bufnr)
-  require("user.utils").keymaps {
-    [{ mode = "n", buffer = bufnr }] = {
-      ["<Leader>"] = {
-        l = {
-          c = { vim.lsp.buf.code_action, "Code Action" },
-          f = { vim.lsp.buf.format, "Format" },
-          j = { vim.diagnostic.goto_next, "Next Diagnostic" },
-          k = { vim.diagnostic.goto_prev, "Prev Diagnostic" },
-          r = { vim.lsp.buf.rename, "Rename" },
-          l = { vim.lsp.codelens.run, "Codelens" },
-          d = { "<Cmd>Telescope diagnostics bufnr=0<CR>", "Show Buffer Diagnostics" },
-          w = { "<Cmd>Telescope diagnostics<CR>", "Show Diagnostics" },
-          R = { "<Cmd>LspRestart<CR>", "Restart" },
-          D = { "<Cmd>Telescope lsp_document_symbols<CR>", "Symbols" },
-        },
-      },
-      K = { vim.lsp.buf.hover, "Hover" },
-      gd = { vim.lsp.buf.definition, "Definition" },
-      gD = { require("user.plugins.lsp.definition").open, "Definition split" },
-      gr = { "<Cmd>Telescope lsp_references<CR>", "References" },
-    },
-  }
+  local function map(lhs, rhs, desc)
+    local opts = {
+      buffer = bufnr,
+    }
+    if desc then
+      opts.desc = desc
+    end
+    vim.keymap.set("n", lhs, rhs, opts)
+  end
+
+  map("<Leader>lc", vim.lsp.buf.code_action, "Code Action")
+  map("<Leader>lf", vim.lsp.buf.format, "Format")
+  map("<Leader>lr", vim.lsp.buf.rename, "Rename")
+  map("<Leader>ll", vim.lsp.codelens.run, "Codelens")
+  map("<Leader>lj", vim.diagnostic.goto_next, "Next Diagnostic")
+  map("<Leader>lk", vim.diagnostic.goto_prev, "Prev Diagnostic")
+  map("<Leader>lR", "<Cmd>LspRestart<CR>", "Restart")
+  map("<Leader>ld", "<Cmd>Telescope lsp_document_symbols<CR>", "Symbols")
+  map("K", vim.lsp.buf.hover, "Hover")
+  map("gd", vim.lsp.buf.definition, "Definition")
+  map("gD", require("user.plugins.lsp.definition").open, "Definition split")
+  map("gr", "<Cmd>Telescope lsp_references<CR>", "References")
 end
 
 return M

@@ -5,19 +5,9 @@ return {
     "jose-elias-alvarez/null-ls.nvim",
     "williamboman/mason-lspconfig.nvim",
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          l = {
-            name = "Lsp",
-            M = { "<Cmd>Mason<CR>", "Mason" },
-            -- L = { "<Cmd>LspInfo<CR>", "LspInfo" },
-          },
-        },
-      },
-    }
-  end,
+  keys = {
+    { "<Leader>lM", "<Cmd>Mason<CR>", desc = "Mason" },
+  },
   config = function()
     require("mason").setup {
       ui = {

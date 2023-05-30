@@ -109,15 +109,7 @@ function M.setup()
     callback = M.display,
   })
 
-  require("user.utils").keymaps {
-    n = {
-      ["<Leader>"] = {
-        l = {
-          i = { M.toggle, "Toggle Inlay Hints" },
-        },
-      },
-    },
-  }
+  vim.keymap.set("n", "<Leader>li", M.toggle, { desc = "Toggle Inlay Hints" })
 
   set_highlights()
 

@@ -1,26 +1,23 @@
 return {
   "kelly-lin/ranger.nvim",
   lazy = false,
+  keys = {
+    {
+      "<Leader>e",
+      function()
+        require("ranger-nvim").open(true)
+      end,
+      desc = "Explorer current file",
+    },
+    {
+      "<Leader>E",
+      function()
+        require("ranger-nvim").open(false)
+      end,
+      desc = "Explorer",
+    },
+  },
   init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          e = {
-            function()
-              require("ranger-nvim").open(true)
-            end,
-            "Explorer current file",
-          },
-          E = {
-            function()
-              require("ranger-nvim").open(false)
-            end,
-            "Explorer",
-          },
-        },
-      },
-    }
-
     local group = vim.api.nvim_create_augroup("OpenExplorerFindFilesIfDirectory", { clear = true })
     vim.api.nvim_create_autocmd("VimEnter", {
       group = group,

@@ -4,9 +4,7 @@ return {
     "MunifTanjim/nui.nvim",
     "tpope/vim-dotenv",
   },
-  cmd = {
-    "NeoAI",
-  },
+  cmd = "NeoAI",
   opts = {
     shortcuts = {},
   },

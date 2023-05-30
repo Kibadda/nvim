@@ -1,36 +1,17 @@
 return {
   "rest-nvim/rest.nvim",
   ft = "http",
+  keys = {
+    {
+      "<Leader>H",
+      function()
+        require("rest-nvim").run()
+      end,
+      desc = "Run request",
+    },
+  },
   opts = {
     skip_ssl_verification = true,
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          H = {
-            name = "Http",
-            r = {
-              function()
-                require("rest-nvim").run()
-              end,
-              "Run request",
-            },
-            p = {
-              function()
-                require("rest-nvim").run(true)
-              end,
-              "Preview command",
-            },
-            l = {
-              function()
-                require("rest-nvim").last()
-              end,
-              "Run last request",
-            },
-          },
-        },
-      },
-    }
-  end,
+  enabled = false,
 }

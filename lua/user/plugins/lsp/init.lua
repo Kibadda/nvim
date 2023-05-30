@@ -8,17 +8,9 @@ return {
     "SmiteshP/nvim-navic",
   },
   lazy = false,
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          l = {
-            L = { "<Cmd>LspInfo<CR>", "LspInfo" },
-          },
-        },
-      },
-    }
-  end,
+  keys = {
+    { "<Leader>lL", "<Cmd>LspInfo<CR>", desc = "LspInfo" },
+  },
   config = function()
     require("neoconf").setup {}
     require("neodev").setup {}

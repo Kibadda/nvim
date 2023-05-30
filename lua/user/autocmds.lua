@@ -18,13 +18,7 @@ autocmd("BufEnter", {
   group = augroup "PluginFileKeymap",
   pattern = "*/lua/user/plugins/{*.lua,*/init.lua}",
   callback = function(args)
-    require("user.utils").keymaps {
-      [{ mode = "n", buffer = args.buf }] = {
-        g = {
-          P = { "<Cmd>PluginOpen<CR>", "Open Plugin" },
-        },
-      },
-    }
+    vim.keymap.set("n", "gP", "<Cmd>PluginOpen<CR>", { desc = "Open Plugin", buffer = args.buf })
   end,
 })
 

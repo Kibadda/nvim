@@ -6,30 +6,23 @@ return {
   build = function()
     require("dbee").install "curl"
   end,
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          D = {
-            name = "DB",
-            o = {
-              function()
-                require("dbee").open()
-              end,
-              "open",
-            },
-            c = {
-              function()
-                require("dbee").close()
-              end,
-              "close",
-            },
-          },
-        },
-      },
-    }
-  end,
-  config = function()
+  keys = {
+    {
+      "<Leader>Do",
+      function()
+        require("dbee").open()
+      end,
+      desc = "open",
+    },
+    {
+      "<Leader>Dc",
+      function()
+        require("dbee").close()
+      end,
+      desc = "close",
+    },
+  },
+  opts = function()
     local path = vim.fn.stdpath "cache" .. "/dbee/connections.json"
 
     if vim.fn.filereadable(path) == 0 then
@@ -37,7 +30,7 @@ return {
       os.execute("touch " .. path)
     end
 
-    require("dbee").setup {
+    return {
       lazy = false,
       sources = {
         require("dbee.sources").FileSource:new(vim.fn.stdpath "cache" .. "/dbee/connections.json"),

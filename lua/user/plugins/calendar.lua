@@ -4,6 +4,9 @@ return {
     "tpope/vim-dotenv",
   },
   cmd = "Calendar",
+  keys = {
+    { "<Leader>C", "<Cmd>Calendar<CR>", desc = "Calendar" },
+  },
   opts = {
     locale = "de",
     first_day = "monday",
@@ -15,15 +18,6 @@ return {
     frame = "default",
     google_calendar = true,
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          C = { "<Cmd>Calendar<CR>", "Open calendar" },
-        },
-      },
-    }
-  end,
   config = function(_, opts)
     opts.google_api_key = vim.env.CALENDAR_GOOGLE_API_KEY
     opts.google_client_id = vim.env.CALENDAR_GOOGLE_CLIENT_ID

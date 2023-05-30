@@ -6,6 +6,18 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     "windwp/nvim-ts-autotag",
   },
+  keys = function()
+    local ts = require "nvim-treesitter.textobjects.repeatable_move"
+
+    return {
+      { ";", ts.repeat_last_move, desc = "Repeat move", mode = { "n", "x", "o" } },
+      { ",", ts.repeat_last_move_opposite, desc = "Repeat move opposite", mode = { "n", "x", "o" } },
+      { "f", ts.builtin_f, mode = { "n", "x", "o" } },
+      { "F", ts.builtin_F, mode = { "n", "x", "o" } },
+      { "t", ts.builtin_t, mode = { "n", "x", "o" } },
+      { "T", ts.builtin_T, mode = { "n", "x", "o" } },
+    }
+  end,
   opts = {
     ensure_installed = {
       "bash",
@@ -115,14 +127,5 @@ return {
   end,
   config = function(_, opts)
     require("nvim-treesitter.configs").setup(opts)
-
-    local ts = require "nvim-treesitter.textobjects.repeatable_move"
-
-    require("user.utils").keymaps {
-      [{ mode = { "n", "x", "o" } }] = {
-        [";"] = { ts.repeat_last_move, "Repeat move" },
-        [","] = { ts.repeat_last_move_opposite, "Repeat move opposite" },
-      },
-    }
   end,
 }

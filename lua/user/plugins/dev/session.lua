@@ -3,6 +3,22 @@ return {
   lazy = false,
   priority = 1000,
   dev = true,
+  keys = {
+    {
+      "<Leader>Sn",
+      function()
+        require("session.core").new()
+      end,
+      desc = "New",
+    },
+    {
+      "<Leader>Sl",
+      function()
+        require("session.core").list()
+      end,
+      desc = "List",
+    },
+  },
   opts = {
     hooks = {
       pre = {
@@ -22,27 +38,4 @@ return {
       },
     },
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          S = {
-            name = "Session",
-            n = {
-              function()
-                require("session.core").new()
-              end,
-              "New",
-            },
-            l = {
-              function()
-                require("session.telescope").list()
-              end,
-              "List",
-            },
-          },
-        },
-      },
-    }
-  end,
 }

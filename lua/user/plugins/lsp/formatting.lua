@@ -21,12 +21,7 @@ end
 
 function M.setup(client, bufnr)
   local enable = false
-  if
-    #require("null-ls.sources").get_available(
-      vim.api.nvim_buf_get_option(bufnr, "filetype"),
-      require("null-ls").methods.FORMATTING
-    ) > 0
-  then
+  if #require("null-ls.sources").get_available(vim.bo[bufnr].filetype, require("null-ls").methods.FORMATTING) > 0 then
     enable = true
   else
     enable = not (client.name == "null-ls")
@@ -45,15 +40,7 @@ function M.setup(client, bufnr)
     })
   end
 
-  require("user.utils").keymaps {
-    [{ mode = "n", buffer = bufnr }] = {
-      ["<Leader>"] = {
-        l = {
-          t = { M.toggle, "Toggle Auto Format" },
-        },
-      },
-    },
-  }
+  vim.keymap.set("n", "<Leader>lt", M.toggle, { desc = "Toggle Auto Format", buffer = bufnr })
 end
 
 return M

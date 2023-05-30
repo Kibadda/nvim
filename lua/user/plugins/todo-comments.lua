@@ -1,6 +1,9 @@
 return {
   "folke/todo-comments.nvim",
   event = "VeryLazy",
+  keys = {
+    { "<Leader>st", "<Cmd>TodoTelescope<CR>", desc = "Todos" },
+  },
   opts = {
     keywords = {
       CRTX = { icon = "🔥", color = "warning" },
@@ -9,15 +12,4 @@ return {
       pattern = [[.*<(KEYWORDS)\s*]],
     },
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          s = {
-            t = { "<Cmd>TodoTelescope<CR>", "Todos" },
-          },
-        },
-      },
-    }
-  end,
 }

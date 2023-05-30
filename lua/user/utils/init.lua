@@ -28,17 +28,4 @@ function M.set_global_options(options, prefix)
   end
 end
 
-function M.keymaps(options)
-  for opts, keymaps in pairs(options) do
-    if type(opts) ~= "table" then
-      opts = { mode = opts }
-    end
-    if not pcall(require, "which-key") then
-      print "why is this not loaded"
-    else
-      require("which-key").register(keymaps, opts)
-    end
-  end
-end
-
 return M

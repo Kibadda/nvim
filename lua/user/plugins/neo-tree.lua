@@ -5,7 +5,10 @@ return {
   },
   branch = "v2.x",
   cmd = "Neotree",
-  enabled = false,
+  keys = {
+    { "<Leader>e", "<Cmd>Neotree reveal<CR>", desc = "Open/Focus Neotree" },
+    { "<Leader>E", "<Cmd>Neotree close<CR>", desc = "Close Neotree" },
+  },
   opts = {
     close_if_last_window = true,
     popup_border_style = "single",
@@ -17,14 +20,5 @@ return {
       follow_current_file = true,
     },
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          e = { "<Cmd>Neotree reveal<CR>", "Open/Focus Neotree" },
-          E = { "<Cmd>Neotree close<CR>", "Close Neotree" },
-        },
-      },
-    }
-  end,
+  enabled = false,
 }

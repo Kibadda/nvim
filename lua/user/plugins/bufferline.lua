@@ -1,6 +1,10 @@
 return {
   "akinsho/bufferline.nvim",
   event = "VimEnter",
+  keys = {
+    { "H", "<Cmd>BufferLineCyclePrev<CR>", desc = "Buffer prev" },
+    { "L", "<Cmd>BufferLineCycleNext<CR>", desc = "Buffer next" },
+  },
   opts = {
     options = {
       show_buffer_close_icons = false,
@@ -18,12 +22,4 @@ return {
       end,
     },
   },
-  init = function()
-    require("user.utils").keymaps {
-      n = {
-        H = { "<Cmd>BufferLineCyclePrev<CR>", "Buffer prev" },
-        L = { "<Cmd>BufferLineCycleNext<CR>", "Buffer next" },
-      },
-    }
-  end,
 }

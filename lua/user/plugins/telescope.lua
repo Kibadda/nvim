@@ -6,6 +6,16 @@ return {
     "aaronhallaert/ts-advanced-git-search.nvim",
   },
   cmd = "Telescope",
+  keys = {
+    { "<Leader>f", "<Cmd>Telescope find_files<CR>", desc = "Find Files" },
+    { "<Leader>F", "<Cmd>Telescope find_files no_ignore=true hidden=true<CR>", desc = "Find All Files" },
+    { "<Leader>b", "<Cmd>Telescope buffers<CR>", desc = "Buffers" },
+    { "<Leader>sg", "<Cmd>Telescope live_grep<CR>", desc = "Live Grep" },
+    { "<Leader>sh", "<Cmd>Telescope help_tags<CR>", desc = "Help" },
+    { "<Leader>sH", "<Cmd>Telescope highlights<CR>", desc = "Highlights" },
+    { "<Leader>sr", "<Cmd>Telescope resume<CR>", desc = "Resume" },
+    { "<M-e>", "<Cmd>Telescope symbols<CR>", desc = "Emojis", mode = "i" },
+  },
   opts = function()
     return {
       defaults = {
@@ -39,30 +49,6 @@ return {
     }
   end,
   init = function()
-    require("user.utils").keymaps {
-      n = {
-        ["<Leader>"] = {
-          f = { "<Cmd>Telescope find_files<CR>", "Find Files" },
-          F = { "<Cmd>Telescope find_files no_ignore=true hidden=true<CR>", "Find All Files" },
-          b = { "<Cmd>Telescope buffers<CR>", "Buffers" },
-          s = {
-            name = "Search",
-            g = { "<Cmd>Telescope live_grep<CR>", "Live Grep" },
-            h = { "<Cmd>Telescope help_tags<CR>", "Help" },
-            b = { "<Cmd>Telescope builtin<CR>", "Builtin" },
-            k = { "<Cmd>Telescope keymaps<CR>", "Keymaps" },
-            H = { "<Cmd>Telescope highlights<CR>", "Highlights" },
-            r = { "<Cmd>Telescope registers<CR>", "Registers" },
-            c = { "<Cmd>Telescope commands<CR>", "Commands" },
-            R = { "<Cmd>Telescope resume<CR>", "Resume" },
-          },
-        },
-      },
-      i = {
-        ["<M-e>"] = { "<Cmd>Telescope symbols<CR>", "Emojis" },
-      },
-    }
-
     -- local group = vim.api.nvim_create_augroup("OpenTelescopeFindFilesIfDirectory", { clear = true })
     -- vim.api.nvim_create_autocmd("VimEnter", {
     --   group = group,

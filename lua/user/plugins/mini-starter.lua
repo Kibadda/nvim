@@ -100,22 +100,12 @@ return {
         vim.opt.laststatus = 0
         vim.opt_local.statuscolumn = nil
         vim.opt_local.winbar = nil
-        require("user.utils").keymaps {
-          [{ mode = "n", buffer = args.buf }] = {
-            ["<C-j>"] = {
-              function()
-                MiniStarter.update_current_item "next"
-              end,
-              "Move down",
-            },
-            ["<C-k>"] = {
-              function()
-                MiniStarter.update_current_item "prev"
-              end,
-              "Move down",
-            },
-          },
-        }
+        vim.keymap.set("n", "<C-j>", function()
+          MiniStarter.update_current_item "next"
+        end, { desc = "Move down", buffer = args.buf })
+        vim.keymap.set("n", "<C-k>", function()
+          MiniStarter.update_current_item "prev"
+        end, { desc = "Move up", buffer = args.buf })
 
         vim.api.nvim_create_autocmd("BufUnload", {
           group = vim.api.nvim_create_augroup("ResetOptionsOnMiniStarterLeave", { clear = true }),
@@ -133,7 +123,7 @@ return {
       group = vim.api.nvim_create_augroup("UpdateLazyStatsInMiniStarter", { clear = true }),
       pattern = "LazyVimStarted",
       callback = function()
-        if vim.api.nvim_buf_get_option(0, "filetype") == "starter" then
+        if vim.bo.filetype == "starter" then
           MiniStarter.refresh()
         end
       end,
