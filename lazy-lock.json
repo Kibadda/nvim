@@ -50,7 +50,6 @@
   "ranger.nvim": { "branch": "main", "commit": "6270cff1d1b25035f648ffe9e19a11ca4cdd85de" },
   "refactoring.nvim": { "branch": "master", "commit": "8371678866f8a3034a4b0a9162c3fa8b633beed8" },
   "rest.nvim": { "branch": "main", "commit": "d8dc204e9f6fd930d9d1d709f0d19138f804431a" },
-  "smart-splits.nvim": { "branch": "master", "commit": "e9a8f08b9db566ebc2b942b4776567f981b2986c" },
   "sudoku.nvim": { "branch": "main", "commit": "cb01171ed746003dd9f508e7a08a5bae2c396ef0" },
   "telescope-symbols.nvim": { "branch": "master", "commit": "f2060117d965df4a626f068a4ebbd8ee051aa076" },
   "telescope-ui-select.nvim": { "branch": "master", "commit": "62ea5e58c7bbe191297b983a9e7e89420f581369" },
