@@ -46,15 +46,6 @@ autocmd("VimResized", {
   end,
 })
 
-autocmd("FileType", {
-  group = augroup "UseSpellInGitCommits",
-  pattern = { "gitcommit" },
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.spell = true
-  end,
-})
-
 autocmd("BufEnter", {
   group = augroup "DefaultBufferOptions",
   callback = function(args)
