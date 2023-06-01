@@ -29,6 +29,7 @@ require("lazy").setup({
     colorscheme = { "tundra" },
   },
   ui = {
+    title = " Lazy ",
     border = "single",
     ---@type table<string, fun(plugin: LazyPlugin)>
     custom_keys = {
