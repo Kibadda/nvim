@@ -10,5 +10,11 @@ return {
       desc = "Dropbar",
     },
   },
-  opts = true,
+  opts = {
+    general = {
+      enable = function()
+        return not vim.g.started_as_db_client
+      end,
+    },
+  },
 }

@@ -56,6 +56,9 @@ autocmd("BufEnter", {
 autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
   group = augroup "ChangeKittyTabName",
   callback = function()
+    if vim.g.started_as_db_client then
+      return
+    end
     local name
     if vim.v.exiting ~= vim.NIL then
       name = ""

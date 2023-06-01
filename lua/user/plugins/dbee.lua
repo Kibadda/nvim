@@ -6,22 +6,26 @@ return {
   build = function()
     require("dbee").install "curl"
   end,
-  keys = {
-    {
-      "<Leader>Do",
-      function()
-        require("dbee").open()
-      end,
-      desc = "open",
-    },
-    {
-      "<Leader>Dc",
-      function()
-        require("dbee").close()
-      end,
-      desc = "close",
-    },
-  },
+  init = function()
+    if vim.g.started_as_db_client then
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+          vim.opt.showtabline = 0
+          vim.opt.signcolumn = "no"
+          vim.opt.number = false
+          vim.opt.relativenumber = false
+          vim.opt.statuscolumn = nil
+
+          vim.keymap.set("n", "q", function()
+            require("dbee").close()
+            vim.cmd.quitall { bang = true }
+          end)
+
+          require("dbee").open()
+        end,
+      })
+    end
+  end,
   opts = function()
     local path = vim.fn.stdpath "cache" .. "/dbee/connections.json"
 
@@ -35,21 +39,10 @@ return {
       sources = {
         require("dbee.sources").FileSource:new(vim.fn.stdpath "cache" .. "/dbee/connections.json"),
       },
-      extra_helpers = {
-        mysql = {
-          ["List All"] = { "SELECT * FROM `{table}`" },
-        },
-      },
       editor = {
         mappings = {
           run_file = { key = "<C-CR>", mode = "n" },
           run_selection = { key = "<C-CR>", mode = "v" },
-        },
-      },
-      ui = {
-        window_commands = {
-          drawer = "to 60vsplit",
-          result = "bo 30split",
         },
       },
     }
