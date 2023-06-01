@@ -7,6 +7,7 @@ usercmd("D", function(argument)
     vim.cmd.BufferLineCycleNext()
     vim.cmd.bdelete { bang = argument.bang }
   end
+  vim.cmd.redrawt()
 end, {
   bang = true,
   nargs = 0,
