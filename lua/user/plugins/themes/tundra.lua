@@ -30,4 +30,5 @@ return {
     require("nvim-tundra").setup(opts)
     vim.cmd.colorscheme "tundra"
   end,
+  enabled = true,
 }

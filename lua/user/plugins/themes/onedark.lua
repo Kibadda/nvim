@@ -2,7 +2,6 @@ return {
   "olimorris/onedarkpro.nvim",
   lazy = false,
   priority = 1000,
-  enabled = false,
   opts = {
     highlights = {
       ["@field.lua"] = { link = "@keyword" },
@@ -15,4 +14,5 @@ return {
     require("onedarkpro").setup(opts)
     vim.cmd.colorscheme "onedark"
   end,
+  enabled = false,
 }
