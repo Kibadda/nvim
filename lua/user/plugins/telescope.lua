@@ -19,15 +19,12 @@ return {
   opts = function()
     return {
       defaults = {
-        sorting_strategy = "ascending",
-        layout_strategy = "bottom_pane",
         winblend = 0,
         prompt_prefix = "Search: ",
-        results_title = false,
         borderchars = {
-          prompt = { "─", "│", " ", "│", "┌", "┐", " ", " " },
-          results = { " ", " ", "─", "│", " ", " ", "─", "└" },
-          preview = { "─", "│", "─", "│", "┌", "┤", "┘", "┴" },
+          prompt = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+          results = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+          preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
         },
         mappings = {
           i = {
@@ -87,5 +84,7 @@ return {
     require("telescope").setup(opts)
     require("telescope").load_extension "ui-select"
     require("telescope").load_extension "advanced_git_search"
+
+    vim.api.nvim_set_hl(0, "TelescopeTitle", { bg = "#BF7471", fg = "#000000" })
   end,
 }
