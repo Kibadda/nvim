@@ -5,7 +5,6 @@ return {
     "folke/neodev.nvim",
     "MrcJkb/haskell-tools.nvim",
     "williamboman/mason.nvim",
-    "SmiteshP/nvim-navic",
   },
   lazy = false,
   keys = {
@@ -15,16 +14,8 @@ return {
     require("neoconf").setup {}
     require("neodev").setup {}
 
-    require("nvim-navic").setup {
-      highlight = true,
-    }
-
     local function on_attach(client, bufnr)
       client.server_capabilities.semanticTokensProvider = nil
-
-      if client.server_capabilities.documentSymbolProvider then
-        require("nvim-navic").attach(client, bufnr)
-      end
 
       require("user.plugins.lsp.keymaps").setup(bufnr)
       require("user.plugins.lsp.formatting").setup(client, bufnr)
