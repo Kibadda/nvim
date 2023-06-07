@@ -53,6 +53,11 @@ return {
       end
     end
 
+    -- require("lspconfig").ocamllsp.setup {
+    --   on_attach = on_attach,
+    --   capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    -- }
+
     require("user.plugins.lsp.handlers").setup()
     require("user.plugins.lsp.diagnostic").setup()
 

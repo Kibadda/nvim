@@ -46,6 +46,7 @@ return {
       "norg",
       "norg_meta",
       "snippets",
+      "ocaml",
     },
     highlight = {
       enable = true,
