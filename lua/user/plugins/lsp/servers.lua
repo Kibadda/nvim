@@ -52,8 +52,6 @@ return {
   vimls = true,
   tsserver = true,
   html = true,
-  -- vls = true,
   bashls = true,
-  -- hls = true,
   jsonls = true,
 }

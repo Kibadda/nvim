@@ -135,9 +135,6 @@ M.filetype = {
 }
 
 M.lsp = {
-  condition = function()
-    return package.loaded["lspconfig"]
-  end,
   init = function(self)
     local buf_client_names = {}
 
@@ -154,7 +151,7 @@ M.lsp = {
 
     self.servers = vim.list_extend(buf_client_names, sources)
   end,
-  update = { "LspAttach", "LspDetach" },
+  update = { "LspAttach", "LspDetach", "BufEnter" },
   {
     provider = function(self)
       return #self.servers > 0 and table.concat(self.servers, ", ") or "LS inactive"

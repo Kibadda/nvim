@@ -33,7 +33,6 @@ return {
       post = {
         load = function()
           vim.cmd.clearjumps()
-          vim.cmd.LspRestart()
         end,
       },
     },

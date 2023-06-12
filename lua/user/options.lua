@@ -37,9 +37,3 @@ o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal,gl
 o.showmode = false
 o.shortmess = "filmnxtToOWAIcCFS"
 o.smoothscroll = true
-
--- vim.on_key(function(char)
---   if vim.fn.mode() == "n" then
---     vim.opt.hlsearch = vim.tbl_contains({ "n", "N", "*", "#", "?", "/", "z" }, vim.fn.keytrans(char))
---   end
--- end, vim.api.nvim_create_namespace "auto_hlsearch")
