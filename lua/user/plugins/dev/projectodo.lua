@@ -36,7 +36,7 @@ return {
     vim.api.nvim_create_user_command("ProjectodoClearCache", function()
       local config = require "projectodo.config"
       if vim.fn.filereadable(config.options.sources.git.cache) == 1 then
-        os.remove(config.options.sources.git.cache)
+        vim.system { "rm", config.options.sources.git.cache }
       end
     end, { nargs = 0, bang = false })
   end,

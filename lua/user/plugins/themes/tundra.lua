@@ -8,12 +8,14 @@ return {
       function()
         require("nvim-tundra.commands").toggle_transparency()
 
-        os.execute(
-          ("kitty @ --to %s set-background-opacity %s"):format(
-            vim.env.KITTY_LISTEN_ON,
-            vim.g.tundra_opts.transparent_background and 0.9 or 1
-          )
-        )
+        vim.system {
+          "kitty",
+          "@",
+          "--to",
+          vim.env.KITTY_LISTEN_ON,
+          "set-background-opacity",
+          vim.g.tundra_opts.transparent_background and "0.9" or "1",
+        }
       end,
       desc = "Toggle transparent background",
     },

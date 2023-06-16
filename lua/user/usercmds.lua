@@ -55,7 +55,7 @@ usercmd("OpenGitInBrowser", function()
     remote_url = string.gsub(remote_url, ":", "/")
     remote_url = string.gsub(remote_url, "git@", "https://")
   end
-  os.execute(("xdg-open %s"):format(remote_url))
+  vim.system { "xdg-open", remote_url }
 end, {
   bang = false,
   nargs = 0,
@@ -234,7 +234,7 @@ usercmd("PluginOpen", function()
   end
 
   local function open(plugin)
-    os.execute(("xdg-open https://github.com/%s"):format(plugin))
+    vim.system { "xdg-open", ("https://github.com/%s"):format(plugin) }
   end
 
   if #plugins == 1 then

@@ -30,8 +30,8 @@ return {
     local path = vim.fn.stdpath "cache" .. "/dbee/connections.json"
 
     if vim.fn.filereadable(path) == 0 then
-      os.execute("mkdir -p " .. vim.fs.dirname(path))
-      os.execute("touch " .. path)
+      vim.system { "mkdir", "-p", vim.fs.dirname(path) }
+      vim.system { "touch", path }
     end
 
     return {

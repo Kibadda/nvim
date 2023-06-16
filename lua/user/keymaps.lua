@@ -21,7 +21,7 @@ nmap("<Leader>L", "<Cmd>Lazy<CR>", "Lazy")
 nmap("<Leader>P", "<Cmd>PluginList<CR>", "Show Plugin List")
 nmap("<Leader>S", "<Cmd>ScratchList<CR>", "Show Scratch List")
 nmap("gB", function()
-  os.execute("xdg-open " .. vim.fn.expand "<cWORD>")
+  vim.system { "xdg-open", vim.fn.expand "<cWORD>" }
 end, "Open URL")
 nmap("gH", "<Cmd>OpenGitInBrowser<CR>", "Open Current Git")
 nmap("yA", "<Cmd>%y+<CR>", "Yank File Content")

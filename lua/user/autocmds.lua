@@ -65,6 +65,6 @@ autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
     else
       name = "nvim " .. table.remove(vim.split(vim.v.this_session, "/"))
     end
-    os.execute(("kitty @ --to %s set-tab-title %s"):format(vim.env.KITTY_LISTEN_ON, name))
+    vim.system { "kitty", "@", "--to", vim.env.KITTY_LISTEN_ON, "set-tab-title", name }
   end,
 })
