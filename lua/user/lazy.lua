@@ -38,6 +38,9 @@ require("lazy").setup({
           cwd = plugin.dir,
         })
       end,
+      gB = function(plugin)
+        vim.system { "xdg-open", plugin.url }
+      end,
     },
   },
   diff = {
