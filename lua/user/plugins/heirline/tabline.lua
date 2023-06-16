@@ -4,7 +4,7 @@ M.buffer = {}
 M.buffer.icon = {
   init = function(self)
     local devicons = require "nvim-web-devicons"
-    local type = vim.api.nvim_buf_get_option(self.bufnr, "filetype")
+    local type = vim.bo[self.bufnr].filetype
     local filetype = type ~= "" and type or vim.fn.fnamemodify(vim.api.nvim_buf_get_name(self.bufnr), ":e")
     self.icon, self.highlight = devicons.get_icon_by_filetype(filetype)
     if self.icon == nil then
@@ -38,9 +38,9 @@ M.buffer.name = {
 }
 M.buffer.modified = {
   init = function(self)
-    self.modified = vim.api.nvim_buf_get_option(self.bufnr, "modified")
-    self.readonly = vim.api.nvim_buf_get_option(self.bufnr, "readonly")
-    self.modifiable = vim.api.nvim_buf_get_option(self.bufnr, "modifiable")
+    self.modified = vim.bo[self.bufnr].modified
+    self.readonly = vim.bo[self.bufnr].readonly
+    self.modifiable = vim.bo[self.bufnr].modifiable
   end,
   provider = function(self)
     if self.modified or self.readonly or not self.modifiable then
