@@ -1,5 +1,7 @@
 local M = {}
 
+local group = vim.api.nvim_create_augroup("InlayHint", { clear = true })
+
 local namespaces = setmetatable({}, {
   __index = function(t, key)
     local value = vim.api.nvim_create_namespace("vim_lsp_inlayhint:" .. key)
@@ -102,10 +104,14 @@ function M.toggle()
   M.display()
 end
 
-function M.setup()
-  local group = vim.api.nvim_create_augroup("InlayHint", { clear = true })
+function M.setup(bufnr)
+  vim.api.nvim_clear_autocmds {
+    group = group,
+    buffer = bufnr,
+  }
   vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter" }, {
     group = group,
+    buffer = bufnr,
     callback = M.display,
   })
 
@@ -116,6 +122,7 @@ function M.setup()
   vim.api.nvim_create_autocmd("CursorHold", {
     group = group,
     once = true,
+    buffer = bufnr,
     callback = M.display,
   })
 end

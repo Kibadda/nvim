@@ -23,7 +23,7 @@ return {
       require("user.plugins.lsp.codelens").setup(client, bufnr)
 
       if client.server_capabilities.inlayHintProvider then
-        require("user.plugins.lsp.inlay_hints").setup()
+        require("user.plugins.lsp.inlay_hints").setup(bufnr)
       end
     end
 
