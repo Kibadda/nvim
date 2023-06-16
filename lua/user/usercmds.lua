@@ -29,33 +29,16 @@ end, {
 })
 
 usercmd("OpenGitInBrowser", function()
-  local Job = require "plenary.job"
-  local job1 = Job:new {
-    command = "git",
-    args = {
-      "remote",
-    },
-    cwd = vim.fn.getcwd(),
-  }
-  job1:sync()
-  local remote = job1:result()[1]
-  local job2 = Job:new {
-    command = "git",
-    args = {
-      "config",
-      "--get",
-      ("remote.%s.url"):format(remote),
-    },
-    cwd = vim.fn.getcwd(),
-  }
-  job2:sync()
-  local remote_url = job2:result()[1]
-  if vim.startswith(remote_url, "git") then
-    remote_url = string.gsub(remote_url, "%.git", "")
-    remote_url = string.gsub(remote_url, ":", "/")
-    remote_url = string.gsub(remote_url, "git@", "https://")
+  local result = vim.system({ "git", "remote" }, { cwd = vim.loop.cwd() }):wait()
+  local remote = vim.trim(result.stdout)
+
+  result = vim.system({ "git", "config", "--get", ("remote.%s.url"):format(remote) }, { cwd = vim.loop.cwd() }):wait()
+  local url = vim.trim(result.stdout)
+  if vim.startswith(url, "git") then
+    url = url:gsub("%.git", ""):gsub(":", "/"):gsub("git@", "https://")
   end
-  vim.system { "xdg-open", remote_url }
+
+  vim.system { "xdg-open", url }
 end, {
   bang = false,
   nargs = 0,
