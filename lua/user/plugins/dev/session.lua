@@ -1,7 +1,5 @@
 return {
   "Kibadda/session.nvim",
-  lazy = false,
-  priority = 1000,
   dev = true,
   keys = {
     {

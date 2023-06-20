@@ -5,7 +5,7 @@ return {
     "folke/neodev.nvim",
     "williamboman/mason.nvim",
   },
-  lazy = false,
+  event = "VeryLazy",
   keys = {
     { "<Leader>lL", "<Cmd>LspInfo<CR>", desc = "LspInfo" },
   },

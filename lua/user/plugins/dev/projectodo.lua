@@ -4,6 +4,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "tpope/vim-dotenv",
     "nvim-lua/plenary.nvim",
+    "Kibadda/session.nvim",
   },
   dev = true,
   opts = {

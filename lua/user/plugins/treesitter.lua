@@ -106,7 +106,9 @@ return {
       },
     },
   },
-  init = function()
+  config = function(_, opts)
+    require("nvim-treesitter.configs").setup(opts)
+
     local parsers = require("nvim-treesitter.parsers").get_parser_configs()
 
     parsers.smarty = {
@@ -126,8 +128,5 @@ return {
         branch = "main",
       },
     }
-  end,
-  config = function(_, opts)
-    require("nvim-treesitter.configs").setup(opts)
   end,
 }
