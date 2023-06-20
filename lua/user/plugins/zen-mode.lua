@@ -19,4 +19,5 @@ return {
       gitsigns = { enabled = true },
     },
   },
+  enabled = false,
 }

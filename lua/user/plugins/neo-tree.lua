@@ -13,12 +13,12 @@ return {
     close_if_last_window = true,
     popup_border_style = "single",
     window = {
-      position = "right",
+      -- position = "right",
       width = 50,
     },
     filesystem = {
       follow_current_file = true,
     },
   },
-  enabled = false,
+  enabled = true,
 }

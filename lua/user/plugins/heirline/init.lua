@@ -1,14 +1,12 @@
 return {
   "rebelot/heirline.nvim",
   event = "VimEnter",
+  dependencies = {
+    "kyazdani42/nvim-web-devicons",
+  },
   opts = function()
     local statuscolumn = require "user.plugins.heirline.statuscolumn"
     local statusline = require "user.plugins.heirline.statusline"
-    local winbar = require "user.plugins.heirline.winbar"
-    -- local tabline = require "user.plugins.heirline.tabline"
-
-    -- local utils = require "heirline.utils"
-    -- local colors = require "nvim-tundra.palette.arctic"
 
     local align = { provider = "%=", hl = { bg = "" } }
     local space = { provider = " " }
@@ -95,45 +93,6 @@ return {
           align,
           statusline.position,
         },
-      },
-      -- winbar = not vim.g.started_by_firenvim and {
-      --   space,
-      --   winbar.symbol,
-      --   align,
-      --   winbar.modified,
-      --   space,
-      --   winbar.filepath,
-      --   winbar.lines,
-      --   space,
-      -- } or nil,
-      -- tabline = {
-      --   hl = { bg = "" },
-      --   space,
-      --   utils.make_buflist(
-      --     utils.surround({ "▏ ", " ▕" }, "", {
-      --       static = { colors = colors },
-      --       tabline.buffer.icon,
-      --       space,
-      --       tabline.buffer.name,
-      --       space,
-      --       tabline.buffer.modified,
-      --     }),
-      --     tabline.truncate.left,
-      --     tabline.truncate.right
-      --   ),
-      --   align,
-      --   {
-      --     condition = function()
-      --       return #vim.api.nvim_list_tabpages() >= 2
-      --     end,
-      --     utils.make_tablist(tabline.tabpage),
-      --   },
-      -- },
-      opts = {
-        disable_winbar_cb = function(args)
-          return vim.tbl_contains({ "prompt", "nofile", "help", "quickfix" }, vim.bo[args.buf].buftype)
-            or vim.tbl_contains({ "gitcommit", "fugitive" }, vim.bo[args.buf].filetype)
-        end,
       },
     }
   end,

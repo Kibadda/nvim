@@ -3,6 +3,7 @@ return {
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
     "tpope/vim-dotenv",
+    "nvim-lua/plenary.nvim",
   },
   dev = true,
   opts = {

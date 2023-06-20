@@ -3,7 +3,6 @@ return {
   dependencies = {
     "folke/neoconf.nvim",
     "folke/neodev.nvim",
-    "MrcJkb/haskell-tools.nvim",
     "williamboman/mason.nvim",
   },
   lazy = false,
@@ -41,22 +40,10 @@ return {
           on_attach = on_attach,
           capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
         }, type(opts) == "boolean" and {} or opts)
-        if server == "hls" then
-          require("haskell-tools").setup {
-            hls = {
-              on_attach = on_attach,
-            },
-          }
-        else
-          require("lspconfig")[server].setup(opts)
-        end
+
+        require("lspconfig")[server].setup(opts)
       end
     end
-
-    -- require("lspconfig").ocamllsp.setup {
-    --   on_attach = on_attach,
-    --   capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    -- }
 
     require("user.plugins.lsp.handlers").setup()
     require("user.plugins.lsp.diagnostic").setup()

@@ -11,4 +11,5 @@ return {
       mode = "x",
     },
   },
+  enabled = false,
 }

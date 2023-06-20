@@ -4,4 +4,5 @@ return {
   opts = {
     card_style = "large",
   },
+  enabled = false,
 }
