@@ -23,6 +23,7 @@ return {
       "bash",
       "javascript",
       "json",
+      "jsonc",
       "python",
       "typescript",
       "tsx",
