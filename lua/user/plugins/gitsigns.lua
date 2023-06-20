@@ -20,11 +20,5 @@ return {
       { "[h", prev_hunk_repeat, desc = "Prev Hunk", mode = { "n", "o", "x" } },
     }
   end,
-  config = function()
-    require("gitsigns").setup {}
-
-    for _, name in ipairs { "Add", "Change", "Delete", "Untracked" } do
-      vim.api.nvim_set_hl(0, "GitSigns" .. name .. name, { link = "GitSigns" .. name })
-    end
-  end,
+  opts = true,
 }
