@@ -1,10 +1,8 @@
 local autocmd = vim.api.nvim_create_autocmd
-local function augroup(name)
-  return vim.api.nvim_create_augroup(name, { clear = true })
-end
+local group = vim.api.nvim_create_augroup("BasicAutocmds", { clear = true })
 
 autocmd("TextYankPost", {
-  group = augroup "HighlightYank",
+  group = group,
   pattern = "*",
   callback = function()
     vim.highlight.on_yank {
@@ -15,7 +13,7 @@ autocmd("TextYankPost", {
 })
 
 autocmd("BufEnter", {
-  group = augroup "PluginFileKeymap",
+  group = group,
   pattern = "*/lua/user/plugins/{*.lua,*/init.lua}",
   callback = function(args)
     vim.keymap.set("n", "gP", "<Cmd>PluginOpen<CR>", { desc = "Open Plugin", buffer = args.buf })
@@ -23,7 +21,7 @@ autocmd("BufEnter", {
 })
 
 autocmd("BufReadPost", {
-  group = augroup "GotoLastPlace",
+  group = group,
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local lcount = vim.api.nvim_buf_line_count(0)
@@ -34,14 +32,14 @@ autocmd("BufReadPost", {
 })
 
 autocmd("VimResized", {
-  group = augroup "EqualizeSplitsOnResize",
+  group = group,
   callback = function()
     vim.cmd.wincmd "="
   end,
 })
 
 autocmd("BufEnter", {
-  group = augroup "DefaultBufferOptions",
+  group = group,
   callback = function(args)
     vim.opt_local.formatoptions:remove "t"
     vim.opt_local.formatoptions:remove "o"
@@ -54,7 +52,7 @@ autocmd("BufEnter", {
 })
 
 autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
-  group = augroup "ChangeKittyTabName",
+  group = group,
   callback = function()
     if vim.g.started_as_db_client then
       return

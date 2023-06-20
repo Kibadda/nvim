@@ -1,6 +1,6 @@
-local usercmd = vim.api.nvim_create_user_command
+local M = {}
 
-usercmd("D", function(argument)
+function M.buf_delete(argument)
   vim.cmd.BufferLineCyclePrev()
   if vim.fn.expand("#"):sub(1, 8) ~= "fugitive" then
     vim.cmd.split()
@@ -8,13 +8,9 @@ usercmd("D", function(argument)
     vim.cmd.bdelete { bang = argument.bang }
   end
   vim.cmd.redrawt()
-end, {
-  bang = true,
-  nargs = 0,
-  desc = "Bdelete",
-})
+end
 
-usercmd("X", function()
+function M.source()
   vim.cmd.w()
 
   if vim.bo.filetype == "lua" then
@@ -22,13 +18,9 @@ usercmd("X", function()
   elseif vim.bo.filetype == "vim" then
     vim.cmd.source "%"
   end
-end, {
-  bang = false,
-  nargs = 0,
-  desc = "Save and source",
-})
+end
 
-usercmd("OpenGitInBrowser", function()
+function M.open_git_in_browser()
   local result = vim.system({ "git", "remote" }, { cwd = vim.loop.cwd() }):wait()
   local remote = vim.trim(result.stdout)
 
@@ -39,13 +31,9 @@ usercmd("OpenGitInBrowser", function()
   end
 
   vim.system { "xdg-open", url }
-end, {
-  bang = false,
-  nargs = 0,
-  desc = "Open current git project in browser",
-})
+end
 
-usercmd("Info", function()
+function M.show_weather()
   local curl = require "plenary.curl"
   local response = curl.get "de.wttr.in/Ulm?T"
   if response and response.status == 200 then
@@ -78,13 +66,9 @@ usercmd("Info", function()
     vim.api.nvim_set_current_win(win)
     vim.api.nvim_win_set_buf(win, buf)
   end
-end, {
-  bang = false,
-  nargs = 0,
-  desc = "Show information",
-})
+end
 
-usercmd("ScratchList", function()
+function M.show_scratchlist()
   local directory = vim.fn.stdpath "config" .. "/scratch"
 
   local function search_files(dir, prefix)
@@ -121,13 +105,9 @@ usercmd("ScratchList", function()
       vim.cmd(("e %s/%s"):format(directory, choice))
     end
   end)
-end, {
-  bang = false,
-  nargs = 0,
-  desc = "Open plugin list",
-})
+end
 
-usercmd("PluginList", function()
+function M.show_pluginlist()
   local directory = vim.fn.stdpath "config" .. "/lua/user/plugins"
 
   local function search_files(dir, prefix)
@@ -164,13 +144,9 @@ usercmd("PluginList", function()
       vim.cmd(("e %s/%s"):format(directory, choice))
     end
   end)
-end, {
-  bang = false,
-  nargs = 0,
-  desc = "Open plugin list",
-})
+end
 
-usercmd("PluginOpen", function()
+function M.open_plugin()
   local root = vim.treesitter.get_parser(0, "lua", {}):parse()[1]:root()
   local query = vim.treesitter.query.parse(
     "lua",
@@ -231,8 +207,6 @@ usercmd("PluginOpen", function()
       end
     end)
   end
-end, {
-  bang = false,
-  nargs = 0,
-  desc = "Open plugin in browser",
-})
+end
+
+return M
