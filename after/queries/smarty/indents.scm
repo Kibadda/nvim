@@ -1,21 +1,18 @@
+;; inherits: html
+
 [
-  (element)
   (smarty_if)
   (smarty_foreach)
-] @indent
+] @indent.begin
 
-[
- "{/if}"
-] @indent_end
+; [
+;  (smarty_if_end)
+; ] @indent.end
 
-[
-  (end_tag)
-  ">"
-  "/>"
-  "}"
-  "{else}"
-  ; "{elseif"
-  "{/foreach}"
-] @branch
+; [
+;  (smarty_else)
+; ] @indent.branch
 
-(comment) @ignore
+(ERROR) @indent.auto
+
+; (comment) @ignore
