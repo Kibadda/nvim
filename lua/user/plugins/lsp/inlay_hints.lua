@@ -1,8 +1,8 @@
 local M = {}
 
-local group = vim.api.nvim_create_augroup("GlobalInlayHintToggle", { clear = true })
-
 vim.g.InlayHints = vim.g.InlayHints or 0
+
+local LspInlayHint = vim.api.nvim_create_augroup("LspInlayHint", { clear = true })
 
 function M.toggle(bufnr)
   vim.g.InlayHints = vim.g.InlayHints == 0 and 1 or 0
@@ -18,10 +18,10 @@ function M.setup(bufnr)
 
   vim.api.nvim_clear_autocmds {
     buffer = bufnr,
-    group = group,
+    group = LspInlayHint,
   }
   vim.api.nvim_create_autocmd("BufEnter", {
-    group = group,
+    group = LspInlayHint,
     buffer = bufnr,
     callback = function()
       vim.lsp.buf.inlay_hint(bufnr, vim.g.InlayHints == 1)

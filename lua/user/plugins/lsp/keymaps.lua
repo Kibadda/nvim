@@ -1,6 +1,7 @@
 local M = {}
 
-function M.setup(bufnr)
+---@param client lsp.Client
+function M.setup(client, bufnr)
   local function map(lhs, rhs, desc)
     local opts = {
       buffer = bufnr,
@@ -11,7 +12,14 @@ function M.setup(bufnr)
     vim.keymap.set("n", lhs, rhs, opts)
   end
 
-  map("<Leader>lc", vim.lsp.buf.code_action, "Code Action")
+  if client.server_capabilities.hoverProvider then
+    map("K", vim.lsp.buf.hover, "Hover")
+  end
+
+  if client.server_capabilities.codeActionProvider then
+    map("<Leader>lc", vim.lsp.buf.code_action, "Code Action")
+  end
+
   map("<Leader>lf", vim.lsp.buf.format, "Format")
   map("<Leader>lr", vim.lsp.buf.rename, "Rename")
   map("<Leader>ll", vim.lsp.codelens.run, "Codelens")
@@ -19,7 +27,6 @@ function M.setup(bufnr)
   map("<Leader>lk", vim.diagnostic.goto_prev, "Prev Diagnostic")
   map("<Leader>lR", "<Cmd>LspRestart<CR>", "Restart")
   map("<Leader>ld", "<Cmd>Telescope lsp_document_symbols<CR>", "Symbols")
-  map("K", vim.lsp.buf.hover, "Hover")
   map("gd", vim.lsp.buf.definition, "Definition")
   map("gD", require("user.plugins.lsp.definition").open, "Definition split")
   map("gr", "<Cmd>Telescope lsp_references<CR>", "References")

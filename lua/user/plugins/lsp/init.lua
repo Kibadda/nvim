@@ -13,15 +13,16 @@ return {
     require("neoconf").setup {}
     require("neodev").setup {}
 
+    ---@param client lsp.Client
     local function on_attach(client, bufnr)
-      client.server_capabilities.semanticTokensProvider = nil
+      -- client.server_capabilities.semanticTokensProvider = nil
 
-      require("user.plugins.lsp.keymaps").setup(bufnr)
+      require("user.plugins.lsp.keymaps").setup(client, bufnr)
       require("user.plugins.lsp.formatting").setup(client, bufnr)
       require("user.plugins.lsp.highlighting").setup(client, bufnr)
       require("user.plugins.lsp.codelens").setup(client, bufnr)
 
-      if client.server_capabilities.inlayHintProvider then
+      if client.supports_method "textDocument/inlayHint" then
         require("user.plugins.lsp.inlay_hints").setup(bufnr)
       end
     end
