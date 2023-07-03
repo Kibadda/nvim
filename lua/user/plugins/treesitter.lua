@@ -6,18 +6,6 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     "windwp/nvim-ts-autotag",
   },
-  keys = function()
-    local ts = require "nvim-treesitter.textobjects.repeatable_move"
-
-    return {
-      { ";", ts.repeat_last_move, desc = "Repeat move", mode = { "n", "x", "o" } },
-      { ",", ts.repeat_last_move_opposite, desc = "Repeat move opposite", mode = { "n", "x", "o" } },
-      { "f", ts.builtin_f, mode = { "n", "x", "o" } },
-      { "F", ts.builtin_F, mode = { "n", "x", "o" } },
-      { "t", ts.builtin_t, mode = { "n", "x", "o" } },
-      { "T", ts.builtin_T, mode = { "n", "x", "o" } },
-    }
-  end,
   opts = {
     ensure_installed = {
       "bash",
@@ -44,8 +32,6 @@ return {
       "gitattributes",
       "git_rebase",
       "smarty",
-      "norg",
-      "norg_meta",
       "snippets",
       "ocaml",
     },
@@ -107,14 +93,12 @@ return {
     },
   },
   config = function(_, opts)
-    require("nvim-treesitter.configs").setup(opts)
-
     local parsers = require("nvim-treesitter.parsers").get_parser_configs()
 
     parsers.smarty = {
       install_info = {
-        -- url = "https://github.com/Kibadda/tree-sitter-smarty",
-        url = "/home/michael/plugins/tree-sitter-smarty",
+        url = "https://github.com/Kibadda/tree-sitter-smarty",
+        -- url = "/home/michael/plugins/tree-sitter-smarty",
         files = { "src/parser.c", "src/scanner.cc" },
         branch = "master",
       },
@@ -128,5 +112,7 @@ return {
         branch = "main",
       },
     }
+
+    require("nvim-treesitter.configs").setup(opts)
   end,
 }
