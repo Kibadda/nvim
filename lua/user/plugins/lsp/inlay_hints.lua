@@ -6,7 +6,7 @@ local LspInlayHint = vim.api.nvim_create_augroup("LspInlayHint", { clear = true 
 
 function M.toggle(bufnr)
   vim.g.InlayHints = vim.g.InlayHints == 0 and 1 or 0
-  vim.lsp.buf.inlay_hint(bufnr, vim.g.InlayHints == 1)
+  vim.lsp.inlay_hint(bufnr, vim.g.InlayHints == 1)
 end
 
 function M.setup(bufnr)
@@ -24,12 +24,12 @@ function M.setup(bufnr)
     group = LspInlayHint,
     buffer = bufnr,
     callback = function()
-      vim.lsp.buf.inlay_hint(bufnr, vim.g.InlayHints == 1)
+      vim.lsp.inlay_hint(bufnr, vim.g.InlayHints == 1)
     end,
   })
 
   if vim.g.InlayHints == 1 then
-    vim.lsp.buf.inlay_hint(bufnr, true)
+    vim.lsp.inlay_hint(bufnr, true)
   end
 end
 
