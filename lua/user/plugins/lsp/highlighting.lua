@@ -11,12 +11,16 @@ function M.setup(client, bufnr)
     vim.api.nvim_create_autocmd("CursorHold", {
       group = LspDocumentHighlight,
       buffer = bufnr,
-      callback = vim.lsp.buf.document_highlight,
+      callback = function()
+        vim.lsp.buf.document_highlight()
+      end,
     })
     vim.api.nvim_create_autocmd("CursorMoved", {
       group = LspDocumentHighlight,
       buffer = bufnr,
-      callback = vim.lsp.buf.clear_references,
+      callback = function()
+        vim.lsp.buf.clear_references(bufnr)
+      end,
     })
   end
 end
