@@ -7,6 +7,7 @@ local LspInlayHint = vim.api.nvim_create_augroup("LspInlayHint", { clear = true 
 function M.toggle(bufnr)
   vim.g.InlayHints = vim.g.InlayHints == 0 and 1 or 0
   vim.lsp.inlay_hint(bufnr, vim.g.InlayHints == 1)
+  vim.cmd.redrawstatus()
 end
 
 function M.setup(bufnr)

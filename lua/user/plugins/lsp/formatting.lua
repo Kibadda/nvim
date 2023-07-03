@@ -6,7 +6,7 @@ local LspFormatting = vim.api.nvim_create_augroup("LspFormatting", { clear = tru
 
 function M.toggle()
   vim.g.LspAutoFormat = vim.g.LspAutoFormat == 0 and 1 or 0
-  vim.notify(vim.g.LspAutoFormat == 1 and "Turned on" or "Turned off", vim.log.levels.INFO, { title = "Auto Format" })
+  vim.cmd.redrawstatus()
 end
 
 function M.format()
