@@ -1,5 +1,8 @@
 return {
   "lewis6991/gitsigns.nvim",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+  },
   event = "VeryLazy",
   keys = function()
     local ts = require "nvim-treesitter.textobjects.repeatable_move"
@@ -20,5 +23,5 @@ return {
       { "[h", prev_hunk_repeat, desc = "Prev Hunk", mode = { "n", "o", "x" } },
     }
   end,
-  opts = true,
+  opts = {},
 }
