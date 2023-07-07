@@ -1,5 +1,6 @@
 return {
   "Bryley/neoai.nvim",
+  enabled = false,
   dependencies = {
     "MunifTanjim/nui.nvim",
     "tpope/vim-dotenv",
@@ -8,5 +9,4 @@ return {
   opts = {
     shortcuts = {},
   },
-  enabled = false,
 }

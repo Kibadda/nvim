@@ -1,5 +1,6 @@
 return {
   "olimorris/onedarkpro.nvim",
+  enabled = false,
   lazy = false,
   priority = 1000,
   opts = {
@@ -14,5 +15,4 @@ return {
     require("onedarkpro").setup(opts)
     vim.cmd.colorscheme "onedark"
   end,
-  enabled = false,
 }

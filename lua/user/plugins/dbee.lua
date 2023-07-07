@@ -41,7 +41,7 @@ return {
       },
       editor = {
         mappings = {
-          run_file = { key = "<C-CR>", mode = "n" },
+          run_file = nil, -- { key = "<C-CR>", mode = "n" },
           run_selection = { key = "<C-CR>", mode = "v" },
         },
       },

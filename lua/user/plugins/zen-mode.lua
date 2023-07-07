@@ -1,5 +1,6 @@
 return {
   "folke/zen-mode.nvim",
+  enabled = false,
   cmd = "ZenMode",
   opts = {
     window = {
@@ -19,5 +20,4 @@ return {
       gitsigns = { enabled = true },
     },
   },
-  enabled = false,
 }

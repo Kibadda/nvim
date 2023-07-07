@@ -1,5 +1,6 @@
 return {
   "rebelot/kanagawa.nvim",
+  enabled = false,
   lazy = false,
   priority = 1000,
   opts = {
@@ -27,5 +28,4 @@ return {
     require("kanagawa").setup(opts)
     vim.cmd.colorscheme "kanagawa-wave"
   end,
-  enabled = false,
 }

@@ -22,10 +22,15 @@ return {
       pre = {
         save = function()
           pcall(vim.cmd.argdelete, "*")
-          vim.cmd.Neotree "close"
+
+          if vim.fn.exists ":Neotree" > 0 then
+            vim.cmd.Neotree "close"
+          end
         end,
         load = function()
-          vim.cmd.LspStop()
+          if vim.fn.exists ":LspStop" > 0 then
+            vim.cmd.LspStop()
+          end
         end,
       },
       post = {

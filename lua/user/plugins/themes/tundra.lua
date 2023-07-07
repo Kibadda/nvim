@@ -1,5 +1,6 @@
 return {
   "sam4llis/nvim-tundra",
+  enabled = true,
   lazy = false,
   priority = 1000,
   keys = {
@@ -32,5 +33,4 @@ return {
     require("nvim-tundra").setup(opts)
     vim.cmd.colorscheme "tundra"
   end,
-  enabled = true,
 }

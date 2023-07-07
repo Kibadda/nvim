@@ -1,5 +1,6 @@
 return {
   "tjdevries/gruvbuddy.nvim",
+  enabled = false,
   dependencies = {
     "tjdevries/colorbuddy.nvim",
   },
@@ -8,5 +9,4 @@ return {
   config = function()
     require("colorbuddy").colorscheme "gruvbuddy"
   end,
-  enabled = false,
 }

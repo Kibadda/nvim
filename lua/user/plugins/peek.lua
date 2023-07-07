@@ -1,5 +1,6 @@
 return {
   "toppair/peek.nvim",
+  enabled = false,
   build = "deno task --quiet build:fast",
   ft = "markdown",
   keys = {
@@ -21,5 +22,4 @@ return {
   opts = {
     update_on_change = false,
   },
-  enabled = false,
 }

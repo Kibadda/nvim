@@ -1,5 +1,6 @@
 return {
   "catppuccin/nvim",
+  enabled = false,
   name = "catppuccin",
   lazy = false,
   priority = 1000,
@@ -11,5 +12,4 @@ return {
     require("catppuccin").setup(opts)
     vim.cmd.colorscheme "catppuccin"
   end,
-  enabled = false,
 }

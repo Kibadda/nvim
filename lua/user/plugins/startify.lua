@@ -1,5 +1,6 @@
 return {
   "mhinz/vim-startify",
+  enabled = false,
   dependencies = {
     {
       "Kibadda/projectodo.nvim",
@@ -42,5 +43,4 @@ return {
   config = function(_, opts)
     require("user.utils").set_global_options(opts, "startify")
   end,
-  enabled = false,
 }

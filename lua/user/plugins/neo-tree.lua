@@ -20,5 +20,4 @@ return {
       follow_current_file = true,
     },
   },
-  enabled = true,
 }

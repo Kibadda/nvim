@@ -1,5 +1,6 @@
 return {
   "ellisonleao/gruvbox.nvim",
+  enabled = false,
   lazy = false,
   priority = 1000,
   opts = {
@@ -9,5 +10,4 @@ return {
     require("gruvbox").setup(opts)
     vim.cmd.colorscheme "gruvbox"
   end,
-  enabled = false,
 }

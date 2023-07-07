@@ -1,5 +1,6 @@
 return {
   "kevinhwang91/nvim-bqf",
+  enabled = false,
   event = "VeryLazy",
   opts = {
     auto_enable = true,
@@ -21,5 +22,4 @@ return {
       },
     },
   },
-  enabled = false,
 }

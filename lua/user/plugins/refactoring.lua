@@ -1,5 +1,6 @@
 return {
   "ThePrimeagen/refactoring.nvim",
+  enabled = false,
   config = true,
   keys = {
     {
@@ -11,5 +12,4 @@ return {
       mode = "x",
     },
   },
-  enabled = false,
 }

@@ -1,5 +1,6 @@
 return {
   "rest-nvim/rest.nvim",
+  enabled = false,
   ft = "http",
   keys = {
     {
@@ -13,5 +14,4 @@ return {
   opts = {
     skip_ssl_verification = true,
   },
-  enabled = false,
 }

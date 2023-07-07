@@ -1,5 +1,6 @@
 return {
   "ribru17/bamboo.nvim",
+  enabled = false,
   lazy = false,
   priority = 1000,
   opts = {
@@ -9,5 +10,4 @@ return {
     require("bamboo").setup(opts)
     vim.cmd.colorscheme "bamboo"
   end,
-  enabled = false,
 }

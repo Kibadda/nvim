@@ -1,5 +1,6 @@
 return {
   "stevearc/oil.nvim",
+  enabled = false,
   lazy = false,
   opts = {
     view_options = {
@@ -9,5 +10,4 @@ return {
       border = "single",
     },
   },
-  enabled = false,
 }

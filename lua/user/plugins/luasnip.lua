@@ -1,5 +1,6 @@
 return {
   "L3MON4D3/LuaSnip",
+  enabled = false,
   event = "InsertEnter",
   config = function()
     require("luasnip").cleanup()
@@ -8,5 +9,4 @@ return {
       paths = vim.fn.stdpath "config" .. "/snippets",
     }
   end,
-  enabled = false,
 }
