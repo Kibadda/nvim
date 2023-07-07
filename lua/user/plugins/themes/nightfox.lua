@@ -1,15 +1,16 @@
 return {
   "EdenEast/nightfox.nvim",
-  enabled = false,
   lazy = false,
   priority = 1000,
-  opts = {
-    options = {
-      transparent = true,
-    },
-  },
-  config = function(_, opts)
-    require("nightfox").setup(opts)
-    vim.cmd.colorscheme "nordfox"
+  init = function()
+    require("user.themes").register("nighfox", function()
+      require("nightfox").setup {
+        options = {
+          transparent = true,
+        },
+      }
+
+      vim.cmd.colorscheme "nordfox"
+    end)
   end,
 }

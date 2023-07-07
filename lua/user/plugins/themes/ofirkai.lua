@@ -1,10 +1,12 @@
 return {
   "ofirgall/ofirkai.nvim",
-  enabled = false,
   lazy = false,
   priority = 1000,
-  config = function()
-    require("ofirkai").setup {}
-    vim.cmd.colorscheme "ofirkai"
+  init = function()
+    require("user.themes").register("ofirkai", function()
+      require("ofirkai").setup {}
+
+      vim.cmd.colorscheme "ofirkai"
+    end)
   end,
 }

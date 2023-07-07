@@ -1,13 +1,14 @@
 return {
   "ribru17/bamboo.nvim",
-  enabled = false,
   lazy = false,
   priority = 1000,
-  opts = {
-    transparent = true,
-  },
-  config = function(_, opts)
-    require("bamboo").setup(opts)
-    vim.cmd.colorscheme "bamboo"
+  init = function()
+    require("user.themes").register("bamboo", function()
+      require("bamboo").setup {
+        transparent = true,
+      }
+
+      vim.cmd.colorscheme "bamboo"
+    end)
   end,
 }

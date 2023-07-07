@@ -85,6 +85,10 @@ return {
     require("telescope").load_extension "ui-select"
     require("telescope").load_extension "advanced_git_search"
 
-    vim.api.nvim_set_hl(0, "TelescopeTitle", { bg = "#BF7471", fg = "#000000" })
+    vim.api.nvim_create_autocmd("Colorscheme", {
+      callback = function()
+        vim.api.nvim_set_hl(0, "TelescopeTitle", { bg = "#BF7471", fg = "#000000" })
+      end,
+    })
   end,
 }

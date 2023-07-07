@@ -16,6 +16,8 @@ require "user.filetypes"
 
 require "user.lazy"
 
+require("user.themes").apply "tundra"
+
 require "user.keymaps"
 require "user.autocmds"
 require "user.usercmds"
