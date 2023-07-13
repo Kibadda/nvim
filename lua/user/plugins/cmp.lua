@@ -84,6 +84,20 @@ return {
             fallback()
           end
         end, { "i", "s" }),
+        ["<C-l>"] = cmp.mapping(function(fallback)
+          if snippy.can_expand_or_advance() then
+            snippy.expand_or_advance()
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+        ["<C-h>"] = cmp.mapping(function(fallback)
+          if snippy.can_jump(-1) then
+            snippy.previous()
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
         ["<C-k>"] = cmp.mapping.scroll_docs(-4),
         ["<C-j>"] = cmp.mapping.scroll_docs(4),
       },
