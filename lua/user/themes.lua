@@ -22,7 +22,11 @@ function M.apply(name)
 end
 
 function M.select()
-  vim.ui.select(vim.tbl_keys(themes), {}, function(choice)
+  local t = vim.tbl_keys(themes)
+
+  table.sort(t)
+
+  vim.ui.select(t, {}, function(choice)
     if choice then
       M.apply(choice)
     end
