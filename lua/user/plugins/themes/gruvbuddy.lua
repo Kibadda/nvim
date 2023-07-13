@@ -1,12 +1,13 @@
 return {
   "tjdevries/gruvbuddy.nvim",
-  enabled = false,
   dependencies = {
     "tjdevries/colorbuddy.nvim",
   },
   lazy = false,
   priority = 1000,
-  config = function()
-    require("colorbuddy").colorscheme "gruvbuddy"
+  init = function()
+    require("user.themes").register("gruvbuddy", function()
+      require("colorbuddy").colorscheme "gruvbuddy"
+    end)
   end,
 }
