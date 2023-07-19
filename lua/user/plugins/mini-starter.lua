@@ -1,6 +1,6 @@
 return {
   "echasnovski/mini.starter",
-  enabled = not vim.g.started_by_firenvim and not vim.g.started_as_db_client,
+  enabled = not vim.g.started_by_firenvim and not vim.g.started_as_db_client and vim.fn.argc() == 0,
   event = "VimEnter",
   opts = function()
     local sections = require("projectodo").get_sections "mini-starter"
