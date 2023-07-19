@@ -54,4 +54,6 @@ return {
   html = true,
   bashls = true,
   jsonls = true,
+  pyright = true,
+  rnix = true,
 }

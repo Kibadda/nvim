@@ -3,6 +3,7 @@ vim.filetype.add {
     v = "vlang",
     snippets = "snippets",
     http = "http",
+    rasi = "rasi",
   },
   pattern = {
     [".*/kitty/.*%.conf"] = "kitty",

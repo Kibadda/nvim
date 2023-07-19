@@ -20,7 +20,8 @@ return {
       }
     end)
 
-    local day = table.concat(require("user.data.weekdays")[tonumber(os.date "%w")], "\n")
+    local weekday = os.date "%w"
+    local day = table.concat(require("user.data.weekdays")[tonumber(weekday == "0" and 7 or weekday)], "\n")
 
     return {
       header = function()
