@@ -3,7 +3,7 @@ return {
   dependencies = {
     "MunifTanjim/nui.nvim",
   },
-  branch = "v2.x",
+  branch = "v3.x",
   cmd = "Neotree",
   keys = {
     { "<Leader>e", "<Cmd>Neotree reveal<CR>", desc = "Open/Focus Neotree" },
