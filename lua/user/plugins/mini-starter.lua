@@ -134,7 +134,7 @@ return {
     require("mini.starter").setup(opts)
 
     local ok, colors = pcall(require, "nvim-tundra.palette.arctic")
-    if ok then
+    if ok and colors then
       vim.cmd.highlight("MiniStarterHeader guifg=" .. colors.red._600)
       vim.cmd.highlight("MiniStarterSection guifg=" .. colors.green._600)
     end
