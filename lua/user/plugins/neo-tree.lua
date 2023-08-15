@@ -17,7 +17,9 @@ return {
       width = 50,
     },
     filesystem = {
-      follow_current_file = true,
+      follow_current_file = {
+        enabled = true,
+      },
     },
   },
 }
