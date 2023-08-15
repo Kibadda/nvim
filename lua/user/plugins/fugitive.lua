@@ -20,7 +20,17 @@ return {
     {
       "<Leader>gD",
       function()
-        local branch = vim.fn.system("git branch -l master main | sed 's/^* //'"):gsub("^%s+", ""):gsub("%s+$", "")
+        local branch = vim
+          .system({
+            "git",
+            "branch",
+            "-l",
+            "master",
+            "main",
+          }, { text = true })
+          :wait().stdout
+          :gsub("^%*%s*", "")
+          :gsub("%s+$", "")
         vim.cmd.Gvdiffsplit(branch)
       end,
       desc = "Diff with Main",

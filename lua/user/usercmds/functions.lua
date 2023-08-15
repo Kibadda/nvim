@@ -30,7 +30,7 @@ function M.open_git_in_browser()
     url = url:gsub("%.git", ""):gsub(":", "/"):gsub("git@", "https://")
   end
 
-  vim.system { "xdg-open", url }
+  vim.ui.open(url)
 end
 
 function M.show_weather()
@@ -193,7 +193,7 @@ function M.open_plugin()
   end
 
   local function open(plugin)
-    vim.system { "xdg-open", ("https://github.com/%s"):format(plugin) }
+    vim.ui.open(("https://github.com/%s"):format(plugin))
   end
 
   if #plugins == 1 then

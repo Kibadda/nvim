@@ -1,6 +1,6 @@
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
+  vim.system {
     "git",
     "clone",
     "--filter=blob:none",
@@ -39,7 +39,7 @@ require("lazy").setup({
         })
       end,
       gB = function(plugin)
-        vim.system { "xdg-open", plugin.url }
+        vim.ui.open(plugin.url)
       end,
     },
   },

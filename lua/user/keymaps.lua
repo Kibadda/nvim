@@ -24,7 +24,7 @@ nmap("<Leader>T", function()
   require("user.themes").select()
 end, "Theme")
 nmap("gB", function()
-  vim.system { "xdg-open", vim.fn.expand "<cWORD>" }
+  vim.ui.open(vim.fn.expand "<cWORD>")
 end, "Open URL")
 nmap("gH", "<Cmd>OpenGitInBrowser<CR>", "Open Current Git")
 nmap("yA", "<Cmd>%y+<CR>", "Yank File Content")
