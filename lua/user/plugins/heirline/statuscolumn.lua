@@ -3,46 +3,33 @@ local M = {}
 M.diagnostics = {
   static = {
     texts = {
-      DiagnosticSignError = "E ",
-      DiagnosticSignWarn = "W ",
-      DiagnosticSignInfo = "I ",
-      DiagnosticSignHint = "H ",
+      { symbol = "E ", highlight = "DiagnosticSignError" },
+      { symbol = "W ", highlight = "DiagnosticSignWarn" },
+      { symbol = "I ", highlight = "DiagnosticSignInfo" },
+      { symbol = "H ", highlight = "DiagnosticSignHint" },
     },
   },
   init = function(self)
-    local signs = vim.fn.sign_getplaced(vim.api.nvim_get_current_buf(), {
-      group = "*",
-      lnum = vim.v.lnum,
+    local signs = vim.diagnostic.get(vim.api.nvim_get_current_buf(), {
+      lnum = vim.v.lnum - 1,
     })
-
-    if #signs == 0 or signs[1].signs == nil then
-      self.sign = nil
-      self.has_sign = false
-      return
-    end
-
-    signs = vim.tbl_filter(function(sign)
-      return vim.startswith(sign.group, "vim.diagnostic")
-    end, signs[1].signs)
 
     if #signs == 0 then
       self.sign = nil
     else
       self.sign = signs[1]
     end
-
-    self.has_sign = self.sign ~= nil
   end,
   provider = function(self)
-    if self.has_sign then
-      return self.texts[self.sign.name]
+    if self.sign then
+      return self.texts[self.sign.severity].symbol
     end
 
     return "  "
   end,
   hl = function(self)
-    if self.has_sign then
-      return self.sign.name
+    if self.sign then
+      return self.texts[self.sign.severity].highlight
     end
   end,
 }
