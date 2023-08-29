@@ -19,7 +19,7 @@ map({ "n", "x" }, "k", utils.jump_direction "k", "Up")
 
 nmap("<Leader>L", "<Cmd>Lazy<CR>", "Lazy")
 nmap("<Leader>P", "<Cmd>PluginList<CR>", "Show Plugin List")
-nmap("<Leader>S", "<Cmd>ScratchList<CR>", "Show Scratch List")
+nmap("<Leader>C", "<Cmd>ScratchList<CR>", "Show Scratch List")
 nmap("<Leader>T", function()
   require("user.themes").select()
 end, "Theme")
