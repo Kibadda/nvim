@@ -21,7 +21,8 @@ return {
         D = { name = "DB" },
         g = { name = "Git" },
         l = { name = "LSP" },
-        s = { name = "Seach" },
+        s = { name = "Search" },
+        S = { name = "Session" },
       },
     }
   end,
