@@ -25,7 +25,7 @@ return {
 
     return {
       header = function()
-        return day:gsub("AAAAAAAAAAAAAAAAAAA", os.date "%d.%m.%Y %H:%M:%S")
+        return day:gsub("AAAAAAAAAA", os.date "%d.%m.%Y")
       end,
       items = sections,
       footer = function()
