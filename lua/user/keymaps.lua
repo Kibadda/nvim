@@ -16,6 +16,7 @@ end
 
 map({ "n", "x" }, "j", utils.jump_direction "j", "Down")
 map({ "n", "x" }, "k", utils.jump_direction "k", "Up")
+map({ "i", "n" }, "<Esc>", "<Cmd>nohlsearch<CR><Esc>")
 
 nmap("<Leader>L", "<Cmd>Lazy<CR>", "Lazy")
 nmap("<Leader>P", "<Cmd>PluginList<CR>", "Show Plugin List")
