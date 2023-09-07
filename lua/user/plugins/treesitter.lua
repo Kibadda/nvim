@@ -1,6 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdateSync",
+  tag = "v0.9.1",
   dependencies = {
     "nvim-treesitter/playground",
     "nvim-treesitter/nvim-treesitter-textobjects",
