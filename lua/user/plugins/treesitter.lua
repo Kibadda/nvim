@@ -1,7 +1,6 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdateSync",
-  tag = "v0.9.1",
   dependencies = {
     "nvim-treesitter/playground",
     "nvim-treesitter/nvim-treesitter-textobjects",
@@ -98,7 +97,7 @@ return {
 
     parsers.smarty = {
       install_info = {
-        url = "https://github.com/Kibadda/tree-sitter-smarty",
+        url = "https://github.com/Kibadda/tree-sitter-smarty-old",
         -- url = "/home/michael/plugins/tree-sitter-smarty",
         files = { "src/parser.c", "src/scanner.cc" },
         branch = "master",
