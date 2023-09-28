@@ -2,7 +2,6 @@ return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdateSync",
   dependencies = {
-    "nvim-treesitter/playground",
     "nvim-treesitter/nvim-treesitter-textobjects",
     "windwp/nvim-ts-autotag",
   },
@@ -45,9 +44,6 @@ return {
         node_incremental = "<C-Space>",
         node_decremental = "<C-BS>",
       },
-    },
-    playground = {
-      enable = true,
     },
     indent = {
       enable = true,
@@ -93,6 +89,7 @@ return {
     },
   },
   config = function(_, opts)
+    ---@class table<ParserInfo>
     local parsers = require("nvim-treesitter.parsers").get_parser_configs()
 
     parsers.smarty = {
