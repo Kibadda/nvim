@@ -3,12 +3,8 @@ local group = vim.api.nvim_create_augroup("BasicAutocmds", { clear = true })
 
 autocmd("TextYankPost", {
   group = group,
-  pattern = "*",
   callback = function()
-    vim.highlight.on_yank {
-      higroup = "Search",
-      timeout = 200,
-    }
+    vim.highlight.on_yank()
   end,
 })
 
@@ -64,5 +60,21 @@ autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
       name = "nvim " .. table.remove(vim.split(vim.v.this_session, "/"))
     end
     vim.system { "kitty", "@", "--to", vim.env.KITTY_LISTEN_ON, "set-tab-title", name }
+  end,
+})
+
+autocmd("FileType", {
+  group = group,
+  pattern = {
+    "help",
+    "lspinfo",
+    "man",
+    "qf",
+    "query",
+    "checkhealth",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set("n", "q", "<Cmd>close<CR>", { buffer = event.buf, silent = true })
   end,
 })
