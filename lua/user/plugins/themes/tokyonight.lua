@@ -7,7 +7,7 @@ return {
       require("tokyonight").setup {
         transparent = true,
         sidebars = {},
-        styles = "storm",
+        style = "night",
         on_highlights = function(highlights)
           highlights.NormalFloat.bg = "NONE"
           highlights.TelescopeNormal.bg = "NONE"
@@ -15,6 +15,8 @@ return {
           highlights.FloatBorder.bg = "NONE"
           highlights.WhichKeyFloat.bg = "NONE"
           highlights.NeoTreeNormal.bg = "NONE"
+          highlights.Normal.bg = "NONE"
+          highlights.NormalSB.bg = "NONE"
         end,
       }
 

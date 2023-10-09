@@ -75,9 +75,11 @@ return {
 
     -- telescope-ui-select is lazy loaded
     -- on first time using vim.ui.select -> also load telescope
+    local ui_select = vim.ui.select
+    ---@diagnostic disable-next-line: duplicate-set-field
     vim.ui.select = function(...)
       require "telescope"
-      vim.ui.select(...)
+      ui_select(...)
     end
   end,
   config = function(_, opts)
@@ -85,6 +87,7 @@ return {
     require("telescope").load_extension "ui-select"
     require("telescope").load_extension "advanced_git_search"
 
+    vim.api.nvim_set_hl(0, "TelescopeTitle", { bg = "#BF7471", fg = "#000000" })
     vim.api.nvim_create_autocmd("Colorscheme", {
       callback = function()
         vim.api.nvim_set_hl(0, "TelescopeTitle", { bg = "#BF7471", fg = "#000000" })

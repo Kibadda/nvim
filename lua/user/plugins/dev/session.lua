@@ -12,7 +12,7 @@ return {
     {
       "<Leader>Sl",
       function()
-        require("session.core").list()
+        require("session.telescope").list()
       end,
       desc = "List",
     },
