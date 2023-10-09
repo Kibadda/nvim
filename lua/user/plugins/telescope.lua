@@ -4,12 +4,15 @@ return {
     "nvim-telescope/telescope-symbols.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
     "aaronhallaert/ts-advanced-git-search.nvim",
+    "nvim-telescope/telescope-file-browser.nvim",
   },
   cmd = "Telescope",
   keys = {
     { "<Leader>f", "<Cmd>Telescope find_files<CR>", desc = "Find Files" },
     { "<Leader>F", "<Cmd>Telescope find_files no_ignore=true hidden=true<CR>", desc = "Find All Files" },
     { "<Leader>b", "<Cmd>Telescope buffers<CR>", desc = "Buffers" },
+    { "<Leader>e", "<Cmd>Telescope file_browser<CR>", desc = "Explorer" },
+    { "<Leader>E", "<Cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>", desc = "Explorer" },
     { "<Leader>sg", "<Cmd>Telescope live_grep<CR>", desc = "Live Grep" },
     { "<Leader>sh", "<Cmd>Telescope help_tags<CR>", desc = "Help" },
     { "<Leader>sH", "<Cmd>Telescope highlights<CR>", desc = "Highlights" },
@@ -39,6 +42,17 @@ return {
             borderchars = {
               prompt = { "─", "│", " ", "│", "┌", "┐", " ", " " },
               results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+            },
+          },
+        },
+        file_browser = {
+          git_status = false,
+          mappings = {
+            i = {
+              ["<C-t>"] = false,
+            },
+            n = {
+              t = false,
             },
           },
         },
@@ -86,6 +100,7 @@ return {
     require("telescope").setup(opts)
     require("telescope").load_extension "ui-select"
     require("telescope").load_extension "advanced_git_search"
+    require("telescope").load_extension "file_browser"
 
     vim.api.nvim_set_hl(0, "TelescopeTitle", { bg = "#BF7471", fg = "#000000" })
     vim.api.nvim_create_autocmd("Colorscheme", {
