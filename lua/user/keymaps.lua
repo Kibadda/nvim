@@ -46,6 +46,7 @@ xmap("<", "<gv")
 xmap(">", ">gv")
 xmap("<C-S-j>", ":m '>+1<CR>gv=gv", "Move Lines Down")
 xmap("<C-S-k>", ":m '<-2<CR>gv=gv", "Move Lines Up")
+xmap("x", '"_d')
 
 imap("<S-CR>", "<C-o>o", "New Line Top")
 imap("<C-CR>", "<C-o>O", "New Line Bottom")
