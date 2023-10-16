@@ -89,11 +89,10 @@ return {
 
     -- telescope-ui-select is lazy loaded
     -- on first time using vim.ui.select -> also load telescope
-    local ui_select = vim.ui.select
     ---@diagnostic disable-next-line: duplicate-set-field
     vim.ui.select = function(...)
       require "telescope"
-      ui_select(...)
+      vim.ui.select(...)
     end
   end,
   config = function(_, opts)
