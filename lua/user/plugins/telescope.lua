@@ -8,7 +8,19 @@ return {
   },
   cmd = "Telescope",
   keys = {
-    { "<Leader>f", "<Cmd>Telescope find_files<CR>", desc = "Find Files" },
+    {
+      "<Leader>f",
+      function()
+        vim.fn.system "git rev-parse --is-inside-work-tree"
+        if vim.v.shell_error == 0 then
+          return "<Cmd>Telescope git_files<CR>"
+        else
+          return "<Cmd>Telescope find_files<CR>"
+        end
+      end,
+      desc = "Find Files",
+      expr = true,
+    },
     { "<Leader>F", "<Cmd>Telescope find_files no_ignore=true hidden=true<CR>", desc = "Find All Files" },
     { "<Leader>b", "<Cmd>Telescope buffers<CR>", desc = "Buffers" },
     { "<Leader>e", "<Cmd>Telescope file_browser<CR>", desc = "Explorer" },
