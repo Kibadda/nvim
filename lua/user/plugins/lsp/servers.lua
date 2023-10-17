@@ -1,5 +1,4 @@
 return {
-  ---@type lspconfig.options.intelephense
   intelephense = {
     settings = {
       intelephense = {
@@ -29,7 +28,6 @@ return {
       },
     },
   },
-  ---@type lspconfig.options.lua_ls
   lua_ls = {
     settings = {
       Lua = {
