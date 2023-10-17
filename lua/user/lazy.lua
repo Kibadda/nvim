@@ -25,7 +25,7 @@ require("lazy").setup({
     fallback = true,
   },
   install = {
-    -- missing = false,
+    missing = false,
     colorscheme = { "tundra" },
   },
   ui = {
@@ -53,9 +53,8 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        "matchit",
-        "matchparen",
         "netrwPlugin",
+        "rplugin",
         "tarPlugin",
         "tohtml",
         "tutor",
