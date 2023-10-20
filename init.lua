@@ -21,3 +21,5 @@ require("user.themes").apply "tundra"
 require "user.keymaps"
 require "user.autocmds"
 require "user.usercmds"
+
+require "user.lsp"

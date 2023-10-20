@@ -92,7 +92,7 @@ M.diagnostics = {
 
 M.filename = {
   init = function(self)
-    local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t")
+    local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t") --[[@as string]]
     if vim.bo.filetype == "term" then
       local split = vim.split(filename, ":", { plain = true })
       filename = split[#split]
@@ -138,15 +138,17 @@ M.lsp = {
   init = function(self)
     local buf_client_names = {}
 
-    for _, client in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+    for _, client in pairs(vim.lsp.get_clients { bufnr = 0 }) do
       if client.name ~= "null-ls" then
         table.insert(buf_client_names, client.name)
       end
     end
 
     local sources = {}
-    for _, source in pairs(require("null-ls.sources").get_available(vim.bo.filetype)) do
-      table.insert(sources, source.name)
+    if pcall(require, "conform") then
+      for _, source in ipairs(require("conform").list_formatters(0)) do
+        table.insert(sources, source.name)
+      end
     end
 
     self.servers = vim.list_extend(buf_client_names, sources)
@@ -177,7 +179,7 @@ M.inlay_hints = {
       return ("Hints: %s"):format(vim.g.InlayHints == 1 and " " or " ")
     end,
     hl = function()
-      return { fg = vim.g.InlayHints == 1 and "#98BC99" or "#BF7471" }
+      return { fg = vim.g.LspInlayHints == 1 and "#98BC99" or "#BF7471" }
     end,
   },
 }
