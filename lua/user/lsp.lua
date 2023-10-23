@@ -9,7 +9,9 @@ local lsp_start = vim.lsp.start
 ---@diagnostic disable-next-line:duplicate-set-field
 vim.lsp.start = function(config, start_opts)
   if not config.capabilities then
-    config.capabilities = vim.lsp.protocol.make_client_capabilities()
+    config.capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
+      workspace = { didChangeWatchedFiles = { dynamicRegistration = false } },
+    })
   end
 
   if config.root_markers then
@@ -195,11 +197,3 @@ vim.diagnostic.config {
     border = "single",
   },
 }
-
--- local ok, wf = pcall(require, "vim.lsp._watchfiles")
--- if ok then
---   -- disable lsp watcher. Too slow on linux
---   wf._watchfunc = function()
---     return function() end
---   end
--- end
