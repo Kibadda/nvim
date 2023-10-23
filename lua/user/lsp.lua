@@ -45,7 +45,9 @@ autocmd("LspAttach", {
       inlay = augroup("LspAttachInlay", { clear = false }),
     }
 
-    if client.server_capabilities.documentHighlightProvider then
+    local methods = vim.lsp.protocol.Methods
+
+    if client.supports_method(methods.textDocument_documentHighlight) then
       clear { group = groups.highlight, buffer = bufnr }
       autocmd("CursorHold", {
         group = groups.highlight,
@@ -59,22 +61,22 @@ autocmd("LspAttach", {
       })
     end
 
-    if client.server_capabilities.hoverProvider then
+    if client.supports_method(methods.textDocument_hover) then
       map("n", "K", vim.lsp.buf.hover, "Hover")
     end
 
-    if client.server_capabilities.codeActionProvider then
+    if client.supports_method(methods.textDocument_codeAction) then
       map("n", "<Leader>lc", vim.lsp.buf.code_action, "Code Action")
     end
 
-    if client.server_capabilities.signatureHelpProvider then
+    if client.supports_method(methods.textDocument_signatureHelp) then
       map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
     end
 
     local format = nil
     if #require("conform").list_formatters(bufnr) > 0 then
       format = require("conform").format
-    elseif client.server_capabilities.documentFormattingProvider then
+    elseif client.supports_method(methods.textDocument_formatting) then
       format = vim.lsp.buf.format
     end
 
@@ -98,11 +100,11 @@ autocmd("LspAttach", {
       })
     end
 
-    if client.server_capabilities.renameProvider then
+    if client.supports_method(methods.textDocument_rename) then
       map("n", "<Leader>lr", vim.lsp.buf.rename, "Rename")
     end
 
-    if client.server_capabilities.codeLensProvider then
+    if client.supports_method(methods.textDocument_codeLens) then
       map("n", "<Leader>ll", vim.lsp.codelens.run, "Codelens")
 
       clear { group = groups.codelens, buffer = bufnr }
@@ -113,11 +115,11 @@ autocmd("LspAttach", {
       })
     end
 
-    if client.server_capabilities.definitionProvider then
+    if client.supports_method(methods.textDocument_definition) then
       map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
     end
 
-    if client.server_capabilities.referencesProvider then
+    if client.supports_method(methods.textDocument_references) then
       map("n", "gr", function()
         local ok, builtin = pcall(require, "telescope.builtin")
         if ok then
@@ -128,7 +130,7 @@ autocmd("LspAttach", {
       end, "References")
     end
 
-    if client.server_capabilities.documentSymbolProvider then
+    if client.supports_method(methods.textDocument_documentSymbol) then
       map("n", "<Leader>ls", function()
         local ok, builtin = pcall(require, "telescope.builtin")
         if ok then
@@ -139,7 +141,7 @@ autocmd("LspAttach", {
       end, "Symbols")
     end
 
-    if client.server_capabilities.inlayHintProvider then
+    if client.supports_method(methods.textDocument_inlayHint) then
       map("n", "<Leader>li", function()
         vim.g.LspInlayHints = vim.g.LspInlayHints == 0 and 1 or 0
         vim.lsp.inlay_hint(bufnr, vim.g.LspInlayHints == 1)
