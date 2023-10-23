@@ -176,7 +176,7 @@ M.formatting = {
 M.inlay_hints = {
   {
     provider = function()
-      return ("Hints: %s"):format(vim.g.InlayHints == 1 and " " or " ")
+      return ("Hints: %s"):format(vim.g.LspInlayHints == 1 and " " or " ")
     end,
     hl = function()
       return { fg = vim.g.LspInlayHints == 1 and "#98BC99" or "#BF7471" }
