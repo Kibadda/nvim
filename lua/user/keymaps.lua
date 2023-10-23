@@ -22,8 +22,8 @@ vim.keymap.set({ "x", "n", "o" }, "n", "'Nn'[v:searchforward]", { expr = true, d
 vim.keymap.set({ "x", "n", "o" }, "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 nmap("<Leader>L", "<Cmd>Lazy<CR>", "Lazy")
-nmap("<Leader>sp", "<Cmd>PluginList<CR>", "Show Plugin List")
-nmap("<Leader>ss", "<Cmd>ScratchList<CR>", "Show Scratch List")
+nmap("<Leader>sp", "<Cmd>PluginList<CR>", "Plugin")
+nmap("<Leader>ss", "<Cmd>ScratchList<CR>", "Scratch")
 nmap("<Leader>sT", function()
   require("user.themes").select()
 end, "Theme")
