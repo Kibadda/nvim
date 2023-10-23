@@ -17,11 +17,12 @@ vim.lsp.start {
       workspace = {
         checkThirdParty = false,
       },
-      codeLens = {
-        enable = false,
-      },
       hint = {
         enable = true,
+        arrayIndex = "Disable",
+      },
+      completion = {
+        callSnippet = "Replace",
       },
     },
   },
