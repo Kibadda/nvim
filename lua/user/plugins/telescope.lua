@@ -1,5 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
+  enabled = false,
   dependencies = {
     "nvim-telescope/telescope-symbols.nvim",
     "nvim-telescope/telescope-ui-select.nvim",

@@ -4,7 +4,8 @@ return {
   opts = {
     library = {
       plugins = {
-        "telescope.nvim",
+        "mini.pick",
+        "mini.starter",
       },
     },
     lspconfig = false,

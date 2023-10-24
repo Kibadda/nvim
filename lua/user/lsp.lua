@@ -121,9 +121,9 @@ autocmd("LspAttach", {
 
     if client.supports_method(methods.textDocument_references) then
       map("n", "gr", function()
-        local ok, builtin = pcall(require, "telescope.builtin")
+        local ok = pcall(require, "mini.pick")
         if ok then
-          builtin.lsp_references()
+          MiniPick.registry.references()
         else
           vim.lsp.buf.references()
         end
@@ -132,9 +132,9 @@ autocmd("LspAttach", {
 
     if client.supports_method(methods.textDocument_documentSymbol) then
       map("n", "<Leader>ls", function()
-        local ok, builtin = pcall(require, "telescope.builtin")
+        local ok = pcall(require, "mini.pick")
         if ok then
-          builtin.lsp_document_symbols()
+          MiniPick.registry.symbols()
         else
           vim.lsp.buf.document_symbol()
         end
