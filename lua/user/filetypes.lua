@@ -4,6 +4,7 @@ vim.filetype.add {
     snippets = "snippets",
     http = "http",
     rasi = "rasi",
+    etlua = "html",
   },
   pattern = {
     [".*/kitty/.*%.conf"] = "kitty",
