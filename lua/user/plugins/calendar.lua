@@ -1,5 +1,6 @@
 return {
   "itchyny/calendar.vim",
+  enabled = false,
   dependencies = {
     "tpope/vim-dotenv",
   },
