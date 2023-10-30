@@ -3,5 +3,6 @@ return {
   event = "VeryLazy",
   opts = {
     useDefaultKeymaps = true,
+    disabledKeymaps = { "gc" },
   },
 }
