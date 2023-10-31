@@ -36,7 +36,7 @@ return {
         require("mini.starter").gen_hook.adding_bullet(),
         function(content, buf_id)
           local win_id = vim.fn.bufwinid(buf_id)
-          if win_id < 0 then
+          if not win_id or win_id < 0 then
             return
           end
 
@@ -99,8 +99,8 @@ return {
         vim.opt.cmdheight = 0
         vim.opt.showtabline = 0
         vim.opt.laststatus = 0
-        vim.opt_local.statuscolumn = nil
-        vim.opt_local.winbar = nil
+        vim.opt_local.statuscolumn = ""
+        vim.opt_local.winbar = ""
         vim.keymap.set("n", "<C-j>", function()
           MiniStarter.update_current_item "next"
         end, { desc = "Move down", buffer = args.buf })
