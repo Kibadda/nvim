@@ -43,3 +43,4 @@ o.grepformat = "%f:%l:%c:%m"
 o.grepprg = "rg --vimgrep"
 o.list = true
 o.shiftround = true
+o.winbar = "%{%v:lua.require'user.winbar'()%}"
