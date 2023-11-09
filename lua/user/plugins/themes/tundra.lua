@@ -9,6 +9,10 @@ return {
         overwrite = {
           highlights = {
             NormalFloat = { link = "Normal" },
+            SpellBad = { sp = "#FCA5A5", fg = "NONE", bg = "NONE", bold = true, undercurl = true },
+            SpellCap = { sp = "#FBC19D", fg = "NONE", bg = "NONE", bold = true, undercurl = true },
+            SpellRare = { sp = "#A5B4FC", fg = "NONE", bg = "NONE", bold = true, undercurl = false, underline = true },
+            SpellLocal = { sp = "#A5B4FC", fg = "NONE", bg = "NONE", bold = true, undercurl = false, underline = true },
           },
         },
       }
