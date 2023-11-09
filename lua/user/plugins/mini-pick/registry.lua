@@ -4,9 +4,7 @@ return function()
   local source = {
     items = items,
     name = "Registry",
-    choose = function(test)
-      vim.print(test)
-    end,
+    choose = function() end,
   }
   local chosen_picker_name = MiniPick.start { source = source }
   if chosen_picker_name == nil then

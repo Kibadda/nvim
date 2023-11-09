@@ -28,11 +28,7 @@ return {
       "gitignore",
       "gitattributes",
       "git_rebase",
-      "snippets",
-      -- "smarty",
-      -- "vue",
-      -- "ocaml",
-      -- "yaml",
+      "git_config",
     },
     highlight = {
       enable = true,
