@@ -42,7 +42,7 @@ M.gitsigns = {
       lnum = vim.v.lnum,
     })
 
-    if #signs == 0 or signs[1].signs == nil or #signs[1].signs == 0 or signs[1].signs[1].name == nil then
+    if not signs or #signs == 0 or not signs[1].signs or #signs[1].signs == 0 or not signs[1].signs[1].name then
       self.sign = nil
     else
       self.sign = signs[1].signs[1]
