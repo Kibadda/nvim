@@ -71,9 +71,6 @@ return {
     require("mini.pick").setup(opts)
 
     MiniPick.registry.registry = require "user.plugins.mini-pick.registry"
-    MiniPick.registry.explorer = require "user.plugins.mini-pick.explorer"
-    MiniPick.registry.references = require "user.plugins.mini-pick.references"
-    MiniPick.registry.symbols = require "user.plugins.mini-pick.symbols"
     MiniPick.registry.emoji = require "user.plugins.mini-pick.emoji"
   end,
 }

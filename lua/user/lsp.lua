@@ -123,7 +123,7 @@ autocmd("LspAttach", {
       map("n", "gr", function()
         local ok = pcall(require, "mini.pick")
         if ok then
-          MiniPick.registry.references()
+          MiniPick.registry.lsp { scope = "references" }
         else
           vim.lsp.buf.references()
         end
@@ -134,7 +134,7 @@ autocmd("LspAttach", {
       map("n", "<Leader>ls", function()
         local ok = pcall(require, "mini.pick")
         if ok then
-          MiniPick.registry.symbols()
+          MiniPick.registry.lsp { scope = "document_symbol" }
         else
           vim.lsp.buf.document_symbol()
         end
