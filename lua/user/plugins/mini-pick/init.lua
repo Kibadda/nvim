@@ -9,6 +9,7 @@ return {
     { "<Leader>E", "<Cmd>Pick explorer cwd='%:p:h'<CR>", desc = "Explorer Current" },
     { "<Leader>sg", "<Cmd>Pick grep_live<CR>", desc = "Live Grep" },
     { "<Leader>sh", "<Cmd>Pick help<CR>", desc = "Help" },
+    { "<Leader>sH", "<Cmd>Pick hl_groups<CR>", desc = "Highlights" },
     { "<Leader>sr", "<Cmd>Pick resume<CR>", desc = "Resume" },
     { "<Leader>sb", "<Cmd>Pick registry<CR>", desc = "Builtin" },
     { "<M-e>", "<Cmd>Pick emoji<CR>", desc = "Emoji", mode = "i" },
