@@ -1,6 +1,5 @@
 return {
   "kndndrj/nvim-dbee",
-  enabled = false,
   dependencies = {
     "MunifTanjim/nui.nvim",
   },
@@ -15,7 +14,8 @@ return {
           vim.opt.signcolumn = "no"
           vim.opt.number = false
           vim.opt.relativenumber = false
-          vim.opt.statuscolumn = nil
+          vim.opt.statuscolumn = ""
+          vim.opt.winbar = nil
 
           vim.keymap.set("n", "q", function()
             require("dbee").close()
@@ -40,9 +40,15 @@ return {
       sources = {
         require("dbee.sources").FileSource:new(vim.fn.stdpath "cache" .. "/dbee/connections.json"),
       },
+      drawer = {
+        disable_help = true,
+        mappings = {
+          quit = false,
+        },
+      },
       editor = {
         mappings = {
-          run_file = nil, -- { key = "<C-CR>", mode = "n" },
+          run_file = false,
           run_selection = { key = "<C-CR>", mode = "v" },
         },
       },
