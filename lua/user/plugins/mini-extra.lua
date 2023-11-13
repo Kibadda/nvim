@@ -93,16 +93,24 @@ return {
           char = "<M-d>",
           func = function()
             local items = MiniPick.get_picker_items()
-            if not items then
+            local picker_opts = MiniPick.get_picker_opts()
+            if not items or not picker_opts then
               return
             end
 
             local current = MiniPick.get_picker_matches().current
-            local current_id = MiniPick.get_picker_matches().current_ind
 
-            if vim.system({ "rm", "-rf", current.path }):wait().code == 0 then
-              table.remove(items, current_id)
-              MiniPick.set_picker_items(items, { do_match = true })
+            if
+              not vim.fn.isdirectory(current.path) or vim.fn.confirm("Delete " .. current.path, "&Yes\n&No", 2) == 1
+            then
+              vim.defer_fn(function()
+                if vim.system({ "rm", "-rf", current.path }):wait().code == 0 then
+                  MiniPick.set_picker_items(
+                    make_items(picker_opts.source.cwd, local_opts.filter, local_opts.sort),
+                    { do_match = true }
+                  )
+                end
+              end, 1)
             end
           end,
         },
