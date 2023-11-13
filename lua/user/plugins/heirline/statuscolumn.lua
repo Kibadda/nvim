@@ -36,26 +36,18 @@ M.diagnostics = {
 
 M.gitsigns = {
   init = function(self)
-    local signs = vim.fn.sign_getplaced(vim.api.nvim_get_current_buf(), {
-      group = "gitsigns_vimfn_signs_",
-      id = vim.v.lnum,
-      lnum = vim.v.lnum,
-    })
-
-    if not signs or #signs == 0 or not signs[1].signs or #signs[1].signs == 0 or not signs[1].signs[1].name then
-      self.sign = nil
-    else
-      self.sign = signs[1].signs[1]
-    end
-
-    self.has_sign = self.sign ~= nil
+    self.namespace = vim.api.nvim_get_namespaces()["gitsigns_extmark_signs_"]
   end,
   provider = function()
     return " ▏"
   end,
   hl = function(self)
-    if self.has_sign then
-      return self.sign.name
+    if self.namespace then
+      local extmark = vim.api.nvim_buf_get_extmark_by_id(0, self.namespace, vim.v.lnum, { details = true })
+
+      if extmark and extmark[3] then
+        return extmark[3].sign_hl_group
+      end
     end
 
     return "@comment"

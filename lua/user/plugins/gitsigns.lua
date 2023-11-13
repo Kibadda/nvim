@@ -23,7 +23,5 @@ return {
       { "[h", prev_hunk_repeat, desc = "Prev Hunk", mode = { "n", "o", "x" } },
     }
   end,
-  opts = {
-    _extmark_signs = false,
-  },
+  opts = {},
 }
