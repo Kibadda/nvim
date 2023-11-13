@@ -5,14 +5,16 @@ return {
     {
       "<Leader>Sn",
       function()
-        require("session.core").new()
+        require("session").new()
       end,
       desc = "New",
     },
     {
       "<Leader>Sl",
       function()
-        require("session.telescope").list()
+        MiniPick.start {
+          items = require("session").list(),
+        }
       end,
       desc = "List",
     },

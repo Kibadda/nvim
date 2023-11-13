@@ -48,7 +48,7 @@ return {
         enabled = true,
         load_action = function(session)
           return function()
-            require("session.core").load(table.remove(vim.split(session, "/")))
+            require("session").load(table.remove(vim.split(session, "/")))
           end
         end,
       },
