@@ -42,7 +42,8 @@ return {
           vim.cmd.cd(data.file)
           vim.cmd.argdelete "*"
           vim.cmd.bdelete()
-          vim.cmd.Pick "explorer"
+          require "mini.extra"
+          require("mini.pick").registry.explorer()
         end
       end,
     })
@@ -53,10 +54,7 @@ return {
       callback = function(data)
         if vim.fn.isdirectory(data.file) == 1 then
           vim.cmd.bdelete()
-          vim.cmd {
-            cmd = "Pick",
-            args = { "explorer", "cwd='" .. vim.fn.fnamemodify(data.file, ":h:p") .. "'" },
-          }
+          require("mini.pick").registry.explorer { cwd = vim.fn.fnamemodify(data.file, ":.") }
         end
       end,
     })
