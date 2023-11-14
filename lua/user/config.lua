@@ -11,3 +11,5 @@ vim.keymap.set = function(mode, lhs, rhs, opts)
   opts.silent = opts.silent ~= false
   return set(mode, lhs, rhs, opts)
 end
+
+vim.g.AutoFormat = vim.g.AutoFormat or 0

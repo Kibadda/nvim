@@ -2,7 +2,6 @@ local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 local clear = vim.api.nvim_clear_autocmds
 
-vim.g.LspAutoFormat = vim.g.LspAutoFormat or 0
 vim.g.LspInlayHints = vim.g.LspInlayHints or 0
 
 local lsp_start = vim.lsp.start
@@ -77,31 +76,8 @@ autocmd("LspAttach", {
       map("<C-k>", vim.lsp.buf.signature_help, "Signature Help", "i")
     end
 
-    local format = nil
-    if #require("conform").list_formatters(bufnr) > 0 then
-      format = require("conform").format
-    elseif client.supports_method(methods.textDocument_formatting) then
-      format = vim.lsp.buf.format
-    end
-
-    if format then
-      map("<Leader>lf", format, "Format")
-
-      map("<Leader>lt", function()
-        vim.g.LspAutoFormat = vim.g.LspAutoFormat == 0 and 1 or 0
-        vim.cmd.redrawstatus()
-      end, "Toggle Auto Format")
-
-      clear { group = groups.format, buffer = bufnr }
-      autocmd("BufWritePre", {
-        group = groups.format,
-        buffer = bufnr,
-        callback = function()
-          if vim.g.LspAutoFormat == 1 then
-            format()
-          end
-        end,
-      })
+    if client.supports_method(methods.textDocument_formatting) and not vim.b[bufnr].formatter then
+      vim.b[bufnr].formatter = vim.lsp.buf.format
     end
 
     if client.supports_method(methods.textDocument_rename) then

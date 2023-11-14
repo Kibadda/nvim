@@ -78,3 +78,12 @@ autocmd("FileType", {
     vim.keymap.set("n", "q", "<Cmd>close<CR>", { buffer = event.buf, silent = true })
   end,
 })
+
+autocmd("BufWritePre", {
+  group = group,
+  callback = function()
+    if vim.g.AutoFormat == 1 and vim.b.formatter then
+      vim.b.formatter()
+    end
+  end,
+})

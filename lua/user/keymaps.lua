@@ -22,6 +22,14 @@ vim.keymap.set({ "x", "n", "o" }, "n", "'Nn'[v:searchforward]", { expr = true, d
 vim.keymap.set({ "x", "n", "o" }, "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 nmap("<Leader>L", "<Cmd>Lazy<CR>", "Lazy")
+nmap("<Leader>lt", function()
+  vim.g.AutoFormat = vim.g.AutoFormat == 0 and 1 or 0
+end, "Toggle Auto Format")
+nmap("<Leader>lf", function()
+  if vim.g.AutoFormat == 1 and vim.b.formatter then
+    vim.b.formatter()
+  end
+end)
 nmap("<Leader>sp", "<Cmd>PluginList<CR>", "Plugin")
 nmap("<Leader>ss", "<Cmd>ScratchList<CR>", "Scratch")
 nmap("<Leader>sT", function()
