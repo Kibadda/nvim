@@ -1,7 +1,7 @@
 return {
   "stevearc/conform.nvim",
   init = function()
-    vim.api.nvim_create_autocmd("BufNew", {
+    vim.api.nvim_create_autocmd("BufEnter", {
       group = vim.api.nvim_create_augroup("ConformAugroup", { clear = true }),
       callback = function(args)
         local conform = require "conform"
