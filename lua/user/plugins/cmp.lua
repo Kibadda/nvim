@@ -12,7 +12,7 @@ return {
     local cmp = require "cmp"
     local lspkind = require "lspkind"
 
-    cmp.register_source("snippets", require("user.snippets").new())
+    cmp.register_source("snippets", require "user.snippets")
 
     local function has_words_before()
       unpack = unpack or table.unpack

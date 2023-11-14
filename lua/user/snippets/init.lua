@@ -1,20 +1,10 @@
 local M = {}
 
-local function load_by_filetype(filetype)
-  local ok, snippets = pcall(require, "user.snippets." .. filetype)
-  if ok then
-    return snippets
-  else
+function M:complete(params, callback)
+  local ok, items = pcall(require, "user.snippets." .. params.context.filetype)
+  if not ok then
     return {}
   end
-end
-
-function M.new()
-  return setmetatable({}, { __index = M })
-end
-
-function M:complete(params, callback)
-  local items = load_by_filetype(params.context.filetype)
 
   local result = {}
 

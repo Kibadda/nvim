@@ -1,3 +1,3 @@
 return {
-  log = "console.log($0);",
+  log = "console.${0:log}($1);",
 }
