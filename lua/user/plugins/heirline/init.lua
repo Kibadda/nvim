@@ -22,6 +22,9 @@ return {
       --   winbar.lines,
       -- },
       statuscolumn = {
+        condition = function()
+          return vim.bo.buftype == ""
+        end,
         statuscolumn.diagnostics,
         align,
         statuscolumn.line_numbers,
