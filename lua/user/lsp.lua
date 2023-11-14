@@ -34,8 +34,12 @@ autocmd("LspAttach", {
       return
     end
 
-    local function map(mode, lhs, rhs, desc)
-      vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr })
+    ---@param lhs string
+    ---@param rhs string|function
+    ---@param desc string
+    ---@param mode? string
+    local function map(lhs, rhs, desc, mode)
+      vim.keymap.set(mode or "n", lhs, rhs, { desc = desc, buffer = bufnr })
     end
 
     local groups = {
@@ -62,15 +66,15 @@ autocmd("LspAttach", {
     end
 
     if client.supports_method(methods.textDocument_hover) then
-      map("n", "K", vim.lsp.buf.hover, "Hover")
+      map("K", vim.lsp.buf.hover, "Hover")
     end
 
     if client.supports_method(methods.textDocument_codeAction) then
-      map("n", "<Leader>lc", vim.lsp.buf.code_action, "Code Action")
+      map("<Leader>lc", vim.lsp.buf.code_action, "Code Action")
     end
 
     if client.supports_method(methods.textDocument_signatureHelp) then
-      map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
+      map("<C-k>", vim.lsp.buf.signature_help, "Signature Help", "i")
     end
 
     local format = nil
@@ -81,9 +85,9 @@ autocmd("LspAttach", {
     end
 
     if format then
-      map("n", "<Leader>lf", format, "Format")
+      map("<Leader>lf", format, "Format")
 
-      map("n", "<Leader>lt", function()
+      map("<Leader>lt", function()
         vim.g.LspAutoFormat = vim.g.LspAutoFormat == 0 and 1 or 0
         vim.cmd.redrawstatus()
       end, "Toggle Auto Format")
@@ -101,11 +105,11 @@ autocmd("LspAttach", {
     end
 
     if client.supports_method(methods.textDocument_rename) then
-      map("n", "<Leader>lr", vim.lsp.buf.rename, "Rename")
+      map("<Leader>lr", vim.lsp.buf.rename, "Rename")
     end
 
     if client.supports_method(methods.textDocument_codeLens) then
-      map("n", "<Leader>ll", vim.lsp.codelens.run, "Codelens")
+      map("<Leader>ll", vim.lsp.codelens.run, "Codelens")
 
       clear { group = groups.codelens, buffer = bufnr }
       autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
@@ -116,11 +120,11 @@ autocmd("LspAttach", {
     end
 
     if client.supports_method(methods.textDocument_definition) then
-      map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
+      map("gd", vim.lsp.buf.definition, "Go to Definition")
     end
 
     if client.supports_method(methods.textDocument_references) then
-      map("n", "gr", function()
+      map("gr", function()
         local ok = pcall(require, "mini.pick")
         if ok then
           MiniPick.registry.lsp { scope = "references" }
@@ -131,7 +135,7 @@ autocmd("LspAttach", {
     end
 
     if client.supports_method(methods.textDocument_documentSymbol) then
-      map("n", "<Leader>ls", function()
+      map("<Leader>ls", function()
         local ok = pcall(require, "mini.pick")
         if ok then
           MiniPick.registry.lsp { scope = "document_symbol" }
@@ -142,7 +146,7 @@ autocmd("LspAttach", {
     end
 
     if client.supports_method(methods.textDocument_inlayHint) then
-      map("n", "<Leader>li", function()
+      map("<Leader>li", function()
         vim.g.LspInlayHints = vim.g.LspInlayHints == 0 and 1 or 0
         vim.lsp.inlay_hint.enable(bufnr, vim.g.LspInlayHints == 1)
         vim.cmd.redrawstatus()
@@ -159,8 +163,8 @@ autocmd("LspAttach", {
       vim.lsp.inlay_hint.enable(bufnr, vim.g.LspInlayHints == 1)
     end
 
-    map("n", "<Leader>lj", vim.diagnostic.goto_next, "Next Diagnostic")
-    map("n", "<Leader>lk", vim.diagnostic.goto_prev, "Prev Diagnostic")
+    map("<Leader>lj", vim.diagnostic.goto_next, "Next Diagnostic")
+    map("<Leader>lk", vim.diagnostic.goto_prev, "Prev Diagnostic")
 
     -- map("n", "<Leader>lR", function()
     --   client.stop()
