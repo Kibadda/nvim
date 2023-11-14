@@ -5,17 +5,14 @@ return {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
-    -- "L3MON4D3/LuaSnip",
-    -- "saadparwaiz1/cmp_luasnip",
     "onsails/lspkind.nvim",
-    "dcampos/cmp-snippy",
-    "dcampos/nvim-snippy",
   },
   event = "InsertEnter",
   opts = function()
     local cmp = require "cmp"
     local lspkind = require "lspkind"
-    local snippy = require "snippy.main"
+
+    cmp.register_source("snippets", require("user.snippets").new())
 
     local function has_words_before()
       unpack = unpack or table.unpack
@@ -48,17 +45,16 @@ return {
       },
       snippet = {
         expand = function(args)
-          snippy.expand_snippet(args.body)
+          vim.snippet.expand(args.body)
         end,
       },
-      sources = {
+      sources = cmp.config.sources({
         { name = "nvim_lsp" },
         { name = "path" },
-        -- { name = "luasnip" },
-        { name = "nvim_lua" },
+        { name = "snippets" },
+      }, {
         { name = "buffer" },
-        { name = "snippy" },
-      },
+      }),
       completion = {
         completeopt = "menu,menuone,noinsert,noselect,preview",
       },
@@ -67,8 +63,8 @@ return {
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          elseif snippy.can_expand_or_advance() then
-            snippy.expand_or_advance()
+          elseif vim.snippet.jumpable(1) then
+            vim.snippet.jump(1)
           elseif has_words_before() then
             cmp.complete()
           else
@@ -78,22 +74,22 @@ return {
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
-          elseif snippy.can_jump(-1) then
-            snippy.previous()
+          elseif vim.snippet.jumpable(-1) then
+            vim.snippet.jump(-1)
           else
             fallback()
           end
         end, { "i", "s" }),
         ["<C-l>"] = cmp.mapping(function(fallback)
-          if snippy.can_expand_or_advance() then
-            snippy.expand_or_advance()
+          if vim.snippet.jumpable(1) then
+            vim.snippet.jump(1)
           else
             fallback()
           end
         end, { "i", "s" }),
         ["<C-h>"] = cmp.mapping(function(fallback)
-          if snippy.can_jump(-1) then
-            snippy.previous()
+          if vim.snippet.jumpable(-1) then
+            vim.snippet.jump(-1)
           else
             fallback()
           end
