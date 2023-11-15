@@ -15,6 +15,11 @@ return {
       block = "gbc",
     },
     ignore = "^$",
+    pre_hook = function()
+      if vim.bo.filetype == "smarty" then
+        return "{*%s*}"
+      end
+    end,
   },
   config = function(_, opts)
     require("Comment").setup(opts)
