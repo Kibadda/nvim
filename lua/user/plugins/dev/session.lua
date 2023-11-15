@@ -13,7 +13,23 @@ return {
       "<Leader>Sl",
       function()
         MiniPick.start {
-          items = require("session").list(),
+          source = {
+            items = require("session").list(),
+            choose = require("session").load,
+          },
+          mappings = {
+            load = {
+              char = "<M-l>",
+              func = require("session").load,
+            },
+            delete = {
+              char = "<M-d>",
+              func = function(item)
+                require("session").delete(item)
+                MiniPick.refresh()
+              end,
+            },
+          },
         }
       end,
       desc = "List",
@@ -24,15 +40,9 @@ return {
       pre = {
         save = function()
           pcall(vim.cmd.argdelete, "*")
-
-          if vim.fn.exists ":Neotree" > 0 then
-            vim.cmd.Neotree "close"
-          end
         end,
         load = function()
-          if vim.fn.exists ":LspStop" > 0 then
-            vim.cmd.LspStop()
-          end
+          vim.lsp.stop_client(vim.lsp.get_clients())
         end,
       },
       post = {
