@@ -85,15 +85,18 @@ return {
     },
   },
   config = function(_, opts)
-    ---@class table<string,ParserInfo>
+    ---@type table<string,ParserInfo>
     local parsers = require("nvim-treesitter.parsers").get_parser_configs()
 
     parsers.smarty = {
       install_info = {
-        url = "https://github.com/Kibadda/tree-sitter-smarty",
+        -- url = "https://github.com/Kibadda/tree-sitter-smarty",
+        url = "/home/michael/plugins/tree-sitter-smarty",
         files = { "src/parser.c" },
         branch = "main",
       },
+      filetype = "smarty",
+      maintainers = { "Kibadda" },
     }
 
     parsers.snippets = {
@@ -103,6 +106,8 @@ return {
         files = { "src/parser.c" },
         branch = "main",
       },
+      filetype = "snippets",
+      maintainers = { "Kibadda" },
     }
 
     require("nvim-treesitter.configs").setup(opts)
