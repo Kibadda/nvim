@@ -7,11 +7,9 @@ return {
   },
   opts = {
     ensure_installed = {
-      "bash",
       "javascript",
       "json",
       "jsonc",
-      "python",
       "typescript",
       "tsx",
       "css",
@@ -21,8 +19,6 @@ return {
       "html",
       "sql",
       "http",
-      "markdown",
-      "markdown_inline",
       "regex",
       "gitcommit",
       "gitignore",
