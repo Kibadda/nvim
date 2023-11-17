@@ -5,8 +5,6 @@ return {
     { "<Leader>f", "<Cmd>Pick files<CR>", desc = "Find Files" },
     { "<Leader>F", "<Cmd>Pick files tool='fallback'<CR>", desc = "Find All Files" },
     { "<Leader>b", "<Cmd>Pick buffers<CR>", desc = "Buffers" },
-    { "<Leader>e", "<Cmd>Pick explorer<CR>", desc = "Explorer" },
-    { "<Leader>E", "<Cmd>Pick explorer cwd='%:p:h'<CR>", desc = "Explorer Current" },
     { "<Leader>sg", "<Cmd>Pick grep_live<CR>", desc = "Live Grep" },
     { "<Leader>sh", "<Cmd>Pick help<CR>", desc = "Help" },
     { "<Leader>sH", "<Cmd>Pick hl_groups<CR>", desc = "Highlights" },
@@ -34,36 +32,9 @@ return {
     },
   },
   init = function()
-    local group = vim.api.nvim_create_augroup("OpenPickFindFilesIfDirectory", { clear = true })
-    vim.api.nvim_create_autocmd("VimEnter", {
-      group = group,
-      callback = function(data)
-        if vim.fn.isdirectory(data.file) == 1 then
-          vim.cmd.cd(data.file)
-          vim.cmd.argdelete "*"
-          vim.cmd.bdelete()
-          require "mini.extra"
-          require("mini.pick").registry.explorer()
-        end
-      end,
-    })
-
-    vim.api.nvim_create_autocmd("BufEnter", {
-      group = group,
-      pattern = "*/",
-      callback = function(data)
-        if vim.fn.isdirectory(data.file) == 1 then
-          vim.cmd.bdelete()
-          require("mini.pick").registry.explorer { cwd = vim.fn.fnamemodify(data.file, ":.") }
-        end
-      end,
-    })
-
     ---@diagnostic disable-next-line:duplicate-set-field
     vim.ui.select = function(...)
-      require "mini.pick"
-      vim.ui.select = MiniPick.ui_select
-      vim.ui.select(...)
+      require("mini.pick").ui_select(...)
     end
   end,
   config = function(_, opts)
