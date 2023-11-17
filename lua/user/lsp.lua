@@ -7,6 +7,9 @@ vim.g.LspInlayHints = vim.g.LspInlayHints or 0
 local lsp_start = vim.lsp.start
 ---@diagnostic disable-next-line:duplicate-set-field
 vim.lsp.start = function(config, start_opts)
+  -- require mason to load binary path
+  require "mason"
+
   if not config.capabilities then
     config.capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
       workspace = { didChangeWatchedFiles = { dynamicRegistration = false } },
