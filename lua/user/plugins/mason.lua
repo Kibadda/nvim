@@ -5,21 +5,6 @@ return {
     { "<Leader>lM", "<Cmd>Mason<CR>", desc = "Mason" },
   },
   opts = {
-    ensure_installed = {
-      "stylua",
-      "css-lsp",
-      "typescript-language-server",
-      "intelephense",
-      "lua-language-server",
-      -- "json-lsp",
-      -- "html-lsp",
-      -- "bash-language-server",
-      -- "beautysh",
-      -- "pyright",
-      -- "rnix-lsp",
-      -- "sqlls",
-      -- "vim-language-server",
-    },
     ui = {
       border = "single",
       icons = {
@@ -29,4 +14,20 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("mason").setup(opts)
+
+    local installed = require("mason-registry").get_installed_package_names()
+    for _, name in ipairs {
+      "stylua",
+      "css-lsp",
+      "typescript-language-server",
+      "intelephense",
+      "lua-language-server",
+    } do
+      if not vim.tbl_contains(installed, name) then
+        require("mason-registry").get_package(name):install()
+      end
+    end
+  end,
 }
