@@ -104,9 +104,9 @@ autocmd("LspAttach", {
 
     if client.supports_method(methods.textDocument_references) then
       map("gr", function()
-        local ok = pcall(require, "mini.pick")
+        local ok, extra = pcall(require, "mini.extra")
         if ok then
-          MiniPick.registry.lsp { scope = "references" }
+          extra.pickers.lsp { scope = "references" }
         else
           vim.lsp.buf.references()
         end
@@ -115,9 +115,9 @@ autocmd("LspAttach", {
 
     if client.supports_method(methods.textDocument_documentSymbol) then
       map("<Leader>ls", function()
-        local ok = pcall(require, "mini.pick")
+        local ok, extra = pcall(require, "mini.extra")
         if ok then
-          MiniPick.registry.lsp { scope = "document_symbol" }
+          extra.pickers.lsp { scope = "document_symbol" }
         else
           vim.lsp.buf.document_symbol()
         end
