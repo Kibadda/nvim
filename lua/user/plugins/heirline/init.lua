@@ -66,7 +66,7 @@ return {
         },
         {
           condition = function()
-            return not vim.g.started_by_firenvim and not vim.g.started_as_db_client
+            return not vim.g.started_as_db_client
           end,
           statusline.mode,
           space,
@@ -83,16 +83,6 @@ return {
           statusline.formatting,
           bar,
           statusline.inlay_hints,
-          space,
-          statusline.position,
-        },
-        {
-          condition = function()
-            return not not vim.g.started_by_firenvim
-          end,
-          statusline.mode,
-          align,
-          statusline.filetype,
           space,
           statusline.position,
         },
