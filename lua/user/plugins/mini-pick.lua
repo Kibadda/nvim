@@ -3,7 +3,7 @@ return {
   cmd = "Pick",
   keys = {
     { "<Leader>f", "<Cmd>Pick files<CR>", desc = "Find Files" },
-    { "<Leader>F", "<Cmd>Pick files tool='fallback'<CR>", desc = "Find All Files" },
+    { "<Leader>F", "<Cmd>Pick all_files<CR>", desc = "Find All Files" },
     { "<Leader>b", "<Cmd>Pick buffers<CR>", desc = "Buffers" },
     { "<Leader>sg", "<Cmd>Pick grep_live<CR>", desc = "Live Grep" },
     { "<Leader>sh", "<Cmd>Pick help<CR>", desc = "Help" },
@@ -42,5 +42,6 @@ return {
 
     MiniPick.registry.registry = require "user.plugins.mini-pick.registry"
     MiniPick.registry.emoji = require "user.plugins.mini-pick.emoji"
+    MiniPick.registry.all_files = require "user.plugins.mini-pick.all_files"
   end,
 }
