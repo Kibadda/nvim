@@ -1,5 +1,5 @@
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.system {
     "git",
     "clone",
@@ -20,6 +20,7 @@ require("lazy").setup({
   defaults = {
     lazy = true,
   },
+  concurrency = 8,
   dev = {
     pattern = { "Kibadda" },
     path = "~/plugins",
@@ -27,7 +28,6 @@ require("lazy").setup({
   },
   install = {
     missing = false,
-    colorscheme = { "tundra" },
   },
   ui = {
     title = " Lazy ",
