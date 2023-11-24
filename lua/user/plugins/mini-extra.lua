@@ -6,6 +6,36 @@ return {
   keys = {
     { "<Leader>e", "<Cmd>Pick explorer<CR>", desc = "Explorer" },
     { "<Leader>E", "<Cmd>Pick explorer cwd='%:p:h'<CR>", desc = "Explorer Current" },
+    {
+      "<Leader>sp",
+      function()
+        require "user.plugins.mini-extra.explorer" {
+          cwd = "./lua/user/plugins",
+          sort = function(items)
+            table.sort(items, function(a, b)
+              return a.text < b.text
+            end)
+            return items
+          end,
+        }
+      end,
+      desc = "Plugin",
+    },
+    {
+      "<Leader>ss",
+      function()
+        require "user.plugins.mini-extra.explorer" {
+          cwd = "./scratch",
+          sort = function(items)
+            table.sort(items, function(a, b)
+              return a.text < b.text
+            end)
+            return items
+          end,
+        }
+      end,
+      desc = "Scratch Files",
+    },
   },
   init = function()
     local group = vim.api.nvim_create_augroup("OpenPickFindFilesIfDirectory", { clear = true })

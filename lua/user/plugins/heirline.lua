@@ -7,20 +7,12 @@ return {
   opts = function()
     local statuscolumn = require "user.plugins.heirline.statuscolumn"
     local statusline = require "user.plugins.heirline.statusline"
-    -- local winbar = require "user.plugins.heirline.winbar"
 
     local align = { provider = "%=", hl = { bg = "" } }
     local space = { provider = " " }
     local bar = { provider = " | " }
 
     return {
-      -- winbar = {
-      --   align,
-      --   winbar.modified,
-      --   space,
-      --   winbar.filepath,
-      --   winbar.lines,
-      -- },
       statuscolumn = {
         condition = function()
           return vim.bo.buftype == ""
