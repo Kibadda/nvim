@@ -67,10 +67,12 @@ local function open_in_browser()
   end
 end
 
-vim.api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("PluginOpenInBrowser", { clear = true }),
-  pattern = "*/lua/user/plugins/{*.lua,*/init.lua}",
+  pattern = "lua",
   callback = function(args)
-    vim.keymap.set("n", "gP", open_in_browser, { desc = "Open Plugin", buffer = args.buf })
+    if args.file:match "lua/user/plugins/" then
+      vim.keymap.set("n", "gP", open_in_browser, { desc = "Open Plugin", buffer = args.buf })
+    end
   end,
 })
