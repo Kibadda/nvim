@@ -33,7 +33,9 @@ return {
         return ("Loaded %d/%d plugins in %dms"):format(stats.loaded, stats.count, stats.startuptime)
       end,
       content_hooks = {
-        require("mini.starter").gen_hook.adding_bullet(),
+        function(...)
+          return MiniStarter.gen_hook.adding_bullet("| ", true)(...)
+        end,
         function(content, buf_id)
           local win_id = vim.fn.bufwinid(buf_id)
           if not win_id or win_id < 0 then
