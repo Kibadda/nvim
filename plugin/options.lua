@@ -1,3 +1,9 @@
+if vim.g.loaded_options then
+  return
+end
+
+vim.g.loaded_options = 1
+
 local o = vim.opt
 o.autowrite = true
 o.breakindent = true

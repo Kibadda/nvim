@@ -1,3 +1,12 @@
+vim.api.nvim_buf_create_user_command(0, "X", function()
+  vim.cmd.write()
+  vim.cmd.luafile "%"
+end, {
+  bang = false,
+  nargs = 0,
+  desc = "Save and source",
+})
+
 vim.lsp.start {
   name = "lua-language-server",
   cmd = { "lua-language-server" },

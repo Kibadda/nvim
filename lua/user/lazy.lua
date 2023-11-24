@@ -11,9 +11,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
+vim.keymap.set("n", "<Leader>L", "<Cmd>Lazy<CR>", { desc = "Lazy" })
+
 require("lazy").setup({
   { import = "user.plugins.dev" },
-  { import = "user.plugins.themes" },
   { import = "user.plugins" },
 }, {
   defaults = {

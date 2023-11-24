@@ -1,3 +1,9 @@
+if vim.g.loaded_autocmds then
+  return
+end
+
+vim.g.loaded_autocmds = 1
+
 local autocmd = vim.api.nvim_create_autocmd
 local group = vim.api.nvim_create_augroup("BasicAutocmds", { clear = true })
 
@@ -5,14 +11,6 @@ autocmd("TextYankPost", {
   group = group,
   callback = function()
     vim.highlight.on_yank()
-  end,
-})
-
-autocmd("BufEnter", {
-  group = group,
-  pattern = "*/lua/user/plugins/{*.lua,*/init.lua}",
-  callback = function(args)
-    vim.keymap.set("n", "gP", "<Cmd>PluginOpen<CR>", { desc = "Open Plugin", buffer = args.buf })
   end,
 })
 
@@ -47,6 +45,21 @@ autocmd("BufEnter", {
   end,
 })
 
+autocmd("FileType", {
+  group = group,
+  pattern = {
+    "help",
+    "man",
+    "qf",
+    "query",
+    "checkhealth",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set("n", "q", "<Cmd>close<CR>", { buffer = event.buf, silent = true })
+  end,
+})
+
 autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
   group = group,
   callback = function()
@@ -60,30 +73,5 @@ autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
       name = "nvim " .. table.remove(vim.split(vim.v.this_session, "/"))
     end
     vim.system { "kitty", "@", "--to", vim.env.KITTY_LISTEN_ON, "set-tab-title", name }
-  end,
-})
-
-autocmd("FileType", {
-  group = group,
-  pattern = {
-    "help",
-    "lspinfo",
-    "man",
-    "qf",
-    "query",
-    "checkhealth",
-  },
-  callback = function(event)
-    vim.bo[event.buf].buflisted = false
-    vim.keymap.set("n", "q", "<Cmd>close<CR>", { buffer = event.buf, silent = true })
-  end,
-})
-
-autocmd("BufWritePre", {
-  group = group,
-  callback = function()
-    if vim.g.AutoFormat == 1 and vim.b.formatter then
-      vim.b.formatter()
-    end
   end,
 })

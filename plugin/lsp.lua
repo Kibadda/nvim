@@ -1,3 +1,9 @@
+if vim.g.loaded_lsp then
+  return
+end
+
+vim.g.loaded_lsp = 1
+
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 local clear = vim.api.nvim_clear_autocmds
