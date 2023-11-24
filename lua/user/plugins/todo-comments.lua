@@ -1,16 +1,15 @@
 return {
   "folke/todo-comments.nvim",
-  enabled = false,
   event = "VeryLazy",
-  keys = {
-    { "<Leader>st", "<Cmd>TodoTelescope<CR>", desc = "Todos" },
-  },
   opts = {
     keywords = {
-      CRTX = { icon = "🔥", color = "warning" },
+      CRTX = { icon = "🔥", color = "test" },
     },
     highlight = {
-      pattern = [[.*<(KEYWORDS)\s*]],
+      multiline = false,
+      keyword = "fg",
+      pattern = [[(KEYWORDS)]],
+      after = "",
     },
   },
 }
