@@ -6,6 +6,9 @@ vim.lsp.start {
   cmd = { "intelephense", "--stdio" },
   filetypes = { "php" },
   root_markers = { "composer.json", ".git" },
+  capabilities = {
+    textDocument = { formatting = { dynamicRegistration = false } },
+  },
   settings = {
     intelephense = {
       -- stylua: ignore
@@ -19,6 +22,9 @@ vim.lsp.start {
         "sodium", "SPL", "sqlite3", "standard", "superglobals", "sysvmsg", "sysvsem",
         "sysvshm", "tidy", "tokenizer", "xml", "xmlreader", "xmlrpc", "xmlwriter", "xsl",
         "Zend OPcache", "zip", "zlib", "wordpress", "phpunit",
+      },
+      format = {
+        braces = vim.env.LOCATION == "work" and "k&r" or "psr12",
       },
       phpdoc = {
         textFormat = "text",

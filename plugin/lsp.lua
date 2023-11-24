@@ -16,11 +16,9 @@ vim.lsp.start = function(config, start_opts)
   -- require mason to load binary path
   require "mason"
 
-  if not config.capabilities then
-    config.capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
-      workspace = { didChangeWatchedFiles = { dynamicRegistration = false } },
-    })
-  end
+  config.capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
+    workspace = { didChangeWatchedFiles = { dynamicRegistration = false } },
+  }, config.capabilities or {})
 
   if config.root_markers then
     config.root_dir = vim.fs.dirname(vim.fs.find(config.root_markers, { upward = true })[1])
