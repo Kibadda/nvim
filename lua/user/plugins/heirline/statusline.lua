@@ -140,7 +140,7 @@ M.lsp = {
 
     for _, client in pairs(vim.lsp.get_clients { bufnr = 0 }) do
       if client.name ~= "null-ls" then
-        table.insert(buf_client_names, client.name)
+        table.insert(buf_client_names, client.name .. "[" .. client.id .. "]")
       end
     end
 
