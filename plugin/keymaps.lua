@@ -63,6 +63,16 @@ map("x", ">", ">gv")
 map("x", "<C-S-j>", ":m '>+1<CR>gv=gv", "Move Lines Down")
 map("x", "<C-S-k>", ":m '<-2<CR>gv=gv", "Move Lines Up")
 map("x", "x", '"_d')
+map("x", "gB", function()
+  local spos = vim.fn.getpos "v"
+  local epos = vim.fn.getpos "."
+  if spos and epos then
+    local text = vim.api.nvim_buf_get_text(0, spos[2] - 1, spos[3] - 1, epos[2] - 1, epos[3], {})
+    if #text > 0 then
+      vim.ui.open(table.concat(text))
+    end
+  end
+end)
 
 map("i", "<S-CR>", "<C-o>o", "New Line Top")
 map("i", "<C-CR>", "<C-o>O", "New Line Bottom")
