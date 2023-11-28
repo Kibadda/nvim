@@ -109,6 +109,9 @@ return {
         vim.keymap.set("n", "<C-k>", function()
           MiniStarter.update_current_item "prev"
         end, { desc = "Move up", buffer = args.buf })
+        vim.keymap.set("n", "<C-w>", function()
+          MiniStarter.set_query(nil, args.buf)
+        end, { desc = "Reset query", buffer = args.buf })
 
         vim.api.nvim_create_autocmd("BufUnload", {
           group = vim.api.nvim_create_augroup("ResetOptionsOnMiniStarterLeave", { clear = true }),
