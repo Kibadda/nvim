@@ -22,6 +22,8 @@ return {
   ["elseif"] = "else if ($1) {\n\t$0\n}",
   ["else"] = "else {\n\t$0\n}",
 
+  try = "try {\n\t$0\n} catch ($1) {\n\t$2\n}",
+
   set = "public function set$1($0 \\$$1): void {\n\t\\$this->$1 = \\$$1;\n}",
   get = "public function get$1()$0 {\n\treturn \\$this->$1;\n}",
 
