@@ -18,7 +18,7 @@ return {
       truncate_names = false,
       custom_filter = function(buf_number)
         local filetype = vim.bo[buf_number].filetype
-        return filetype ~= "qf" and filetype ~= "fugitive" and filetype ~= "term"
+        return filetype ~= "qf" and filetype ~= "term"
       end,
     },
   },

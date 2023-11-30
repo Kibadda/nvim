@@ -51,7 +51,6 @@ autocmd("FileType", {
     "help",
     "man",
     "qf",
-    "query",
     "checkhealth",
   },
   callback = function(event)
