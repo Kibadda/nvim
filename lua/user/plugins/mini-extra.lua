@@ -6,6 +6,7 @@ return {
   keys = {
     { "<Leader>e", "<Cmd>Pick explorer<CR>", desc = "Explorer" },
     { "<Leader>E", "<Cmd>Pick explorer cwd='%:p:h'<CR>", desc = "Explorer Current" },
+    { "<Leader>sH", "<Cmd>Pick hl_groups<CR>", desc = "Highlights" },
     {
       "<Leader>sp",
       function()
