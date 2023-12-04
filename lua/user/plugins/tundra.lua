@@ -17,5 +17,11 @@ return {
   config = function(_, opts)
     require("nvim-tundra").setup(opts)
     vim.cmd.colorscheme "tundra"
+
+    vim.cmd.hi { args = { "link", "DiagnosticFloatingError", "DiagnosticError" }, bang = true }
+    vim.cmd.hi { args = { "link", "DiagnosticFloatingWarn", "DiagnosticWarn" }, bang = true }
+    vim.cmd.hi { args = { "link", "DiagnosticFloatingInfo", "DiagnosticInfo" }, bang = true }
+    vim.cmd.hi { args = { "link", "DiagnosticFloatingHint", "DiagnosticHint" }, bang = true }
+    vim.cmd.hi { args = { "link", "DiagnosticFloatingOk", "DiagnosticOk" }, bang = true }
   end,
 }
