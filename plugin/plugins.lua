@@ -63,6 +63,15 @@ local function open_in_browser(buf)
   if #cache[buf] == 1 then
     open_url(cache[buf][1].text)
   elseif #cache[buf] > 1 then
+    local line = unpack(vim.api.nvim_win_get_cursor(0))
+
+    for _, plug in ipairs(cache[buf]) do
+      if line - 1 == plug.range[1] then
+        open_url(plug.text)
+        return
+      end
+    end
+
     vim.ui.select(cache[buf], {
       prompt = "Select plugin to open",
     }, function(choice)
@@ -73,6 +82,10 @@ local function open_in_browser(buf)
   end
 end
 
+vim.lsp.commands.open_plugin_in_browser = function(command)
+  open_url(command.data.text)
+end
+
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("PluginOpenInBrowser", { clear = true }),
   pattern = "lua",
@@ -81,6 +94,37 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.keymap.set("n", "gP", function()
         open_in_browser(args.buf)
       end, { desc = "Open Plugin", buffer = args.buf })
+
+      vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+        buffer = args.buf,
+        callback = function()
+          cache[args.buf] = nil
+        end,
+      })
+
+      vim.b[args.buf].codelenses = function(err, result)
+        if err then
+          return result
+        end
+
+        result = result or {}
+
+        for _, loc in ipairs(cache[args.buf]) do
+          table.insert(result, {
+            range = {
+              start = { line = loc.range[1], character = loc.range[2] },
+              ["end"] = { line = loc.range[3], character = loc.range[4] },
+            },
+            command = {
+              title = "open plugin",
+              command = "open_plugin_in_browser",
+              data = loc,
+            },
+          })
+        end
+
+        return result
+      end
     end
   end,
 })

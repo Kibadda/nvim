@@ -30,6 +30,16 @@ end
 
 vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#E8D4B0", italic = true })
 
+local on_codelens = vim.lsp.codelens.on_codelens
+---@diagnostic disable-next-line:duplicate-set-field
+vim.lsp.codelens.on_codelens = function(err, result, ctx, _)
+  if vim.b[ctx.bufnr].codelenses then
+    result = vim.b[ctx.bufnr].codelenses(err, result, ctx)
+  end
+
+  on_codelens(err, result, ctx)
+end
+
 autocmd("LspAttach", {
   group = augroup("LspAttach", { clear = true }),
   callback = function(args)
