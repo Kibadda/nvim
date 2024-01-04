@@ -15,5 +15,6 @@ vim.filetype.add {
   pattern = {
     [".*/kitty/.*%.conf"] = "kitty",
     [".*/nginx/.*"] = "nginx",
+    [".*/waybar/config"] = "json",
   },
 }

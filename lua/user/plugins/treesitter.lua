@@ -4,6 +4,7 @@ return {
   dependencies = {
     "nvim-treesitter/nvim-treesitter-textobjects",
     "windwp/nvim-ts-autotag",
+    "luckasRanarison/tree-sitter-hypr",
   },
   opts = {
     ensure_installed = {
@@ -102,6 +103,16 @@ return {
       },
       filetype = "snippets",
       maintainers = { "Kibadda" },
+    }
+
+    parsers.hypr = {
+      install_info = {
+        url = "https://github.com/luckasRanarison/tree-sitter-hypr",
+        files = { "src/parser.c" },
+        branch = "master",
+      },
+      filetype = "hypr",
+      maintainers = { "luckasRanarison" },
     }
 
     require("nvim-treesitter.configs").setup(opts)
