@@ -14,7 +14,17 @@ return {
   opts = {
     formatters_by_ft = {
       lua = { "stylua" },
+      sh = { "beautysh" },
     },
     notify_on_error = false,
   },
+  config = function(_, opts)
+    require("conform").setup(opts)
+
+    require("conform").formatters.beautysh = {
+      prepend_args = function(self, ctx)
+        return { "--indent-size", vim.bo[ctx.buf].shiftwidth }
+      end,
+    }
+  end,
 }
