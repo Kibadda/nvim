@@ -10,7 +10,7 @@ vim.loader.enable()
 
 local set = vim.keymap.set
 ---@diagnostic disable-next-line: duplicate-set-field
-vim.keymap.set = function(mode, lhs, rhs, opts)
+function vim.keymap.set(mode, lhs, rhs, opts)
   opts = opts or {}
   opts.silent = opts.silent ~= false
   return set(mode, lhs, rhs, opts)

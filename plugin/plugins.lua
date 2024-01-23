@@ -82,7 +82,7 @@ local function open_in_browser(buf)
   end
 end
 
-vim.lsp.commands.open_plugin_in_browser = function(command)
+function vim.lsp.commands.open_plugin_in_browser(command)
   open_url(command.data.text)
 end
 

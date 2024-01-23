@@ -12,7 +12,7 @@ vim.g.LspInlayHints = vim.g.LspInlayHints or 0
 
 local lsp_start = vim.lsp.start
 ---@diagnostic disable-next-line:duplicate-set-field
-vim.lsp.start = function(config, start_opts)
+function vim.lsp.start(config, start_opts)
   -- require mason to load binary path
   require "mason"
 
@@ -32,7 +32,7 @@ vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#E8D4B0", italic = true })
 
 local on_codelens = vim.lsp.codelens.on_codelens
 ---@diagnostic disable-next-line:duplicate-set-field
-vim.lsp.codelens.on_codelens = function(err, result, ctx, _)
+function vim.lsp.codelens.on_codelens(err, result, ctx, _)
   if vim.b[ctx.bufnr].codelenses then
     result = vim.b[ctx.bufnr].codelenses(err, result, ctx)
   end

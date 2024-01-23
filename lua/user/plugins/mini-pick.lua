@@ -32,7 +32,7 @@ return {
   },
   init = function()
     ---@diagnostic disable-next-line:duplicate-set-field
-    vim.ui.select = function(...)
+    function vim.ui.select(...)
       require("mini.pick").ui_select(...)
     end
   end,

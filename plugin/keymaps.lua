@@ -30,7 +30,12 @@ end
 
 map({ "n", "x" }, "j", jump_direction "j", "Down")
 map({ "n", "x" }, "k", jump_direction "k", "Up")
-map({ "i", "n" }, "<Esc>", "<Cmd>nohlsearch<CR><Esc>")
+map("n", "<Esc>", "<Cmd>nohlsearch<CR><Esc>")
+
+map({ "i", "s" }, "<Esc>", function()
+  vim.snippet.exit()
+  return "<Esc>"
+end, { expr = true })
 
 map({ "x", "n", "o" }, "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
 map({ "x", "n", "o" }, "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
