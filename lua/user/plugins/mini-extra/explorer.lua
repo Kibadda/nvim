@@ -49,6 +49,7 @@ local function make_items(path, filter, sort)
   return sort(vim.tbl_filter(filter, res))
 end
 
+---@param callback fun(current: table, picker_opts: table, done: function)
 local function get_current(callback)
   return function()
     local picker_opts = MiniPick.get_picker_opts()
@@ -62,7 +63,12 @@ local function get_current(callback)
       return
     end
 
-    callback(current, picker_opts)
+    callback(current, picker_opts, function(local_opts)
+      MiniPick.set_picker_items(
+        make_items(picker_opts.source.cwd, local_opts.filter, local_opts.sort),
+        { do_match = true }
+      )
+    end)
   end
 end
 
@@ -98,14 +104,11 @@ return function(local_opts, start_opts)
     },
     copy = {
       char = "<M-c>",
-      func = get_current(function(current, picker_opts)
+      func = get_current(function(current, picker_opts, done)
         vim.ui.input({ prompt = "File name: ", default = current.text }, function(input)
           if input and #input > 0 then
             if vim.system({ "cp", current.text, input }, { cwd = picker_opts.source.cwd }):wait().code == 0 then
-              MiniPick.set_picker_items(
-                make_items(picker_opts.source.cwd, local_opts.filter, local_opts.sort),
-                { do_match = true }
-              )
+              done(local_opts)
             end
           end
         end)
@@ -113,14 +116,11 @@ return function(local_opts, start_opts)
     },
     delete = {
       char = "<M-d>",
-      func = get_current(function(current, picker_opts)
+      func = get_current(function(current, _, done)
         if not vim.fn.isdirectory(current.path) or vim.fn.confirm("Delete " .. current.path, "&Yes\n&No", 2) == 1 then
           vim.defer_fn(function()
             if vim.system({ "rm", "-rf", current.path }):wait().code == 0 then
-              MiniPick.set_picker_items(
-                make_items(picker_opts.source.cwd, local_opts.filter, local_opts.sort),
-                { do_match = true }
-              )
+              done(local_opts)
             end
           end, 1)
         end
@@ -128,14 +128,11 @@ return function(local_opts, start_opts)
     },
     rename = {
       char = "<M-r>",
-      func = get_current(function(current, picker_opts)
+      func = get_current(function(current, picker_opts, done)
         vim.ui.input({ prompt = "Rename file: ", default = current.text }, function(input)
           if input and #input > 0 then
             if vim.system({ "mv", current.text, input }, { cwd = picker_opts.source.cwd }):wait().code == 0 then
-              MiniPick.set_picker_items(
-                make_items(picker_opts.source.cwd, local_opts.filter, local_opts.sort),
-                { do_match = true }
-              )
+              done(local_opts)
             end
           end
         end)
