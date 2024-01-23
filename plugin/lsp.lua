@@ -60,7 +60,6 @@ autocmd("LspAttach", {
 
     local groups = {
       highlight = augroup("LspAttachHighlight", { clear = false }),
-      format = augroup("LspAttachFormat", { clear = false }),
       codelens = augroup("LspAttachCodelens", { clear = false }),
       inlay = augroup("LspAttachInlay", { clear = false }),
     }
