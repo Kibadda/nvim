@@ -24,6 +24,7 @@ return {
       "gitattributes",
       "git_rebase",
       "git_config",
+      "toml",
     },
     highlight = {
       enable = true,
