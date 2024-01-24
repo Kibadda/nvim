@@ -80,10 +80,6 @@ autocmd("LspAttach", {
       })
     end
 
-    if client.supports_method(methods.textDocument_hover) then
-      map("K", vim.lsp.buf.hover, "Hover")
-    end
-
     if client.supports_method(methods.textDocument_codeAction) then
       map("<Leader>lc", vim.lsp.buf.code_action, "Code Action")
     end
