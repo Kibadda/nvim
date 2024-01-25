@@ -17,3 +17,5 @@ function vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 require "user.lazy"
+
+vim.cmd.colorscheme "kibadda"
