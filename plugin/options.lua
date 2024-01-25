@@ -13,7 +13,6 @@ o.confirm = true
 o.cursorline = true
 o.diffopt = "internal,filler,closeoff,hiddenoff,algorithm:minimal,linematch:50"
 o.expandtab = true
--- o.fileformats = "unix"
 o.foldenable = false
 o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 o.foldmethod = "expr"

@@ -28,8 +28,6 @@ function vim.lsp.start(config, start_opts)
   return lsp_start(config, start_opts)
 end
 
-vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#E8D4B0", italic = true })
-
 local on_codelens = vim.lsp.codelens.on_codelens
 ---@diagnostic disable-next-line:duplicate-set-field
 function vim.lsp.codelens.on_codelens(err, result, ctx, _)
