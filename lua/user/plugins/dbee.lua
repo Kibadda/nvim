@@ -42,14 +42,11 @@ return {
       },
       drawer = {
         disable_help = true,
-        mappings = {
-          quit = false,
-        },
       },
       editor = {
         mappings = {
-          run_file = false,
-          run_selection = { key = "<C-CR>", mode = "v" },
+          { key = "<C-CR>", mode = "v", action = "run_selection" },
+          { action = "run_file" },
         },
       },
     }
