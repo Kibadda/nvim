@@ -78,6 +78,8 @@ map("x", "gB", function()
     end
   end
 end)
+map("x", ".", ":normal .<CR>", "Dot repeat")
+map("x", "@", ":normal Q<CR>", "Repeat macro")
 
 map("i", "<S-CR>", "<C-o>o", "New Line Top")
 map("i", "<C-CR>", "<C-o>O", "New Line Bottom")
@@ -85,3 +87,6 @@ map("i", "<C-BS>", "<C-w>")
 map("i", ",", ",<C-g>u")
 map("i", ";", ";<C-g>u")
 map("i", ".", ".<C-g>u")
+
+map({ "i", "c" }, "<C-h>", "<C-Left>", "Move word backwards")
+map({ "i", "c" }, "<C-l>", "<C-Right>", "Move word forwards")
