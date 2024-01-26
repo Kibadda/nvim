@@ -66,12 +66,12 @@ autocmd("LspAttach", {
 
     if client.supports_method(methods.textDocument_documentHighlight) then
       clear { group = groups.highlight, buffer = bufnr }
-      autocmd("CursorHold", {
+      autocmd({ "CursorHold", "InsertLeave", "BufEnter" }, {
         group = groups.highlight,
         buffer = bufnr,
         callback = vim.lsp.buf.document_highlight,
       })
-      autocmd("CursorMoved", {
+      autocmd({ "CursorMoved", "InsertEnter", "BufLeave" }, {
         group = groups.highlight,
         buffer = bufnr,
         callback = vim.lsp.buf.clear_references,
