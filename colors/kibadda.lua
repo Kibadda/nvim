@@ -125,7 +125,7 @@ local groups = vim.tbl_extend("error", statusline_groups, {
   Boolean = { fg = colors.cyan },
   Character = { fg = colors.green },
   ColorColumn = { bg = colors.selection },
-  Comment = { fg = colors.comment, italic = true },
+  Comment = { fg = colors.comment },
   Conceal = { fg = colors.comment },
   Conditional = { fg = colors.pink },
   Constant = { fg = colors.yellow },
