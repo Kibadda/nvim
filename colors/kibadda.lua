@@ -346,6 +346,7 @@ local groups = vim.tbl_extend("error", statusline_groups, {
 
   -- Winbar styling.
   WinBar = { fg = colors.fg, bg = "NONE" },
+  WinBarNC = { link = "WinBar" },
 
   -- Quickfix window.
   QuickFixLine = { italic = true, bg = colors.transparent_red },

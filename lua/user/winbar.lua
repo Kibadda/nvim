@@ -19,5 +19,5 @@ return function()
     icon = "%#" .. hl .. "#" .. icon .. "%*"
   end
 
-  return "%=" .. icon .. winbar
+  return "%=" .. icon .. winbar .. " "
 end

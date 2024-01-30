@@ -31,7 +31,7 @@ M.git = {
       return "+" .. (self.status.added or 0)
     end,
     hl = function()
-      return { fg = "#98BC99" }
+      return "GitSignsAdd"
     end,
   },
   {
@@ -39,7 +39,7 @@ M.git = {
       return "-" .. (self.status.removed or 0)
     end,
     hl = function()
-      return { fg = "#FCA5A5" }
+      return "GitSignsDelete"
     end,
   },
   {
@@ -47,7 +47,7 @@ M.git = {
       return "~" .. (self.status.changed or 0)
     end,
     hl = function()
-      return { fg = "#FBC19D" }
+      return "GitSignsChange"
     end,
   },
 }
@@ -55,7 +55,7 @@ M.git = {
 M.diagnostics = {
   init = function(self)
     for _, severity in ipairs(vim.diagnostic.severity) do
-      self[severity:lower()] = #vim.diagnostic.get(0, { severity = severity })
+      self[string.lower(severity)] = #vim.diagnostic.get(0, { severity = severity })
     end
   end,
   update = {
