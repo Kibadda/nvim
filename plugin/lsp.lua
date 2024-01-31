@@ -120,6 +120,17 @@ autocmd("LspAttach", {
       end, "References")
     end
 
+    if client.supports_method(methods.textDocument_implementation) then
+      map("gI", function()
+        local ok, extra = pcall(require, "mini.extra")
+        if ok then
+          extra.pickers.lsp { scope = "implementation" }
+        else
+          vim.lsp.buf.implementation()
+        end
+      end, "Implementations")
+    end
+
     if client.supports_method(methods.textDocument_documentSymbol) then
       map("<Leader>ls", function()
         local ok, extra = pcall(require, "mini.extra")
