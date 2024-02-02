@@ -18,4 +18,4 @@ end
 
 require "user.lazy"
 
-vim.cmd.colorscheme "gruvbox"
+vim.cmd.colorscheme "gruvbox-transparent"
