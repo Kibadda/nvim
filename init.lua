@@ -18,4 +18,4 @@ end
 
 require "user.lazy"
 
-vim.cmd.colorscheme "kibadda"
+vim.cmd.colorscheme "gruvbox"
