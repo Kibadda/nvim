@@ -163,13 +163,23 @@ autocmd("LspAttach", {
     map("<Leader>lj", vim.diagnostic.goto_next, "Next Diagnostic")
     map("<Leader>lk", vim.diagnostic.goto_prev, "Prev Diagnostic")
 
-    -- map("n", "<Leader>lR", function()
-    --   client.stop()
+    map("<Leader>lR", function()
+      local bufs = vim.lsp.get_buffers_by_client_id(client.id)
 
-    --   vim.defer_fn(function()
-    --     vim.lsp.start(client.config)
-    --   end, 500)
-    -- end, { desc = "Restart", buffer = bufnr })
+      client.stop()
+
+      vim.wait(30000, function()
+        return vim.lsp.get_client_by_id(client.id) == nil
+      end)
+
+      local client_id = vim.lsp.start_client(client.config)
+
+      if client_id then
+        for _, buf in ipairs(bufs) do
+          vim.lsp.buf_attach_client(buf, client_id)
+        end
+      end
+    end, "Restart")
   end,
 })
 
