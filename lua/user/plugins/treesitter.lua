@@ -1,6 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdateSync",
+  lazy = false,
+  build = ":TSUpdate",
   dependencies = {
     "nvim-treesitter/nvim-treesitter-textobjects",
     "windwp/nvim-ts-autotag",
