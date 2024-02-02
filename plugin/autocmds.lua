@@ -74,3 +74,11 @@ autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
     vim.system { "kitty", "@", "--to", vim.env.KITTY_LISTEN_ON, "set-tab-title", name }
   end,
 })
+
+autocmd("ColorScheme", {
+  group = group,
+  callback = function()
+    require("heirline").setup(require("user.plugins.heirline").opts())
+    require("colorizer").reload_all_buffers()
+  end,
+})
