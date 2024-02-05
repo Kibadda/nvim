@@ -11,9 +11,9 @@ return function(_, start_opts)
       },
       postprocess = function(items)
         return vim.tbl_filter(function(item)
-          return item ~= '' and not vim.startswith(item, ".git/")
+          return item ~= "" and not vim.startswith(item, ".git/")
         end, items)
-      end
+      end,
     },
     vim.tbl_deep_extend("force", {
       source = {

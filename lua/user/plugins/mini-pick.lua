@@ -42,5 +42,6 @@ return {
     MiniPick.registry.registry = require "user.plugins.mini-pick.registry"
     MiniPick.registry.emoji = require "user.plugins.mini-pick.emoji"
     MiniPick.registry.all_files = require "user.plugins.mini-pick.all_files"
+    MiniPick.registry.files = require "user.plugins.mini-pick.files"
   end,
 }

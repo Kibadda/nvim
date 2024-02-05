@@ -75,6 +75,14 @@ end
 return function(local_opts, start_opts)
   start_opts = start_opts or {}
   start_opts.mappings = {
+    files = {
+      char = "<C-n>",
+      func = function()
+        require "mini.pick"
+        MiniPick.registry.files()
+        return true
+      end,
+    },
     create = {
       char = "<C-CR>",
       func = function()
