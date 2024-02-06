@@ -4,7 +4,7 @@ end
 
 vim.g.loaded_session = 1
 
-local session_dir = vim.fn.stdpath "data" .. "/session"
+vim.g.session_dir = vim.fn.stdpath "data" .. "/session"
 
 ---@param session string
 local function save(session)
@@ -23,11 +23,11 @@ local function new()
     session = input
   end)
 
-  if not session or vim.fn.filereadable(session_dir .. "/" .. session) == 1 then
+  if not session or vim.fn.filereadable(vim.g.session_dir .. "/" .. session) == 1 then
     return
   end
 
-  save(session_dir .. "/" .. session)
+  save(vim.g.session_dir .. "/" .. session)
 end
 
 local function update()
@@ -40,7 +40,7 @@ end
 
 ---@param session? string
 local function load(session)
-  if not session or vim.fn.filereadable(session_dir .. "/" .. session) == 0 then
+  if not session or vim.fn.filereadable(vim.g.session_dir .. "/" .. session) == 0 then
     return
   end
 
@@ -49,7 +49,7 @@ local function load(session)
   vim.lsp.stop_client(vim.lsp.get_clients())
 
   vim.cmd "%bwipeout"
-  vim.cmd.source(session_dir .. "/" .. session)
+  vim.cmd.source(vim.g.session_dir .. "/" .. session)
 
   vim.cmd.clearjumps()
 end
