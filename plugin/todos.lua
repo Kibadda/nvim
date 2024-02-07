@@ -59,8 +59,6 @@ local function get_todos()
 end
 
 local function open_todos()
-  get_todos()
-
   local wins = {}
 
   local width = math.floor(vim.o.columns * 0.65)
@@ -157,6 +155,7 @@ vim.api.nvim_create_user_command("Todos", function(args)
       week[name] = {}
     end
   else
+    get_todos()
     open_todos()
   end
 end, { bang = false, bar = false, nargs = "?" })
