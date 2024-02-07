@@ -150,8 +150,8 @@ end
 vim.api.nvim_create_autocmd("VimResized", {
   group = vim.api.nvim_create_augroup("TodoResize", { clear = true }),
   callback = function()
-    local width = vim.o.columns * 0.65
-    local height = vim.o.lines * 0.65
+    local width = math.floor(vim.o.columns * 0.65)
+    local height = math.floor(vim.o.lines * 0.65)
 
     for i, name in ipairs(weekdays) do
       vim.api.nvim_win_set_config(wins[name], {
