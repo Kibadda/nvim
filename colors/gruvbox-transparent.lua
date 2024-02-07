@@ -462,6 +462,9 @@ local theme = {
   ["@markup.raw"] = { fg = green },
   ["@markup.strong"] = { fg = red, bold = true },
   ["@markup.underline"] = { link = "Underlined" },
+  ["@variable.member"] = { link = "Identifier" },
+  ["@lsp.mod.defaultLibrary"] = { link = "Special" },
+  ["@lsp.mod.global"] = { link = "Constant" },
   TodosBorder = { fg = red },
   TodosBorderNC = { fg = cyan },
 }
