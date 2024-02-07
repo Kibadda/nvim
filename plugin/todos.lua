@@ -5,7 +5,6 @@ end
 vim.g.loaded_todos = 1
 
 local guicursor = vim.opt.guicursor:get()
-
 local filled = false
 local week = {
   Montag = {},
@@ -14,6 +13,16 @@ local week = {
   Donnerstag = {},
   Freitag = {},
 }
+local wins = {}
+local weekdays = { "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag" }
+
+local function close()
+  for _, win in pairs(wins) do
+    vim.api.nvim_win_close(win, true)
+  end
+  vim.cmd.highlight "Cursor blend=0"
+  vim.opt.guicursor = guicursor
+end
 
 local function get_todos()
   if filled then
@@ -59,21 +68,11 @@ local function get_todos()
 end
 
 local function open_todos()
-  local wins = {}
-
   local width = math.floor(vim.o.columns * 0.65)
   local height = math.floor(vim.o.lines * 0.65)
 
-  local function close()
-    for _, win in pairs(wins) do
-      vim.api.nvim_win_close(win, true)
-    end
-    vim.cmd.highlight "Cursor blend=0"
-    vim.opt.guicursor = guicursor
-  end
-
   local weekday = tonumber(os.date "%w")
-  local weekdays = { "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag" }
+
   for i, name in ipairs(weekdays) do
     local ns = vim.api.nvim_create_namespace("todos" .. name)
     local buf = vim.api.nvim_create_buf(false, true)
@@ -147,6 +146,24 @@ local function open_todos()
   vim.opt.guicursor = "a:Cursor/lCursor"
   vim.api.nvim_set_current_win(wins[weekdays[weekday]])
 end
+
+vim.api.nvim_create_autocmd("VimResized", {
+  group = vim.api.nvim_create_augroup("TodoResize", { clear = true }),
+  callback = function()
+    local width = vim.o.columns * 0.65
+    local height = vim.o.lines * 0.65
+
+    for i, name in ipairs(weekdays) do
+      vim.api.nvim_win_set_config(wins[name], {
+        relative = "editor",
+        height = height,
+        width = math.floor(width / 5 - 2),
+        row = (vim.o.lines - height) / 2,
+        col = (vim.o.columns - width) / 2 + math.floor(width * (i - 1) / 5) + 1,
+      })
+    end
+  end,
+})
 
 vim.api.nvim_create_user_command("Todos", function(args)
   if vim.trim(args.args) == "clear" then
