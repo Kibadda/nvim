@@ -3,23 +3,6 @@ return {
   enabled = not vim.g.started_as_db_client and vim.fn.argc() == 0,
   event = "VimEnter",
   opts = function()
-    local sections = require("projectodo").get_sections "mini-starter"
-
-    table.insert(sections, 1, function()
-      return {
-        {
-          name = "Quit",
-          action = "q",
-          section = "",
-        },
-        {
-          name = "Edit New Buffer",
-          action = "enew",
-          section = "",
-        },
-      }
-    end)
-
     local weekday = os.date "%w"
     local day = table.concat(require("user.data.weekdays").german[tonumber(weekday == "0" and 7 or weekday)], "\n")
 
@@ -27,7 +10,43 @@ return {
       header = function()
         return day:gsub("AAAAAAAAAA", os.date "%d.%m.%Y")
       end,
-      items = sections,
+      items = {
+        function()
+          return {
+            {
+              name = "Quit",
+              action = "q",
+              section = "",
+            },
+            {
+              name = "Edit new buffer",
+              action = "enew",
+              section = "",
+            },
+            {
+              name = "Todos",
+              action = "Todos",
+              section = "",
+            },
+          }
+        end,
+        function()
+          local items = {}
+          for name, type in vim.fs.dir(vim.g.session_dir) do
+            if type == "file" then
+              table.insert(items, {
+                name = name,
+                action = function()
+                  vim.g.session_load(name)
+                end,
+                section = "Sessions",
+              })
+            end
+          end
+
+          return items
+        end,
+      },
       footer = function()
         local stats = require("lazy").stats()
         return ("Loaded %d/%d plugins in %dms"):format(stats.loaded, stats.count, stats.startuptime)

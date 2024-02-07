@@ -462,6 +462,8 @@ local theme = {
   ["@markup.raw"] = { fg = green },
   ["@markup.strong"] = { fg = red, bold = true },
   ["@markup.underline"] = { link = "Underlined" },
+  TodosBorder = { fg = red },
+  TodosBorderNC = { fg = cyan },
 }
 for k, v in pairs(theme) do
   vim.api.nvim_set_hl(0, k, v)

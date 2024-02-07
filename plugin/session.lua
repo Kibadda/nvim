@@ -48,7 +48,7 @@ local function load(session)
 
   vim.lsp.stop_client(vim.lsp.get_clients())
 
-  vim.cmd "%bwipeout"
+  vim.cmd "silent! %bwipeout"
   vim.cmd.source(vim.g.session_dir .. "/" .. session)
 
   vim.cmd.clearjumps()
