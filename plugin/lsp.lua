@@ -35,7 +35,7 @@ function vim.lsp.codelens.on_codelens(err, result, ctx, _)
     result = vim.b[ctx.bufnr].codelenses(err, result, ctx)
   end
 
-  on_codelens(err, result, ctx)
+  on_codelens(err, result, ctx, _)
 end
 
 autocmd("LspAttach", {
