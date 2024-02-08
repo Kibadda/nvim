@@ -15,6 +15,7 @@ local week = {
 }
 local wins = {}
 local weekdays = { "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag" }
+local shown = false
 
 local function close()
   for _, win in pairs(wins) do
@@ -22,6 +23,7 @@ local function close()
   end
   vim.cmd.highlight "Cursor blend=0"
   vim.opt.guicursor = guicursor
+  shown = false
 end
 
 local function get_todos()
@@ -145,6 +147,8 @@ local function open_todos()
   vim.cmd.highlight "Cursor blend=100"
   vim.opt.guicursor = "a:Cursor/lCursor"
   vim.api.nvim_set_current_win(wins[weekdays[weekday]])
+
+  shown = true
 end
 
 vim.api.nvim_create_autocmd("VimResized", {
@@ -172,9 +176,13 @@ vim.api.nvim_create_user_command("Todos", function(args)
       week[name] = {}
     end
   else
+    if shown then
+      close()
+    end
+
     get_todos()
     open_todos()
   end
 end, { bang = false, bar = false, nargs = "?" })
 
-vim.keymap.set("n", "<Leader>T", "<Cmd>Todos<CR>", { desc = "Todos" })
+vim.keymap.set("n", "<Leader>t", "<Cmd>Todos<CR>", { desc = "Todos" })
