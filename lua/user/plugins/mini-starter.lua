@@ -23,11 +23,11 @@ return {
               action = "enew",
               section = "",
             },
-            {
+            vim.env.LOCATION == "work" and {
               name = "Todos",
               action = "Todos",
               section = "",
-            },
+            } or nil,
           }
         end,
         function()
