@@ -49,7 +49,8 @@ local function get_todos()
             return vim.tbl_contains(vim.tbl_keys(week), label)
           end)
         then
-          local weekday, project
+          local weekday
+          local project = "Cortex"
 
           for _, label in ipairs(issue.labels) do
             if week[label] then
