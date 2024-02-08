@@ -49,7 +49,6 @@ autocmd("FileType", {
   group = group,
   pattern = {
     "help",
-    "man",
     "qf",
     "checkhealth",
   },
