@@ -1,3 +1,10 @@
+-- TODO move to own tab
+-- TODO show opened and closed issues on left and right
+-- TODO add function to move issues
+-- TODO add function to close issue
+-- TODO add function to create new issue
+-- TODO add function to delete issue
+
 if vim.g.loaded_todos or vim.env.LOCATION ~= "work" then
   return
 end
