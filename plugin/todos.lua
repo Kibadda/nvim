@@ -194,3 +194,6 @@ vim.api.nvim_create_user_command("Todos", function(args)
 end, { bang = false, bar = false, nargs = "?" })
 
 vim.keymap.set("n", "<Leader>t", "<Cmd>Todos<CR>", { desc = "Todos" })
+
+vim.api.nvim_set_hl(0, "TodosBorder", { fg = vim.g.colors.red })
+vim.api.nvim_set_hl(0, "TodosBorderNC", { fg = vim.g.colors.cyan })
