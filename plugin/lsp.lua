@@ -163,7 +163,7 @@ autocmd("LspAttach", {
     map("<Leader>lj", vim.diagnostic.goto_next, "Next Diagnostic")
     map("<Leader>lk", vim.diagnostic.goto_prev, "Prev Diagnostic")
 
-    map("<Leader>lR", function()
+    map("<Leader>lC", function()
       local bufs = vim.lsp.get_buffers_by_client_id(client.id)
 
       client.stop()
@@ -196,10 +196,10 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers["
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
   vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
     signs = {
-      severity_limit = "Error",
+      severity = { min = vim.diagnostic.severity.ERROR },
     },
     underline = {
-      severity_limit = "Warning",
+      severity = { min = vim.diagnostic.severity.WARN },
     },
     virtual_text = true,
   })
