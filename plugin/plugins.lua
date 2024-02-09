@@ -10,26 +10,27 @@ local cache = setmetatable({}, {
     local query = vim.treesitter.query.parse(
       "lua",
       [[
-          (return_statement
-            (expression_list
-              (table_constructor
-                [
-                  (field
-                    !name
-                    value: (string content: (string_content) @plugin))
-                  (field
-                    name: (identifier) @_dependencies (#eq? @_dependencies "dependencies")
-                    value: (table_constructor
-                      (field
-                        !name
-                        value: [
-                          (string content: (string_content) @plugin)
-                          (table_constructor
-                            (field
-                              !name
-                              value: (string content: (string_content) @plugin)))
-                        ])))
-                ])))
+          (chunk
+            (return_statement
+              (expression_list
+                (table_constructor
+                  [
+                    (field
+                      !name
+                      value: (string content: (string_content) @plugin))
+                    (field
+                      name: (identifier) @_dependencies (#eq? @_dependencies "dependencies")
+                      value: (table_constructor
+                        (field
+                          !name
+                          value: [
+                            (string content: (string_content) @plugin)
+                            (table_constructor
+                              (field
+                                !name
+                                value: (string content: (string_content) @plugin)))
+                          ])))
+                  ]))))
         ]]
     )
 
@@ -125,6 +126,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
         return result
       end
+    elseif args.file:match "lua/user/lazy.lua" then
+      vim.keymap.set("n", "gP", function()
+        vim.ui.open "https://github.com/folke/lazy.nvim"
+      end)
     end
   end,
 })
