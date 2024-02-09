@@ -58,19 +58,40 @@ autocmd("FileType", {
   end,
 })
 
-autocmd({ "SessionLoadPost", "VimLeave", "FocusGained" }, {
+autocmd("SessionLoadPost", {
   group = group,
   callback = function()
-    if vim.g.started_as_db_client then
-      return
+    vim.system {
+      "kitty",
+      "@",
+      "--to",
+      vim.env.KITTY_LISTEN_ON,
+      "set-tab-title",
+      "nvim " .. table.remove(vim.split(vim.v.this_session, "/")),
+    }
+  end,
+})
+
+autocmd("VimLeave", {
+  group = group,
+  callback = function()
+    vim.system { "kitty", "@", "--to", vim.env.KITTY_LISTEN_ON, "set-tab-title", "" }
+  end,
+})
+
+autocmd("FocusGained", {
+  group = group,
+  callback = function()
+    if vim.v.this_session and vim.v.this_session ~= "" then
+      vim.system {
+        "kitty",
+        "@",
+        "--to",
+        vim.env.KITTY_LISTEN_ON,
+        "set-tab-title",
+        "nvim " .. table.remove(vim.split(vim.v.this_session, "/")),
+      }
     end
-    local name
-    if vim.v.exiting ~= vim.NIL then
-      name = ""
-    else
-      name = "nvim " .. table.remove(vim.split(vim.v.this_session, "/"))
-    end
-    vim.system { "kitty", "@", "--to", vim.env.KITTY_LISTEN_ON, "set-tab-title", name }
   end,
 })
 
