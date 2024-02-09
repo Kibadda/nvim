@@ -8,6 +8,8 @@ vim.g.mapleader = vim.keycode "<Space>"
 
 vim.loader.enable()
 
+vim.cmd.colorscheme "gruvbox-transparent"
+
 local set = vim.keymap.set
 ---@diagnostic disable-next-line: duplicate-set-field
 function vim.keymap.set(mode, lhs, rhs, opts)
@@ -17,5 +19,3 @@ function vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 require "user.lazy"
-
-vim.cmd.colorscheme "gruvbox-transparent"
