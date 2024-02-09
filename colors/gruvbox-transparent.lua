@@ -465,6 +465,9 @@ local theme = {
   ["@variable.member"] = { link = "Identifier" },
   ["@lsp.mod.defaultLibrary"] = { link = "Special" },
   ["@lsp.mod.global"] = { link = "Constant" },
+  ["@lsp.typemod.property"] = { link = "Identifier" },
+  ["@lsp.typemod.member"] = { link = "Identifier" },
+  ["@lsp.typemod.function"] = { link = "Function" },
   TodosBorder = { fg = red },
   TodosBorderNC = { fg = cyan },
 }
