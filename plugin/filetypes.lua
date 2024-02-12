@@ -8,5 +8,6 @@ vim.filetype.add {
   pattern = {
     [".*/kitty/.*%.conf"] = "kitty",
     [".*/nginx/.*"] = "nginx",
+    [".*/hyprland%.conf"] = "hyprlang",
   },
 }

@@ -5,7 +5,6 @@ return {
   dependencies = {
     "nvim-treesitter/nvim-treesitter-textobjects",
     "windwp/nvim-ts-autotag",
-    "luckasRanarison/tree-sitter-hypr",
   },
   opts = {
     ensure_installed = {
@@ -107,13 +106,13 @@ return {
       maintainers = { "Kibadda" },
     }
 
-    parsers.hypr = {
+    parsers.hyprlang = {
       install_info = {
-        url = "https://github.com/luckasRanarison/tree-sitter-hypr",
+        url = "https://github.com/tree-sitter-grammars/tree-sitter-hyprlang",
         files = { "src/parser.c" },
         branch = "master",
       },
-      filetype = "hypr",
+      filetype = "hyprlang",
       maintainers = { "luckasRanarison" },
     }
 

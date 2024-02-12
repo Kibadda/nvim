@@ -31,7 +31,6 @@
   "rest.nvim": { "branch": "main", "commit": "2d7bd3d398940ce2692941e6cd052c072207b9f9" },
   "todo-comments.nvim": { "branch": "main", "commit": "833d8dd8b07eeda37a09e99460f72a02616935cb" },
   "translate.nvim": { "branch": "main", "commit": "30cc9e9f339b61e7bd40bc1ba7af73ea193bf589" },
-  "tree-sitter-hypr": { "branch": "master", "commit": "e60fc858e6327a15c0b26f99ec96945fecd1e4ee" },
   "treesj": { "branch": "main", "commit": "14808da3cddd62fc86ede53a5ea1fd1635897e75" },
   "vim-dotenv": { "branch": "master", "commit": "5c51cfcf8d87280d6414e03cd6b253eb70ecb800" },
   "vim-kitty": { "branch": "main", "commit": "dc5086d4bdd3cc99133015dad0a1f1b3b61f5aaf" },
