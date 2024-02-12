@@ -88,7 +88,7 @@ return {
     parsers.smarty = {
       install_info = {
         -- url = "https://github.com/Kibadda/tree-sitter-smarty",
-        url = "/home/michael/plugins/tree-sitter-smarty",
+        url = "/home/michael/Projects/Personal/tree-sitter-smarty",
         files = { "src/parser.c" },
         branch = "main",
       },
