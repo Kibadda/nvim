@@ -14,6 +14,7 @@ return {
       "typescript",
       "css",
       "php",
+      "php_only",
       "phpdoc",
       "html",
       "sql",
