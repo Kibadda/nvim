@@ -473,6 +473,9 @@ local theme = {
   ["@lsp.typemod.property"] = { link = "Identifier" },
   ["@lsp.typemod.member"] = { link = "Identifier" },
   ["@lsp.typemod.function"] = { link = "Function" },
+  ["@tag"] = { fg = colors.red },
+  ["@tag.attribute"] = { fg = colors.yellow },
+  ["@tag.delimiter"] = { fg = colors.black },
   TreesitterContextBottom = { underline = true, special = "#928374" },
   TreesitterContextLineNumberBottom = { link = "TreesitterContextBottom" },
 }
