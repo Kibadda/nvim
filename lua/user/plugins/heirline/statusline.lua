@@ -50,6 +50,9 @@ M.git = {
       return "GitSignsChange"
     end,
   },
+  {
+    provider = " | ",
+  },
 }
 
 M.diagnostics = {
@@ -87,6 +90,9 @@ M.diagnostics = {
       return "H" .. (self.hint < 10 and self.hint or "#")
     end,
     hl = "DiagnosticSignHint",
+  },
+  {
+    provider = " | ",
   },
 }
 
@@ -135,52 +141,78 @@ M.filetype = {
 }
 
 M.lsp = {
-  init = function(self)
-    local buf_client_names = {}
-
-    for _, client in pairs(vim.lsp.get_clients { bufnr = 0 }) do
-      if client.name ~= "null-ls" then
-        table.insert(buf_client_names, client.name .. "[" .. client.id .. "]")
-      end
-    end
-
-    local sources = {}
-    if pcall(require, "conform") then
-      for _, source in ipairs(require("conform").list_formatters(0)) do
-        table.insert(sources, source.name)
-      end
-    end
-
-    self.servers = vim.list_extend(buf_client_names, sources)
-  end,
-  update = { "LspAttach", "LspDetach", "BufEnter" },
+  flexible = 3,
   {
-    provider = function(self)
-      return #self.servers > 0 and table.concat(self.servers, ", ") or "LS inactive"
-    end,
-    hl = { bold = true, fg = nil },
+    {
+      provider = " | ",
+    },
+    {
+      update = { "LspAttach", "LspDetach", "BufEnter" },
+      provider = function()
+        local buf_client_names = {}
+
+        for _, client in pairs(vim.lsp.get_clients { bufnr = 0 }) do
+          if client.name ~= "null-ls" then
+            table.insert(buf_client_names, client.name .. "[" .. client.id .. "]")
+          end
+        end
+
+        local sources = {}
+        if pcall(require, "conform") then
+          for _, source in ipairs(require("conform").list_formatters(0)) do
+            table.insert(sources, source.name)
+          end
+        end
+
+        local servers = vim.list_extend(buf_client_names, sources)
+
+        return #servers > 0 and table.concat(servers, ", ") or "LS inactive"
+      end,
+      hl = { bold = true, fg = nil },
+    },
+  },
+  {
+    provider = "",
   },
 }
 
 M.formatting = {
+  flexible = 2,
   {
-    provider = function()
-      return ("Format: %s"):format(vim.g.AutoFormat == 1 and " " or " ")
-    end,
-    hl = function()
-      return { fg = vim.g.AutoFormat == 1 and "#98BC99" or "#BF7471" }
-    end,
+    {
+      provider = " | ",
+    },
+    {
+      provider = function()
+        return ("Format: %s"):format(vim.g.AutoFormat == 1 and " " or " ")
+      end,
+      hl = function()
+        return { fg = vim.g.AutoFormat == 1 and "#98BC99" or "#BF7471" }
+      end,
+    },
+  },
+  {
+    provider = "",
   },
 }
 
 M.inlay_hints = {
+  flexible = 1,
   {
-    provider = function()
-      return ("Hints: %s"):format(vim.g.LspInlayHints == 1 and " " or " ")
-    end,
-    hl = function()
-      return { fg = vim.g.LspInlayHints == 1 and "#98BC99" or "#BF7471" }
-    end,
+    {
+      provider = " | ",
+    },
+    {
+      provider = function()
+        return ("Hints: %s"):format(vim.g.LspInlayHints == 1 and " " or " ")
+      end,
+      hl = function()
+        return { fg = vim.g.LspInlayHints == 1 and "#98BC99" or "#BF7471" }
+      end,
+    },
+  },
+  {
+    provider = "",
   },
 }
 

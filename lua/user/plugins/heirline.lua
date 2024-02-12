@@ -10,7 +10,6 @@ return {
 
     local align = { provider = "%=", hl = { bg = "" } }
     local space = { provider = " " }
-    local bar = { provider = " | " }
 
     return {
       statuscolumn = {
@@ -63,17 +62,12 @@ return {
           statusline.mode,
           space,
           statusline.git,
-          bar,
           statusline.diagnostics,
-          bar,
           statusline.filename,
           align,
           statusline.filetype,
-          bar,
           statusline.lsp,
-          bar,
           statusline.formatting,
-          bar,
           statusline.inlay_hints,
           space,
           statusline.position,
