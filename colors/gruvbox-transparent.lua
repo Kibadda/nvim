@@ -473,6 +473,8 @@ local theme = {
   ["@lsp.typemod.property"] = { link = "Identifier" },
   ["@lsp.typemod.member"] = { link = "Identifier" },
   ["@lsp.typemod.function"] = { link = "Function" },
+  TreesitterContextBottom = { underline = true, special = "#928374" },
+  TreesitterContextLineNumberBottom = { link = "TreesitterContextBottom" },
 }
 for k, v in pairs(theme) do
   vim.api.nvim_set_hl(0, k, v)
