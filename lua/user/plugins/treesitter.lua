@@ -85,27 +85,20 @@ return {
     ---@type table<string,ParserInfo>
     local parsers = require("nvim-treesitter.parsers").get_parser_configs()
 
-    parsers.smarty = {
-      install_info = {
-        -- url = "https://github.com/Kibadda/tree-sitter-smarty",
-        url = "/home/michael/Projects/Personal/tree-sitter-smarty",
-        files = { "src/parser.c" },
-        branch = "main",
-      },
-      filetype = "smarty",
-      maintainers = { "Kibadda" },
-    }
+    if vim.env.LOCATION == "work" then
+      parsers.smarty = {
+        install_info = {
+          -- url = "https://github.com/Kibadda/tree-sitter-smarty",
+          url = "/home/michael/Projects/Personal/tree-sitter-smarty",
+          files = { "src/parser.c", "src/scanner.c" },
+          branch = "dev",
+        },
+        filetype = "smarty",
+        maintainers = { "Kibadda" },
+      }
 
-    parsers.snippets = {
-      install_info = {
-        url = "https://github.com/Kibadda/tree-sitter-snippets",
-        -- url = "/home/michael/plugins/tree-sitter-snippets",
-        files = { "src/parser.c" },
-        branch = "main",
-      },
-      filetype = "snippets",
-      maintainers = { "Kibadda" },
-    }
+      vim.opt.runtimepath:append(vim.fn.expand "$HOME/Projects/Personal/tree-sitter-smarty")
+    end
 
     parsers.hyprlang = {
       install_info = {
