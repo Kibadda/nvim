@@ -42,3 +42,9 @@ vim.lsp.start {
   end)(),
   init_options = {},
 }
+
+if
+  vim.api.nvim_buf_get_name(0):find(vim.fn.stdpath "config" --[[@as string]])
+then
+  require("user.config-lsp").start()
+end
