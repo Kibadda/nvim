@@ -11,6 +11,8 @@ local clear = vim.api.nvim_clear_autocmds
 vim.g.LspInlayHints = vim.g.LspInlayHints or 0
 
 local lsp_start = vim.lsp.start
+---@param config lsp.ClientConfig
+---@param start_opts? lsp.StartOpts
 ---@diagnostic disable-next-line:duplicate-set-field
 function vim.lsp.start(config, start_opts)
   -- require mason to load binary path
@@ -22,6 +24,7 @@ function vim.lsp.start(config, start_opts)
 
   if config.root_markers then
     config.root_dir = vim.fs.dirname(vim.fs.find(config.root_markers, { upward = true })[1])
+    ---@diagnostic disable-next-line:inject-field
     config.root_markers = nil
   end
 
