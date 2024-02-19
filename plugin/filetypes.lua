@@ -9,5 +9,6 @@ vim.filetype.add {
     [".*/kitty/.*%.conf"] = "kitty",
     [".*/nginx/.*"] = "nginx",
     [".*/hyprland%.conf"] = "hyprlang",
+    [".*/%.?git/config"] = "gitconfig",
   },
 }
