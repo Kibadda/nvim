@@ -162,17 +162,19 @@ end
 vim.api.nvim_create_autocmd("VimResized", {
   group = vim.api.nvim_create_augroup("TodoResize", { clear = true }),
   callback = function()
-    local width = math.floor(vim.o.columns * 0.65)
-    local height = math.floor(vim.o.lines * 0.65)
+    if shown then
+      local width = math.floor(vim.o.columns * 0.65)
+      local height = math.floor(vim.o.lines * 0.65)
 
-    for i, name in ipairs(weekdays) do
-      vim.api.nvim_win_set_config(wins[name], {
-        relative = "editor",
-        height = height,
-        width = math.floor(width / 5 - 2),
-        row = (vim.o.lines - height) / 2,
-        col = (vim.o.columns - width) / 2 + math.floor(width * (i - 1) / 5) + 1,
-      })
+      for i, name in ipairs(weekdays) do
+        vim.api.nvim_win_set_config(wins[name], {
+          relative = "editor",
+          height = height,
+          width = math.floor(width / 5 - 2),
+          row = (vim.o.lines - height) / 2,
+          col = (vim.o.columns - width) / 2 + math.floor(width * (i - 1) / 5) + 1,
+        })
+      end
     end
   end,
 })
