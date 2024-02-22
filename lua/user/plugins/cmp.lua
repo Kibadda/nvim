@@ -95,6 +95,7 @@ return {
         end, { "i", "s" }),
         ["<C-k>"] = cmp.mapping.scroll_docs(-4),
         ["<C-j>"] = cmp.mapping.scroll_docs(4),
+        ["<C-Space>"] = cmp.mapping.complete(),
       },
     }
   end,
