@@ -233,7 +233,7 @@ local function show_progress(win, buf, data)
     width = text_width,
   }
 
-  if not win then
+  if not win or not vim.api.nvim_win_is_valid(win) then
     win = vim.api.nvim_open_win(buf, false, win_options)
 
     progress_windows[data.result.token] = {
