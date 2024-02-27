@@ -46,7 +46,6 @@ M.config = {
       end,
     }
   end,
-  init_options = {},
 }
 
 function M.start()

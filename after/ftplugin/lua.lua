@@ -40,7 +40,6 @@ vim.lsp.start {
 
     return config.settings
   end)(),
-  init_options = {},
 }
 
 if
