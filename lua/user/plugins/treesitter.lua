@@ -27,13 +27,21 @@ return {
     },
   },
   init = function(plugin)
+    local group = vim.api.nvim_create_augroup("NvimTreesitter", { clear = true })
+
     vim.api.nvim_create_autocmd("FileType", {
-      group = vim.api.nvim_create_augroup("NvimTreesitter", { clear = true }),
-      pattern = vim.list_extend({ "lua", "c", "markdown", "sh", "smarty" }, plugin.opts.ensure_install),
+      group = group,
+      pattern = vim.list_extend({ "smarty" }, plugin.opts.ensure_install),
       callback = function(args)
-        if args.match ~= "lua" then
-          vim.treesitter.start()
-        end
+        vim.treesitter.start()
+        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("FileType", {
+      group = group,
+      pattern = { "lua", "c", "markdown", "sh" },
+      callback = function(args)
         vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })

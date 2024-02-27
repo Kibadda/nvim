@@ -102,3 +102,11 @@ autocmd("ColorScheme", {
     require("colorizer").reload_all_buffers()
   end,
 })
+
+autocmd("FileType", {
+  group = group,
+  pattern = { "c", "markdown", "help", "sh" },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
