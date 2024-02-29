@@ -29,7 +29,7 @@ return {
           }
       end
 
-      return vim.lsp.rpc_response_error(vim.lsp.protocol.ErrorCodese.InvalidRequest)
+      return vim.lsp.rpc_response_error(vim.lsp.protocol.ErrorCodes.InvalidRequest)
     end,
 
     ---@param params lsp.CompletionParams
