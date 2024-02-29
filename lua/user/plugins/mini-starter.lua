@@ -24,8 +24,10 @@ return {
               section = "",
             },
             vim.env.LOCATION == "work" and {
-              name = "Todos",
-              action = "Todos",
+              name = "Kanban",
+              action = function()
+                require("user.kanban").show()
+              end,
               section = "",
             } or nil,
           }

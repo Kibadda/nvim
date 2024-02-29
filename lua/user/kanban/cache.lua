@@ -1,0 +1,78 @@
+local M = {
+  issues = {},
+  labels = {},
+}
+
+local function get_issues(config)
+  local api = require "user.kanban.api"
+
+  local all = api.issues()
+
+  for _, issue in ipairs(all) do
+    local group = "Open"
+    local project = "Cortex"
+
+    if issue.state == "opened" then
+      for _, label in ipairs(issue.labels) do
+        if vim.tbl_contains(config.groups, label) then
+          group = label
+        else
+          project = label
+        end
+      end
+    elseif issue.state == "closed" then
+      group = "Closed"
+      for _, label in ipairs(issue.labels) do
+        project = label
+      end
+    end
+
+    table.insert(M.issues, {
+      id = issue.iid,
+      title = issue.title,
+      group = group,
+      project = project,
+      web_url = issue.web_url,
+      api_url = issue._links.self,
+      description = issue.description ~= vim.NIL and issue.description or nil,
+    })
+  end
+
+  table.sort(M.issues, function(a, b)
+    return b.id < a.id
+  end)
+end
+
+function M.get_issues(config)
+  if #M.issues == 0 then
+    get_issues(config)
+  end
+
+  return M.issues
+end
+
+local function get_labels(config)
+  local api = require "user.kanban.api"
+
+  local all = api.labels()
+
+  for _, label in ipairs(all) do
+    if not vim.tbl_contains(config.groups, label.name) then
+      table.insert(M.labels, label.name)
+    end
+  end
+
+  table.sort(M.labels, function(a, b)
+    return a < b
+  end)
+end
+
+function M.get_labels(config)
+  if #M.labels == 0 then
+    get_labels(config)
+  end
+
+  return M.labels
+end
+
+return M
