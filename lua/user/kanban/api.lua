@@ -16,7 +16,7 @@ end
 local function urlencode(str)
   str = str:gsub("\n", "\r\n")
   str = str:gsub("([^%wäöüß %-%_%.%~])", function(c)
-    return ("%%02X"):format(c:byte())
+    return ("%%%02X"):format(c:byte())
   end)
   str = str:gsub(" ", "+")
 
@@ -94,6 +94,10 @@ function M.update(issue, opts)
     table.insert(query, "title=" .. urlencode(opts.title))
   end
 
+  if opts.description then
+    table.insert(query, "description=" .. urlencode(opts.description))
+  end
+
   if #query == 0 then
     return
   end
@@ -117,8 +121,6 @@ function M.labels()
   if not labels then
     return {}
   end
-
-  vim.print(labels)
 
   return labels
 end

@@ -17,6 +17,7 @@ return function(options)
       height = 3,
       focus = true,
       default = options.fields.title,
+      filetype = "markdown",
     }, form)
   )
   table.insert(
