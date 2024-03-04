@@ -123,4 +123,20 @@ function M.labels()
   return labels
 end
 
+function M.update_time(issue, time)
+  time = time == "" and 0 or tonumber(time)
+
+  if time == 0 then
+    return request("post", issue.api_url .. "/reset_spent_time")
+  end
+
+  local diff = time - issue.time
+
+  if diff == 0 then
+    return
+  end
+
+  return request("post", issue.api_url .. "/add_spent_time?duration=" .. diff .. "m")
+end
+
 return M

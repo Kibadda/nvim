@@ -35,6 +35,7 @@ local function get_issues(config)
       web_url = issue.web_url,
       api_url = issue._links.self,
       description = issue.description ~= vim.NIL and issue.description or nil,
+      time = issue.time_stats.total_time_spent ~= vim.NIL and math.floor(issue.time_stats.total_time_spent / 60) or 0,
     })
   end
 

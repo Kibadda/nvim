@@ -26,6 +26,7 @@ local highlights = {
   BorderWeek = { name = "KanbanBorderWeek", hl = { fg = vim.g.colors.cyan } },
   BorderCurrent = { name = "KanbanBorderCurrent", hl = { fg = vim.g.colors.red } },
   Title = { name = "KanbanTitle", hl = { fg = vim.g.colors.red } },
+  Time = { name = "KanbanTime", hl = { fg = vim.g.colors.blue } },
 }
 
 for _, hl in pairs(highlights) do
@@ -286,6 +287,24 @@ local function create_group(data)
     "Move to Next Group"
   )
 
+  map(
+    "t",
+    with_issue(function(issue)
+      vim.ui.input({ prompt = "Time in Minutes: ", default = issue.time }, function(input)
+        if not input then
+          return
+        end
+
+        api.update_time(issue, input)
+
+        vim.schedule(function()
+          M.issues(true)
+        end)
+      end)
+    end),
+    "Edit Time"
+  )
+
   return {
     win = win,
     buf = buf,
@@ -393,11 +412,28 @@ function M.issues(ignore_cache)
         table.insert(lines, project)
         table.insert(extmarks, {
           line = #lines - 1,
-          col = #project,
+          start_col = 0,
+          end_col = #project,
+          hl = highlights.Title.name,
         })
 
         for _, i in ipairs(labels_per_group[group_name][project]) do
-          table.insert(lines, " - " .. all_issues[i].title)
+          local line = " - " .. all_issues[i].title
+
+          if all_issues[i].time > 0 then
+            local time = " " .. all_issues[i].time .. "m"
+
+            table.insert(extmarks, {
+              line = #lines,
+              start_col = #line,
+              end_col = #line + #time,
+              hl = highlights.Time.name,
+            })
+
+            line = line .. time
+          end
+
+          table.insert(lines, line)
           group.lines_to_issues[#lines] = all_issues[i]
         end
 
@@ -414,10 +450,10 @@ function M.issues(ignore_cache)
       end
 
       for _, extmark in ipairs(extmarks) do
-        vim.api.nvim_buf_set_extmark(group.buf, ns, extmark.line, 0, {
+        vim.api.nvim_buf_set_extmark(group.buf, ns, extmark.line, extmark.start_col, {
           end_row = extmark.line,
-          end_col = extmark.col,
-          hl_group = highlights.Title.name,
+          end_col = extmark.end_col,
+          hl_group = extmark.hl,
         })
       end
     end
