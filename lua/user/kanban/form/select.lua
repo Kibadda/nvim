@@ -42,18 +42,22 @@ function Select:mappings()
     local row = vim.api.nvim_win_get_cursor(self.winid)[1]
     local line = vim.api.nvim_buf_get_lines(self.bufnr, row - 1, row, false)[1]
 
-    local index
-    for i, value in ipairs(self._props.value) do
-      if value == line then
-        index = i
-        break
+    if self._props.multi then
+      local index
+      for i, value in ipairs(self._props.value) do
+        if value == line then
+          index = i
+          break
+        end
       end
-    end
 
-    if index then
-      table.remove(self._props.value, index)
+      if index then
+        table.remove(self._props.value, index)
+      else
+        table.insert(self._props.value, line)
+      end
     else
-      table.insert(self._props.value, line)
+      self._props.value = { line }
     end
 
     self:highlight()

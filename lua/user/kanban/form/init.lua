@@ -37,6 +37,7 @@ return function(options)
       height = 10,
       items = options.fields.labels.items,
       default = options.fields.labels.selected,
+      multi = true,
     }, form)
   )
 
