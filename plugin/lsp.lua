@@ -18,9 +18,8 @@ function vim.lsp.start(config, start_opts)
   -- require mason to load binary path
   require "mason"
 
-  config.capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
-    workspace = { didChangeWatchedFiles = { dynamicRegistration = false } },
-  }, config.capabilities or {})
+  config.capabilities =
+    vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), config.capabilities or {})
 
   if config.root_markers then
     config.root_dir =
