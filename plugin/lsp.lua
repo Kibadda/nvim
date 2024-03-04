@@ -147,6 +147,17 @@ autocmd("LspAttach", {
       end, "Symbols")
     end
 
+    if client.supports_method(methods.workspace_symbol) then
+      map("<Leader>lS", function()
+        local ok, extra = pcall(require, "mini.extra")
+        if ok then
+          extra.pickers.lsp { scope = "workspace_symbol" }
+        else
+          vim.lsp.buf.workspace_symbol()
+        end
+      end, "Workspace Symbols")
+    end
+
     if client.supports_method(methods.textDocument_inlayHint) then
       map("<Leader>li", function()
         vim.g.LspInlayHints = vim.g.LspInlayHints == 0 and 1 or 0
