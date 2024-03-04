@@ -102,6 +102,8 @@ function Base:mount()
       title_pos = "left",
     }, vim.api.nvim_win_get_config(self.winid))
   )
+
+  vim.wo[self.winid].scrolloff = 1
 end
 
 function Base:unmount()
