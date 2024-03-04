@@ -2,11 +2,11 @@ local methods = require "user.config-lsp.methods"
 local commands = require "user.config-lsp.commands"
 
 local M = {
-  ---@type lsp.Client?
+  ---@type vim.lsp.Client?
   client = nil,
 }
 
----@type lsp.ClientConfig
+---@type vim.lsp.ClientConfig
 M.config = {
   name = "config-lsp",
   cmd = function()

@@ -11,8 +11,8 @@ local clear = vim.api.nvim_clear_autocmds
 vim.g.LspInlayHints = vim.g.LspInlayHints or 0
 
 local lsp_start = vim.lsp.start
----@param config lsp.ClientConfig
----@param start_opts? lsp.StartOpts
+---@param config vim.lsp.ClientConfig
+---@param start_opts? vim.lsp.start.Opts
 ---@diagnostic disable-next-line:duplicate-set-field
 function vim.lsp.start(config, start_opts)
   -- require mason to load binary path
