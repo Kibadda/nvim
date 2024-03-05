@@ -31,16 +31,6 @@ function vim.lsp.start(config, start_opts)
   return lsp_start(config, start_opts)
 end
 
-local on_codelens = vim.lsp.codelens.on_codelens
----@diagnostic disable-next-line:duplicate-set-field
-function vim.lsp.codelens.on_codelens(err, result, ctx, _)
-  if vim.b[ctx.bufnr].codelenses then
-    result = vim.b[ctx.bufnr].codelenses(err, result, ctx)
-  end
-
-  on_codelens(err, result, ctx, _)
-end
-
 local group = augroup("LspAttach", { clear = true })
 
 autocmd("LspAttach", {
