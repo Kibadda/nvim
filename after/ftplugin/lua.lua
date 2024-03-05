@@ -3,8 +3,6 @@ vim.lsp.start {
   cmd = { "lua-language-server" },
   filetypes = { "lua" },
   root_markers = { ".luarc.json", "stylua.toml", ".git" },
-  ---@param params lsp.InitializeParams
-  ---@param config lsp.ClientConfig
   before_init = function(params, config)
     if not params.rootPath then
       return
