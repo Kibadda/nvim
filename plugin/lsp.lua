@@ -22,8 +22,15 @@ function vim.lsp.start(config, start_opts)
     vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), config.capabilities or {})
 
   if config.root_markers then
-    config.root_dir =
-      vim.fs.dirname(vim.fs.find(config.root_markers, { upward = true, path = vim.api.nvim_buf_get_name(0) })[1])
+    local file = vim.fs.find(config.root_markers, {
+      upward = true,
+      path = vim.api.nvim_buf_get_name(0),
+    })
+
+    if file and #file > 0 then
+      config.root_dir = vim.fs.dirname(file[1])
+    end
+
     ---@diagnostic disable-next-line:inject-field
     config.root_markers = nil
   end
