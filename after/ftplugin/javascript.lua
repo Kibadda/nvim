@@ -9,6 +9,5 @@ end
 vim.lsp.start {
   name = "tsserver",
   cmd = { "typescript-language-server", "--stdio" },
-  filetypes = { "javascript" },
   root_markers = { "package.json", ".git" },
 }

@@ -13,7 +13,6 @@ vim.opt_local.shiftwidth = 4
 vim.lsp.start {
   name = "intelephense",
   cmd = { "intelephense", "--stdio" },
-  filetypes = { "php" },
   root_markers = { "composer.json", ".git" },
   capabilities = {
     textDocument = { formatting = { dynamicRegistration = false } },
