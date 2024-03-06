@@ -3,7 +3,7 @@ vim.lsp.start {
   cmd = { "lua-language-server" },
   root_markers = { ".luarc.json", "stylua.toml", ".git" },
   before_init = function(params, config)
-    if not params.rootPath then
+    if not params.rootPath or type(params.rootPath) ~= "string" then
       return
     end
 
