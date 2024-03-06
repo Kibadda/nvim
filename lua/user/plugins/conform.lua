@@ -15,6 +15,7 @@ return {
     formatters_by_ft = {
       lua = { "stylua" },
       sh = { "beautysh" },
+      zsh = { "beautysh" },
     },
     notify_on_error = false,
   },
