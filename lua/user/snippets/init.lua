@@ -1,5 +1,7 @@
 local M = {}
 
+---@param params cmp.SourceCompletionApiParams
+---@param callback function
 function M:complete(params, callback)
   local ok, items = pcall(require, "user.snippets." .. params.context.filetype)
   if not ok then
@@ -22,6 +24,8 @@ function M:complete(params, callback)
   callback(result)
 end
 
+---@param item lsp.CompletionItem
+---@param callback function
 function M:execute(item, callback)
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   col = col - #item.word
