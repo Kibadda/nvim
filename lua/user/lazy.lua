@@ -1,6 +1,6 @@
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
-  vim.system {
+  local cmd = {
     "git",
     "clone",
     "--filter=blob:none",
@@ -8,6 +8,7 @@ if not vim.uv.fs_stat(lazypath) then
     "https://github.com/folke/lazy.nvim.git",
     lazypath,
   }
+  vim.system(cmd):wait()
 end
 vim.opt.runtimepath:prepend(lazypath)
 
