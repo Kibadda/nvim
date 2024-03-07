@@ -4,7 +4,7 @@ end
 
 vim.g.loaded_options = 1
 
-local o = vim.opt
+local o = vim.o
 o.autowrite = true
 o.breakindent = true
 o.clipboard = "unnamed,unnamedplus"
