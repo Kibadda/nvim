@@ -110,3 +110,14 @@ autocmd("FileType", {
     vim.treesitter.start()
   end,
 })
+
+autocmd("VimEnter", {
+  group = group,
+  callback = function(data)
+    if vim.fn.isdirectory(data.file) == 1 then
+      vim.cmd.cd(data.file)
+      vim.cmd.argdelete "*"
+      vim.cmd.bdelete()
+    end
+  end,
+})
