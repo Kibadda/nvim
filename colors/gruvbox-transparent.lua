@@ -473,6 +473,7 @@ local theme = {
   ["@lsp.typemod.property"] = { link = "Identifier" },
   ["@lsp.typemod.member"] = { link = "Identifier" },
   ["@lsp.typemod.function"] = { link = "Function" },
+  ["@lsp.typemod.function.defaultLibrary"] = { link = "Special" },
   ["@tag"] = { fg = colors.red },
   ["@tag.attribute"] = { fg = colors.yellow },
   ["@tag.delimiter"] = { fg = colors.black },
