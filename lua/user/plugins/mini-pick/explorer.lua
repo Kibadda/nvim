@@ -78,7 +78,6 @@ return function(local_opts, start_opts)
     files = {
       char = "<C-n>",
       func = function()
-        require "mini.pick"
         MiniPick.registry.files()
         return true
       end,
@@ -147,5 +146,6 @@ return function(local_opts, start_opts)
       end),
     },
   }
+
   return MiniExtra.pickers.explorer(local_opts, start_opts)
 end
