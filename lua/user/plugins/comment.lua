@@ -1,6 +1,11 @@
 return {
   "numToStr/Comment.nvim",
-  event = "VeryLazy",
+  keys = {
+    { "gc", desc = "Comment toggle linewise" },
+    { "gb", desc = "Comment toggle blockwise" },
+    { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
+    { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+  },
   opts = {
     opleader = {
       line = "gc",

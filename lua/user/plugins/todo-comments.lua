@@ -1,6 +1,6 @@
 return {
   "folke/todo-comments.nvim",
-  event = "VeryLazy",
+  event = "BufEnter",
   opts = {
     keywords = {
       CRTX = { icon = "🔥", color = "test" },

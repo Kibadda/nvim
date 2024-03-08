@@ -1,6 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
-  event = "VeryLazy",
+  event = "BufEnter",
   keys = function()
     return {
       { "<Leader>gj", "<Cmd>Gitsigns next_hunk<CR>", desc = "Next Hunk" },
