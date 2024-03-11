@@ -18,6 +18,8 @@ function vim.lsp.start(config, start_opts)
   -- require mason to load binary path
   require "mason"
 
+  config.name = config.name or config.cmd[1]
+
   config.capabilities =
     vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), config.capabilities or {})
 

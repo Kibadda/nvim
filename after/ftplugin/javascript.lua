@@ -7,7 +7,6 @@ else
 end
 
 vim.lsp.start {
-  name = "tsserver",
   cmd = { "typescript-language-server", "--stdio" },
   root_markers = { "package.json", ".git" },
   init_options = {

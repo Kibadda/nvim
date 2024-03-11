@@ -7,7 +7,6 @@ else
 end
 
 vim.lsp.start {
-  name = "cssls",
   cmd = { "vscode-css-language-server", "--stdio" },
   root_markers = { "package.json", ".git" },
 }
