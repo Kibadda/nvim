@@ -24,6 +24,7 @@ return {
       "git_config",
       "toml",
       "hyprlang",
+      "vue",
     },
   },
   init = function(plugin)
