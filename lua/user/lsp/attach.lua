@@ -1,7 +1,11 @@
 vim.g.LspInlayHints = vim.g.LspInlayHints or 0
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("LspAttach", { clear = true }),
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+local clear = vim.api.nvim_clear_autocmds
+
+autocmd("LspAttach", {
+  group = augroup("LspAttach", { clear = true }),
   callback = function(args)
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -11,7 +15,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     ---@param lhs string
-    ---@param rhs string|function
+    ---@param rhs function
     ---@param desc string
     ---@param mode? string
     local function map(lhs, rhs, desc, mode)
@@ -19,21 +23,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     local groups = {
-      highlight = vim.api.nvim_create_augroup("LspAttachHighlight", { clear = false }),
-      codelens = vim.api.nvim_create_augroup("LspAttachCodelens", { clear = false }),
-      inlay = vim.api.nvim_create_augroup("LspAttachInlay", { clear = false }),
+      highlight = augroup("LspAttachHighlight", { clear = false }),
+      codelens = augroup("LspAttachCodelens", { clear = false }),
+      inlay = augroup("LspAttachInlay", { clear = false }),
     }
 
     local methods = vim.lsp.protocol.Methods
 
     if client.supports_method(methods.textDocument_documentHighlight) then
-      vim.api.nvim_clear_autocmds { group = groups.highlight, buffer = bufnr }
-      vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave", "BufEnter" }, {
+      clear { group = groups.highlight, buffer = bufnr }
+      autocmd({ "CursorHold", "InsertLeave", "BufEnter" }, {
         group = groups.highlight,
         buffer = bufnr,
         callback = vim.lsp.buf.document_highlight,
       })
-      vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter", "BufLeave" }, {
+      autocmd({ "CursorMoved", "InsertEnter", "BufLeave" }, {
         group = groups.highlight,
         buffer = bufnr,
         callback = vim.lsp.buf.clear_references,
@@ -59,8 +63,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client.supports_method(methods.textDocument_codeLens) then
       map("<Leader>ll", vim.lsp.codelens.run, "Codelens")
 
-      vim.api.nvim_clear_autocmds { group = groups.codelens, buffer = bufnr }
-      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+      clear { group = groups.codelens, buffer = bufnr }
+      autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
         group = groups.codelens,
         buffer = bufnr,
         callback = vim.lsp.codelens.refresh,
@@ -122,8 +126,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.cmd.redrawstatus()
       end, "Toggle Inlay Hint")
 
-      vim.api.nvim_clear_autocmds { group = groups.inlay, buffer = bufnr }
-      vim.api.nvim_create_autocmd("BufEnter", {
+      clear { group = groups.inlay, buffer = bufnr }
+      autocmd("BufEnter", {
         group = groups.inlay,
         callback = function()
           vim.lsp.inlay_hint.enable(bufnr, vim.g.LspInlayHints == 1)
@@ -138,19 +142,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     map("<Leader>lC", function()
       for _, c in ipairs(vim.lsp.get_clients { bufnr = bufnr }) do
-        local bufs = vim.lsp.get_buffers_by_client_id(c.id)
+        if c.name ~= "config-lsp" then
+          local bufs = vim.lsp.get_buffers_by_client_id(c.id)
 
-        c.stop()
+          c.stop()
 
-        vim.wait(30000, function()
-          return vim.lsp.get_client_by_id(c.id) == nil
-        end)
+          vim.wait(30000, function()
+            return vim.lsp.get_client_by_id(c.id) == nil
+          end)
 
-        local client_id = vim.lsp.start_client(c.config)
+          local client_id = vim.lsp.start_client(c.config)
 
-        if client_id then
-          for _, buf in ipairs(bufs) do
-            vim.lsp.buf_attach_client(buf, client_id)
+          if client_id then
+            for _, buf in ipairs(bufs) do
+              vim.lsp.buf_attach_client(buf, client_id)
+            end
           end
         end
       end
