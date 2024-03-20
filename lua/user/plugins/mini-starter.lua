@@ -4,7 +4,7 @@ return {
   event = "VimEnter",
   opts = function()
     local weekday = os.date "%w"
-    local day = table.concat(require("user.data.weekdays").german[tonumber(weekday == "0" and 7 or weekday)], "\n")
+    local day = table.concat(require("user.data.weekdays").english[tonumber(weekday == "0" and 7 or weekday)], "\n")
 
     return {
       header = function()
