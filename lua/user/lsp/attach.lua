@@ -67,7 +67,9 @@ autocmd("LspAttach", {
       autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
         group = groups.codelens,
         buffer = bufnr,
-        callback = vim.lsp.codelens.refresh,
+        callback = function()
+          vim.lsp.codelens.refresh { bufnr = bufnr }
+        end,
       })
     end
 
