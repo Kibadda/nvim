@@ -10,6 +10,7 @@ return {
       "jsonc",
       "typescript",
       "css",
+      "scss",
       "php",
       "php_only",
       "phpdoc",
@@ -25,6 +26,17 @@ return {
       "toml",
       "hyprlang",
       "vue",
+
+      -- install these too for indents queries
+      "lua",
+      "c",
+      "bash",
+      "markdown",
+      "python",
+      "c",
+      "vim",
+      "query",
+      "vimdoc",
     },
   },
   init = function(plugin)
@@ -35,14 +47,6 @@ return {
       pattern = vim.list_extend({ "smarty" }, plugin.opts.ensure_install),
       callback = function(args)
         vim.treesitter.start()
-        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-      end,
-    })
-
-    vim.api.nvim_create_autocmd("FileType", {
-      group = group,
-      pattern = { "lua", "c", "markdown", "sh" },
-      callback = function(args)
         vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })
