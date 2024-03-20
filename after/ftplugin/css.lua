@@ -5,8 +5,3 @@ else
   vim.opt_local.tabstop = 2
   vim.opt_local.shiftwidth = 2
 end
-
-vim.lsp.start {
-  cmd = { "vscode-css-language-server", "--stdio" },
-  root_markers = { "package.json", ".git" },
-}
