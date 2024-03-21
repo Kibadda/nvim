@@ -184,30 +184,10 @@ M.formatting = {
     },
     {
       provider = function()
-        return ("Format: %s"):format(vim.g.AutoFormat == 1 and " " or " ")
+        return ("Format: %s"):format(vim.g.AutoFormat == 1 and "✓" or "✗")
       end,
       hl = function()
         return { fg = vim.g.AutoFormat == 1 and "#98BC99" or "#BF7471" }
-      end,
-    },
-  },
-  {
-    provider = "",
-  },
-}
-
-M.inlay_hints = {
-  flexible = 1,
-  {
-    {
-      provider = " | ",
-    },
-    {
-      provider = function()
-        return ("Hints: %s"):format(vim.g.LspInlayHints == 1 and " " or " ")
-      end,
-      hl = function()
-        return { fg = vim.g.LspInlayHints == 1 and "#98BC99" or "#BF7471" }
       end,
     },
   },

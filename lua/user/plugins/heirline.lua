@@ -68,7 +68,6 @@ return {
           statusline.filetype,
           statusline.lsp,
           statusline.formatting,
-          statusline.inlay_hints,
           space,
           statusline.position,
         },
