@@ -25,6 +25,7 @@ return {
       "lua-language-server",
       "bash-language-server",
       "beautysh",
+      "tailwindcss-language-server",
     } do
       if not vim.tbl_contains(installed, name) then
         require("mason-registry").get_package(name):install()

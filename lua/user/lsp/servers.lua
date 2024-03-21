@@ -150,6 +150,14 @@ local servers = {
       cmd = { "bash-language-server", "start" },
     },
   },
+
+  {
+    filetypes = { "php" },
+    root_markers = { "tailwind.config.js" },
+    config = {
+      cmd = { "tailwindcss-language-server", "--stdio" },
+    },
+  },
 }
 
 local group = vim.api.nvim_create_augroup("LspServers", { clear = true })
@@ -158,6 +166,10 @@ for _, server in ipairs(servers) do
     group = group,
     pattern = server.filetypes,
     callback = function(args)
+      if server.config.cmd[1] == "tailwindcss-language-server" and not args.file:match ".*%.view%.php" then
+        return
+      end
+
       require "mason"
 
       server.config.name = server.config.name or server.config.cmd[1]
