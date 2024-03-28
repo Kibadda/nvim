@@ -375,6 +375,9 @@ function M.remove()
     vim.bo[group.buf].modifiable = true
     vim.api.nvim_buf_set_lines(group.buf, 0, -1, false, {})
     vim.bo[group.buf].modifiable = false
+
+    group.lines_to_issues = {}
+    group.lines = {}
   end
 end
 
