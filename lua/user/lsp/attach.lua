@@ -142,6 +142,25 @@ autocmd("LspAttach", {
     map("<Leader>lj", vim.diagnostic.goto_next, "Next Diagnostic")
     map("<Leader>lk", vim.diagnostic.goto_prev, "Prev Diagnostic")
 
+    map("<Leader>lR", function()
+      local path = vim.api.nvim_buf_get_name(bufnr)
+      local old = vim.fn.fnamemodify(path, ":.")
+      local name = vim.fn.fnamemodify(path, ":t")
+
+      vim.ui.input({
+        prompt = "New name: ",
+        default = old,
+        completion = "dir",
+      }, function(new)
+        if new and new ~= "" and new ~= old then
+          if vim.endswith(new, "/") then
+            new = new .. name
+          end
+          vim.lsp.util.rename(old, new)
+        end
+      end)
+    end, "Rename file")
+
     map("<Leader>lC", function()
       for _, c in ipairs(vim.lsp.get_clients { bufnr = bufnr }) do
         if c.name ~= "config-lsp" then
