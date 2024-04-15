@@ -161,6 +161,20 @@ autocmd("LspAttach", {
       end)
     end, "Rename File")
 
+    map("<Leader>lD", function()
+      local path = vim.api.nvim_buf_get_name(bufnr)
+
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_get_name(buf) == path then
+          if not pcall(vim.api.nvim_buf_delete, buf, {}) then
+            return
+          end
+        end
+      end
+
+      os.remove(path)
+    end, "Delete File")
+
     map("<Leader>lC", function()
       for _, c in ipairs(vim.lsp.get_clients { bufnr = bufnr }) do
         if c.name ~= "config-lsp" then
