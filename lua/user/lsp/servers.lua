@@ -74,6 +74,10 @@ local servers = {
     config = {
       cmd = { "typescript-language-server", "--stdio" },
       before_init = function(params, config)
+        if params.rootPath == vim.NIL then
+          return
+        end
+
         table.insert(config.init_options.plugins, {
           name = "@vue/typescript-plugin",
           location = params.rootPath .. "/node_modules/@vue/typescript-plugin",
@@ -174,8 +178,9 @@ for _, server in ipairs(servers) do
 
       server.config.name = server.config.name or server.config.cmd[1]
 
-      server.config.capabilities =
-        vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), server.config.capabilities or {})
+      server.config.capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
+        workspace = { didChangeWatchedFiles = { dynamicRegistration = false } },
+      }, server.config.capabilities or {})
 
       if server.root_markers then
         local file = vim.fs.find(server.root_markers, {

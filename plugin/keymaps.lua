@@ -44,10 +44,10 @@ map("n", "gB", function()
   vim.ui.open(vim.fn.expand "<cWORD>" --[[@as string]])
 end, "Open URL")
 map("n", "gH", function()
-  local result = vim.system({ "git", "remote" }, { cwd = vim.loop.cwd() }):wait()
+  local result = vim.system({ "git", "remote" }, { cwd = vim.uv.cwd() }):wait()
   local remote = vim.trim(result.stdout)
 
-  result = vim.system({ "git", "config", "--get", ("remote.%s.url"):format(remote) }, { cwd = vim.loop.cwd() }):wait()
+  result = vim.system({ "git", "config", "--get", ("remote.%s.url"):format(remote) }, { cwd = vim.uv.cwd() }):wait()
   local url = vim.trim(result.stdout)
   if vim.startswith(url, "git") then
     url = url:gsub("%.git", ""):gsub(":", "/"):gsub("git@", "https://")

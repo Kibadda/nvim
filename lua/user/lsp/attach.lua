@@ -144,8 +144,8 @@ autocmd("LspAttach", {
 
     map("<Leader>lR", function()
       local path = vim.api.nvim_buf_get_name(bufnr)
-      local old = vim.fn.fnamemodify(path, ":.")
-      local name = vim.fn.fnamemodify(path, ":t")
+      local old = vim.fs.dirname(path)
+      local name = vim.fs.basename(path)
 
       vim.ui.input({
         prompt = "New name: ",
@@ -159,7 +159,7 @@ autocmd("LspAttach", {
           vim.lsp.util.rename(old, new)
         end
       end)
-    end, "Rename file")
+    end, "Rename File")
 
     map("<Leader>lC", function()
       for _, c in ipairs(vim.lsp.get_clients { bufnr = bufnr }) do
