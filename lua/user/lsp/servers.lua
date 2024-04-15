@@ -162,6 +162,14 @@ local servers = {
       cmd = { "tailwindcss-language-server", "--stdio" },
     },
   },
+
+  {
+    filetypes = { "lua" },
+    root_markers = { ".luarc.json", "stylua.toml" },
+    config = {
+      cmd = { "nvimls" },
+    },
+  },
 }
 
 local group = vim.api.nvim_create_augroup("LspServers", { clear = true })
