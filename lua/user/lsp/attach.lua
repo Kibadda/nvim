@@ -124,7 +124,7 @@ autocmd("LspAttach", {
     if client.supports_method(methods.textDocument_inlayHint) then
       map("<Leader>li", function()
         vim.g.LspInlayHints = vim.g.LspInlayHints == 0 and 1 or 0
-        vim.lsp.inlay_hint.enable(bufnr, vim.g.LspInlayHints == 1)
+        vim.lsp.inlay_hint.enable(vim.g.LspInlayHints == 1, { bufnr = bufnr })
         vim.cmd.redrawstatus()
       end, "Toggle Inlay Hint")
 
@@ -132,11 +132,11 @@ autocmd("LspAttach", {
       autocmd("BufEnter", {
         group = groups.inlay,
         callback = function()
-          vim.lsp.inlay_hint.enable(bufnr, vim.g.LspInlayHints == 1)
+          vim.lsp.inlay_hint.enable(vim.g.LspInlayHints == 1, { bufnr = bufnr })
         end,
       })
 
-      vim.lsp.inlay_hint.enable(bufnr, vim.g.LspInlayHints == 1)
+      vim.lsp.inlay_hint.enable(vim.g.LspInlayHints == 1, { bufnr = bufnr })
     end
 
     map("<Leader>lj", vim.diagnostic.goto_next, "Next Diagnostic")
