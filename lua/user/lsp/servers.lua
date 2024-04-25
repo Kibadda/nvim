@@ -191,14 +191,9 @@ for _, server in ipairs(servers) do
       }, server.config.capabilities or {})
 
       if server.root_markers then
-        local file = vim.fs.find(server.root_markers, {
-          upward = true,
-          path = vim.api.nvim_buf_get_name(args.buf),
-        })
+        server.config.root_dir = vim.fs.root(args.buf, server.root_markers)
 
-        if file and #file > 0 then
-          server.config.root_dir = vim.fs.dirname(file[1])
-        end
+        vim.fn.chdir(server.config.root_dir)
       end
 
       vim.lsp.start(server.config)
