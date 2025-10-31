@@ -1,0 +1,49 @@
+{
+  "plugins": {
+    "conform.nvim": {
+      "rev": "9fd3d5e",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
+    "fake.nvim": {
+      "rev": "1964d9d",
+      "src": "https://github.com/Kibadda/fake.nvim"
+    },
+    "git.nvim": {
+      "rev": "00112a2",
+      "src": "https://github.com/Kibadda/git.nvim"
+    },
+    "mini.ai": {
+      "rev": "11c5718",
+      "src": "https://github.com/echasnovski/mini.ai"
+    },
+    "mini.diff": {
+      "rev": "98fc732",
+      "src": "https://github.com/echasnovski/mini.diff"
+    },
+    "mini.hipatterns": {
+      "rev": "5629d5f",
+      "src": "https://github.com/echasnovski/mini.hipatterns"
+    },
+    "mini.pick": {
+      "rev": "bb764a5",
+      "src": "https://github.com/echasnovski/mini.pick"
+    },
+    "nvim-treesitter": {
+      "rev": "645f42e8",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    },
+    "nvim-web-devicons": {
+      "rev": "8dcb311",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons"
+    },
+    "starter.nvim": {
+      "rev": "eac5af7",
+      "src": "https://github.com/Kibadda/starter.nvim"
+    },
+    "vim-pasta": {
+      "rev": "2b78670",
+      "src": "https://github.com/ku1ik/vim-pasta"
+    }
+  }
+}
