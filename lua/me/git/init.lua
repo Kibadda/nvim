@@ -1,3 +1,5 @@
+-- TODO: find a way to properly reload git buffers
+
 local M = {}
 
 function M.run(data)
