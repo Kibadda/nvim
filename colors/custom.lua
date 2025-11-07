@@ -8,6 +8,9 @@ vim.g.colors_name = "custom"
 local highlights = {
   ["@diff.plus"] = { bg = "#005000" },
   ["@diff.minus"] = { bg = "#500000" },
+  ["@keyword"] = { fg = "NvimLightRed" },
+  ["@operator"] = { fg = "NvimLightYellow" },
+  ["@boolean"] = { fg = "NvimLightYellow" },
 }
 
 for name, hl in pairs(highlights) do

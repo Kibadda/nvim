@@ -30,8 +30,8 @@ local function mode()
 end
 
 local function git()
-  local _git = require "git.status"
-  local branch = _git.branch()
+  -- local _git = require "git.status"
+  local branch = "no git" -- _git.branch()
 
   local data = {
     section = "%#StatusLineGitHead# " .. branch,

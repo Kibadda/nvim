@@ -1,14 +1,16 @@
 local M = {}
 
-local log = require "me.git.log"
-
 function M.run(data)
   local cmd = table.remove(data.fargs, 1)
+
+  if not cmd then
+    cmd = "status"
+  end
 
   local command = require("me.git.commands")[cmd]
 
   if not command then
-    log.log("command '" .. cmd .. "' not found")
+    vim.notify("command '" .. cmd .. "' not found")
     return
   end
 
@@ -28,7 +30,7 @@ function M.complete(cmdline)
 
   if cmd then
     local complete = vim.tbl_filter(function(command)
-      return not string.find(command, "^" .. cmd)
+      return string.find(command, "^" .. cmd) ~= nil
     end, vim.tbl_keys(commands))
 
     table.sort(commands)
