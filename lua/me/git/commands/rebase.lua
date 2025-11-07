@@ -19,6 +19,8 @@ function M:pre_run(fargs)
       return false
     end
 
+    -- TODO: use --root for commit if it is the first commit
+
     table.insert(fargs, commit .. "^")
   end
 end

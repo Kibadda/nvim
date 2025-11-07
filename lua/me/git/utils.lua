@@ -112,4 +112,11 @@ function M.select_commit()
   }
 end
 
+function M.select_remote()
+  return ui_select {
+    cmd = { "remote" },
+    prompt = "Remote",
+  }
+end
+
 return M
