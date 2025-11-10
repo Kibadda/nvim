@@ -19,6 +19,32 @@ vim.keymap.set("n", "<Leader>h", function()
   vim.cmd.Git()
 end)
 
+vim.keymap.set("n", "gG", function()
+  local url = require("me.git.utils").get_url()
+
+  if url then
+    vim.ui.open(url)
+  end
+end)
+
+vim.keymap.set("n", "gF", function()
+  local url = require("me.git.utils").get_url()
+
+  if not url then
+    return
+  end
+
+  local branch = require("me.git.utils").run({ "rev-parse" }, { "--abbrev-ref", "HEAD" })[1]
+
+  if not branch or branch == "" then
+    return
+  end
+
+  local bufname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
+
+  vim.ui.open(url .. "/blob/" .. branch .. "/" .. bufname)
+end)
+
 vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusGained", "DirChanged" }, {
   group = vim.api.nvim_create_augroup("GitStatus", { clear = true }),
   callback = function(args)

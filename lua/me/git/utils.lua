@@ -135,4 +135,24 @@ function M.select_stash()
   }
 end
 
+function M.get_url()
+  local remote = M.run({ "remote" })[1]
+
+  if not remote or remote == "" then
+    return
+  end
+
+  local url = M.run({ "config" }, { "--get", string.format("remote.%s.url", remote) })[1]
+
+  if not url or url == "" then
+    return
+  end
+
+  if url:match "^.+@" then
+    url = url:gsub("%.git", ""):gsub(":", "/"):gsub("^.+@", "https://")
+  end
+
+  return url
+end
+
 return M

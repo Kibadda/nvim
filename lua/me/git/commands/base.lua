@@ -54,6 +54,9 @@ function M:ensure_layout()
       win = 0,
       height = 25,
     })
+  else
+    vim.api.nvim_set_current_win(self.win)
+    vim.api.nvim_set_current_buf(self.bufnr)
   end
 end
 
