@@ -1,4 +1,5 @@
 -- TODO: find a way to properly reload git buffers
+-- TODO: add codeactions in status for headers
 
 local M = {}
 

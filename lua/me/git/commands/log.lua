@@ -14,7 +14,7 @@ M.lsp = {
 
     if commit then
       local parent
-      if params.position.line == 0 then
+      if params.position.line + 1 == #data then
         parent = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
       else
         parent = commit .. "^"
@@ -24,10 +24,6 @@ M.lsp = {
         parent .. ".." .. commit,
       }
     end
-
-    return {
-      contents = "",
-    }
   end,
 }
 

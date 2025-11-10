@@ -14,7 +14,7 @@ M.lsp = {
     local action
 
     for i = params.range.start.line + 1, params.range["end"].line + 1 do
-      if not data.status[i] then
+      if type(data.status[i]) ~= "table" then
         return {}
       end
 
@@ -69,18 +69,18 @@ M.lsp = {
   [vim.lsp.protocol.Methods.textDocument_hover] = function(params)
     --- @cast params lsp.HoverParams
 
-    if data.status[params.position.line + 1] then
+    if type(data.status[params.position.line + 1]) == "table" then
       require("me.git.commands").diff:run(
         vim.list_extend(
           data.status[params.position.line + 1].action == "unstage" and { "--cached" } or {},
           { data.status[params.position.line + 1].file }
         )
       )
+    elseif data.status[params.position.line + 1] == "STAGED" then
+      require("me.git.commands").diff:run { "--cached" }
+    elseif data.status[params.position.line + 1] == "UNSTAGED" then
+      require("me.git.commands").diff:run {}
     end
-
-    return {
-      contents = "",
-    }
   end,
 }
 
@@ -119,6 +119,7 @@ function M:on_buf_load(stdout)
   local function add_lines(type)
     if #status[type] > 0 then
       table.insert(data.lines, type:upper())
+      data.status[#data.lines] = type:upper()
       table.insert(extmarks, {
         line = #data.lines,
         col = 1,

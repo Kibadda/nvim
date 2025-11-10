@@ -18,10 +18,12 @@ local commands = {
   end,
 
   apply_patch = function(arguments)
-    vim.print(arguments)
+    local tmp = vim.fn.tempname()
+    vim.fn.writefile(arguments.patch, tmp)
+
     require("me.git.utils").run(
       { "apply" },
-      vim.list_extend({ "--cached" }, arguments.reverse and { "--reverse" } or {}),
+      vim.list_extend(arguments.reverse and { "--cached", "--reverse" } or { "--cached" }, { tmp }),
       function()
         vim.b[arguments.bufnr].refresh()
       end
@@ -64,13 +66,11 @@ local handlers = {
   [methods.textDocument_hover] = function(params, callback)
     local bufnr = vim.uri_to_bufnr(params.textDocument.uri)
 
-    local hover
-
     if vim.b[bufnr].lsp and vim.b[bufnr].lsp[methods.textDocument_hover] then
-      hover = vim.b[bufnr].lsp[methods.textDocument_hover](params)
+      vim.b[bufnr].lsp[methods.textDocument_hover](params)
     end
 
-    callback(nil, hover)
+    callback(nil, { contents = " " })
   end,
 
   --- @type fun(params: lsp.ExecuteCommandParams, callback: function)

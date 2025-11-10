@@ -12,10 +12,9 @@ end
 function M.start(file, client)
   local socket = vim.fn.sockconnect("pipe", client, { rpc = true })
 
-  local filetype, spell, startinsert, lsp
+  local filetype, spell, lsp
   if file:find "COMMIT_EDITMSG" or file:find "MERGE_MSG" then
     filetype = "gitcommit"
-    startinsert = true
     spell = true
     lsp = require("me.git.commands.commit").lsp
   elseif file:find "git%-rebase%-todo" then
@@ -54,7 +53,7 @@ function M.start(file, client)
 
   vim.api.nvim_buf_call(bufnr, function()
     vim.cmd.w { bang = true }
-    if startinsert then
+    if vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1] == "" then
       vim.cmd.startinsert()
     end
   end)
