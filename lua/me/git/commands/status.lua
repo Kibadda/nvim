@@ -111,7 +111,7 @@ function M:on_buf_load(stdout)
       table.insert(status.staged, { file = file, prefix = prefix, action = "unstage" })
       table.insert(status.unstaged, { file = file, prefix = prefix, action = "add" })
     elseif prefix == "UU" then
-      table.insert(status.unmerged, { file = file, prefix = prefix, action = "merge" })
+      table.insert(status.unmerged, { file = file, prefix = prefix, action = "add" })
     else
       error(prefix .. " " .. file)
     end

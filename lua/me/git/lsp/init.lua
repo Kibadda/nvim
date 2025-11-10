@@ -23,7 +23,7 @@ local commands = {
 
     require("me.git.utils").run(
       { "apply" },
-      vim.list_extend(arguments.reverse and { "--cached", "--reverse" } or { "--cached" }, { tmp }),
+      vim.list_extend(arguments.reverse and { "--reverse" } or {}, { "--cached", tmp }),
       function()
         vim.b[arguments.bufnr].refresh()
       end
@@ -81,6 +81,19 @@ local handlers = {
 
     callback(nil, {})
   end,
+
+  --- @type fun(params: lsp.HoverParams, callback: function)
+  [methods.textDocument_hover] = function(params, callback)
+    local bufnr = vim.uri_to_bufnr(params.textDocument.uri)
+
+    local hover
+
+    if vim.b[bufnr].lsp and vim.b[bufnr].lsp[methods.textDocument_hover] then
+      hover = vim.b[bufnr].lsp[methods.textDocument_hover](params)
+    end
+
+    callback(nil, hover)
+  end,
 }
 
 --- @param dispatchers vim.lsp.rpc.Dispatchers
@@ -98,6 +111,7 @@ local function cmd(dispatchers)
 
   function srv.request(method, params, callback)
     local handler = handlers[method]
+
     if handler then
       handler(params, callback)
     end
@@ -109,6 +123,7 @@ local function cmd(dispatchers)
     if method == vim.lsp.protocol.Methods.exit then
       dispatchers.on_exit(0, 15)
     end
+
     return false
   end
 

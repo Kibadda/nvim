@@ -8,7 +8,7 @@ vim.g.loaded_plugin_treesitter = 1
 
 --- @type (string|table)[]
 local parsers = {
-  -- "gitcommit",
+  "gitcommit",
   "git_rebase",
   "diff",
   "html",

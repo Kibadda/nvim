@@ -9,6 +9,7 @@ local highlights = {
   ["@diff.plus"] = { bg = "#005000" },
   ["@diff.minus"] = { bg = "#500000" },
   ["@keyword"] = { fg = "NvimLightRed" },
+  ["@constant"] = { fg = "NvimLightYellow" },
   ["@operator"] = { fg = "NvimLightYellow" },
   ["@boolean"] = { fg = "NvimLightYellow" },
 }

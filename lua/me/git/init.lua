@@ -36,7 +36,7 @@ function M.complete(cmdline)
       return string.find(command, "^" .. cmd) ~= nil
     end, vim.tbl_keys(commands))
 
-    table.sort(commands)
+    table.sort(complete)
 
     return complete
   end
