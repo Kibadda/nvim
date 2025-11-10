@@ -94,6 +94,7 @@ function M:on_buf_load(stdout)
     staged = {},
     unstaged = {},
     untracked = {},
+    unmerged = {},
   }
 
   for _, line in ipairs(stdout) do
@@ -109,6 +110,8 @@ function M:on_buf_load(stdout)
     elseif prefix == "MM" or prefix == "AM" or prefix == "MD" then
       table.insert(status.staged, { file = file, prefix = prefix, action = "unstage" })
       table.insert(status.unstaged, { file = file, prefix = prefix, action = "add" })
+    elseif prefix == "UU" then
+      table.insert(status.unmerged, { file = file, prefix = prefix, action = "merge" })
     else
       error(prefix .. " " .. file)
     end
@@ -136,6 +139,7 @@ function M:on_buf_load(stdout)
   add_lines "staged"
   add_lines "unstaged"
   add_lines "untracked"
+  add_lines "unmerged"
 
   return {
     lines = data.lines,
