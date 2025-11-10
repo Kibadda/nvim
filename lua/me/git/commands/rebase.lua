@@ -19,9 +19,14 @@ function M:pre_run(fargs)
       return false
     end
 
-    -- TODO: use --root for commit if it is the first commit
+    local s = require("me.git.utils").run({ "log" }, { "-n", "1", "--pretty=format:%P", commit })
+    if not s[1] or s[1] == "" then
+      commit = "--root"
+    else
+      commit = commit .. "^"
+    end
 
-    table.insert(fargs, commit .. "^")
+    table.insert(fargs, commit)
   end
 end
 
