@@ -73,6 +73,7 @@ function M:on_exit(stdout, code)
   local data = {
     lines = stdout,
     extmarks = {},
+    keymaps = {},
   }
 
   if self.on_buf_load then
@@ -89,6 +90,10 @@ function M:on_exit(stdout, code)
       end_col = extmark.end_col,
       hl_group = extmark.hl,
     })
+  end
+
+  for _, keymap in ipairs(data.keymaps) do
+    vim.keymap.set("n", keymap.lhs, keymap.rhs, { buffer = self.bufnr })
   end
 
   vim.bo[self.bufnr].filetype = self.cmd[1]

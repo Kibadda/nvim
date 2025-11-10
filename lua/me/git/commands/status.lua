@@ -144,6 +144,17 @@ function M:on_buf_load(stdout)
   return {
     lines = data.lines,
     extmarks = extmarks,
+    keymaps = {
+      {
+        lhs = "<Cr>",
+        rhs = function()
+          local row = vim.api.nvim_win_get_cursor(0)[1]
+          local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+          vim.cmd.wincmd "w"
+          vim.cmd.edit(vim.trim(line))
+        end,
+      },
+    },
   }
 end
 
