@@ -8,10 +8,11 @@ local data = {}
 
 M.lsp = {
   [vim.lsp.protocol.Methods.textDocument_codeAction] = function(params)
-    ---@cast params lsp.CodeActionParams
+    --- @cast params lsp.CodeActionParams
 
     local files = {}
     local action
+    local prefix
 
     for i = params.range.start.line + 1, params.range["end"].line + 1 do
       if type(data.status[i]) ~= "table" then
@@ -20,6 +21,7 @@ M.lsp = {
 
       table.insert(files, data.status[i].file)
       action = data.status[i].action
+      prefix = data.status[i].prefix
     end
 
     local codeactions = {
@@ -36,7 +38,7 @@ M.lsp = {
       },
     }
 
-    if action == "add" then
+    if action == "add" and prefix ~= "??" then
       table.insert(codeactions, {
         title = "add --edit",
         command = {

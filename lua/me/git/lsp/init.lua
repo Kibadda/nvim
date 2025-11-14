@@ -38,6 +38,7 @@ local capabilities = {
     commands = vim.tbl_keys(commands),
   },
   hoverProvider = true,
+  signatureHelpProvider = {},
 }
 
 local handlers = {
@@ -57,6 +58,8 @@ local handlers = {
 
     if vim.b[bufnr].lsp and vim.b[bufnr].lsp[methods.textDocument_codeAction] then
       codeactions = vim.b[bufnr].lsp[methods.textDocument_codeAction](params)
+    else
+      return
     end
 
     callback(nil, codeactions)
@@ -68,6 +71,8 @@ local handlers = {
 
     if vim.b[bufnr].lsp and vim.b[bufnr].lsp[methods.textDocument_hover] then
       vim.b[bufnr].lsp[methods.textDocument_hover](params)
+    else
+      return
     end
 
     callback(nil, { contents = " " })
@@ -77,6 +82,21 @@ local handlers = {
   [methods.workspace_executeCommand] = function(params, callback)
     if commands[params.command] then
       commands[params.command](params.arguments)
+    else
+      return
+    end
+
+    callback(nil, {})
+  end,
+
+  --- @type fun(params: lsp.SignatureHelpParams, callback: function)
+  [methods.textDocument_signatureHelp] = function(params, callback)
+    local bufnr = vim.uri_to_bufnr(params.textDocument.uri)
+
+    if vim.b[bufnr].lsp and vim.b[bufnr].lsp[methods.textDocument_signatureHelp] then
+      vim.b[bufnr].lsp[methods.textDocument_signatureHelp](params)
+    else
+      return
     end
 
     callback(nil, {})

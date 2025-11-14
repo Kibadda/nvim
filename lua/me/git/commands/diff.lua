@@ -6,7 +6,7 @@ local M = {
 
 M.lsp = {
   [vim.lsp.protocol.Methods.textDocument_codeAction] = function(params)
-    ---@cast params lsp.CodeActionParams
+    --- @cast params lsp.CodeActionParams
 
     if params.range.start.line ~= params.range["end"].line then
       return {}

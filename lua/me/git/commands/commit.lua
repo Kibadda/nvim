@@ -18,6 +18,16 @@ M.lsp = {
       },
     }
   end,
+
+  [vim.lsp.protocol.Methods.textDocument_signatureHelp] = function()
+    vim.cmd.stopinsert()
+
+    require("me.git.commands").diff:run { "--cached" }
+  end,
+
+  [vim.lsp.protocol.Methods.textDocument_hover] = function()
+    require("me.git.commands").diff:run { "--cached" }
+  end,
 }
 
 function M:pre_run(fargs)
