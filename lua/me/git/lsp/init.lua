@@ -81,19 +81,6 @@ local handlers = {
 
     callback(nil, {})
   end,
-
-  --- @type fun(params: lsp.HoverParams, callback: function)
-  [methods.textDocument_hover] = function(params, callback)
-    local bufnr = vim.uri_to_bufnr(params.textDocument.uri)
-
-    local hover
-
-    if vim.b[bufnr].lsp and vim.b[bufnr].lsp[methods.textDocument_hover] then
-      hover = vim.b[bufnr].lsp[methods.textDocument_hover](params)
-    end
-
-    callback(nil, hover)
-  end,
 }
 
 --- @param dispatchers vim.lsp.rpc.Dispatchers
