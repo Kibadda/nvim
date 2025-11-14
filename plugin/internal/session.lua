@@ -11,6 +11,9 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
   end,
 })
 
+vim.keymap.set("n", "<Leader>Ss", function()
+  vim.cmd.restart()
+end)
 vim.keymap.set("n", "<Leader>Sn", function()
   require("me.session").new()
 end)

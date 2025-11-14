@@ -112,6 +112,7 @@ function M:on_exit(stdout, code)
   end
 
   vim.keymap.set("n", "q", cancel, { buffer = self.bufnr })
+  vim.keymap.set("n", "<Esc>", cancel, { buffer = self.bufnr })
   vim.keymap.set({ "i", "n" }, "<C-c>", cancel, { buffer = self.bufnr })
 
   vim.b[self.bufnr].refresh = function()
