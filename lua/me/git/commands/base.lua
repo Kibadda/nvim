@@ -6,7 +6,19 @@ local M = {
 }
 M.__index = M
 
-function M:run(fargs)
+local buffers = {}
+
+vim.api.nvim_create_autocmd("User", {
+  group = M.ns,
+  pattern = "GitPostRun",
+  callback = function()
+    vim.iter(buffers):filter(vim.api.nvim_buf_is_valid):each(function(buf)
+      vim.b[buf].refresh(false)
+    end)
+  end,
+})
+
+function M:run(fargs, nested)
   if self.pre_run then
     if self:pre_run(fargs) == false then
       return
@@ -17,6 +29,12 @@ function M:run(fargs)
 
   require("me.git.utils").run(self.cmd, fargs, function(stdout, code)
     self:on_exit(stdout, code)
+
+    if nested ~= false then
+      vim.api.nvim_exec_autocmds("User", {
+        pattern = "GitPostRun",
+      })
+    end
   end)
 end
 
@@ -46,6 +64,7 @@ function M:ensure_layout()
   if not self.bufnr or not vim.api.nvim_buf_is_valid(self.bufnr) then
     self.bufnr = vim.api.nvim_create_buf(false, false)
     vim.api.nvim_buf_set_name(self.bufnr, self.cmd[1])
+    table.insert(buffers, self.bufnr)
   end
 
   if not self.win or not vim.api.nvim_win_is_valid(self.win) then
@@ -115,14 +134,14 @@ function M:on_exit(stdout, code)
   vim.keymap.set("n", "<Esc>", cancel, { buffer = self.bufnr })
   vim.keymap.set({ "i", "n" }, "<C-c>", cancel, { buffer = self.bufnr })
 
-  vim.b[self.bufnr].refresh = function()
+  vim.b[self.bufnr].refresh = function(nested)
     if self.can_refresh then
-      self:run(self.fargs)
+      self:run(self.fargs, nested)
     end
   end
 
   vim.keymap.set("n", "<C-r>", function()
-    vim.b[self.bufnr].refresh()
+    vim.b[self.bufnr].refresh(false)
   end, { buffer = self.bufnr })
 
   require("me.git.lsp").attach()

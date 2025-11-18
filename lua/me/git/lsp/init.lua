@@ -9,12 +9,10 @@ local commands = {
 
   unstage = function(arguments)
     require("me.git.commands").restore:run(vim.list_extend({ "--staged" }, arguments.files))
-    vim.b[arguments.bufnr].refresh()
   end,
 
   add = function(arguments)
     require("me.git.commands").add:run(vim.list_extend(arguments.edit and { "--edit" } or {}, arguments.files))
-    vim.b[arguments.bufnr].refresh()
   end,
 
   apply_patch = function(arguments)
@@ -25,7 +23,9 @@ local commands = {
       { "apply" },
       vim.list_extend(arguments.reverse and { "--reverse" } or {}, { "--cached", tmp }),
       function()
-        vim.b[arguments.bufnr].refresh()
+        vim.api.nvim_exec_autocmds("User", {
+          pattern = "GitPostRun",
+        })
       end
     )
   end,
