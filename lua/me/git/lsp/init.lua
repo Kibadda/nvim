@@ -3,11 +3,11 @@ local M = {}
 local methods = vim.lsp.protocol.Methods
 
 local commands = {
-  show_diff = function(arguments)
+  diff = function(arguments)
     require("me.git.commands").diff:run(vim.list_extend(arguments.cached and { "--cached" } or {}, arguments.files))
   end,
 
-  unstage = function(arguments)
+  restore = function(arguments)
     require("me.git.commands").restore:run(vim.list_extend({ "--staged" }, arguments.files))
   end,
 

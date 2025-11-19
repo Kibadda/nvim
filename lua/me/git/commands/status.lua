@@ -11,59 +11,54 @@ M.lsp = {
     --- @cast params lsp.CodeActionParams
 
     local files = {}
-    local action
-    local prefix
+    local section
 
-    for i = params.range.start.line + 1, params.range["end"].line + 1 do
-      if type(data.status[i]) ~= "table" then
-        return {}
+    if
+      params.range.start.line == params.range["end"].line
+      and type(data.section[params.range.start.line + 1]) == "string"
+    then
+      section = string.lower(data.section[params.range.start.line + 1])
+    else
+      for i = params.range.start.line + 1, params.range["end"].line + 1 do
+        if type(data.section[i]) ~= "table" then
+          return {}
+        end
+
+        table.insert(files, data.section[i].file)
+        section = data.section[i].section
       end
-
-      table.insert(files, data.status[i].file)
-      action = data.status[i].action
-      prefix = data.status[i].prefix
     end
 
-    local codeactions = {
-      {
-        title = action,
-        command = {
-          title = action,
-          command = action,
-          arguments = {
-            files = files,
-            bufnr = M.bufnr,
-          },
-        },
-      },
-    }
+    local codeactions = {}
 
-    if action == "add" and prefix ~= "??" then
+    local function action(title, opts)
+      opts = opts or {}
       table.insert(codeactions, {
-        title = "add --edit",
+        title = title,
         command = {
-          title = "add --edit",
-          command = "add",
-          arguments = {
+          title = title,
+          command = opts.command or title,
+          arguments = vim.tbl_extend("force", {
             files = files,
             bufnr = M.bufnr,
-            edit = true,
-          },
+          }, opts.arguments or {}),
         },
       })
     end
 
-    table.insert(codeactions, {
-      title = "show diff",
-      command = {
-        title = "show diff",
-        command = "show_diff",
-        arguments = {
-          files = files,
-          cached = action == "unstage",
-        },
-      },
-    })
+    if section == "untracked" then
+      action "add"
+    elseif section == "unstaged" then
+      action "add"
+      action("add --edit", { command = "add", arguments = { edit = true } })
+      action "restore"
+      action "diff"
+    elseif section == "staged" then
+      action("restore --staged", { command = "restore", arguments = { staged = true } })
+      action("diff", { arguments = { cached = true } })
+    elseif section == "unmerged" then
+      action "add"
+    end
 
     return codeactions
   end,
@@ -71,16 +66,16 @@ M.lsp = {
   [vim.lsp.protocol.Methods.textDocument_hover] = function(params)
     --- @cast params lsp.HoverParams
 
-    if type(data.status[params.position.line + 1]) == "table" then
+    if type(data.section[params.position.line + 1]) == "table" then
       require("me.git.commands").diff:run(
         vim.list_extend(
-          data.status[params.position.line + 1].action == "unstage" and { "--cached" } or {},
-          { data.status[params.position.line + 1].file }
+          data.section[params.position.line + 1].section == "staged" and { "--cached" } or {},
+          { data.section[params.position.line + 1].file }
         )
       )
-    elseif data.status[params.position.line + 1] == "STAGED" then
+    elseif data.section[params.position.line + 1] == "STAGED" then
       require("me.git.commands").diff:run { "--cached" }
-    elseif data.status[params.position.line + 1] == "UNSTAGED" then
+    elseif data.section[params.position.line + 1] == "UNSTAGED" then
       require("me.git.commands").diff:run {}
     end
   end,
@@ -88,11 +83,11 @@ M.lsp = {
 
 function M:on_buf_load(stdout)
   data = {
-    status = {},
+    section = {},
     lines = {},
   }
 
-  local status = {
+  local section = {
     staged = {},
     unstaged = {},
     untracked = {},
@@ -104,36 +99,36 @@ function M:on_buf_load(stdout)
     local file = line:sub(4)
 
     if prefix == "??" then
-      table.insert(status.untracked, { file = file, prefix = prefix, action = "add" })
+      table.insert(section.untracked, { file = file, prefix = prefix, section = "untracked" })
     elseif prefix == " M" or prefix == " D" then
-      table.insert(status.unstaged, { file = file, prefix = prefix, action = "add" })
+      table.insert(section.unstaged, { file = file, prefix = prefix, section = "unstaged" })
     elseif prefix == "M " or prefix == "A " or prefix == "D " or prefix == "R " then
-      table.insert(status.staged, { file = file, prefix = prefix, action = "unstage" })
+      table.insert(section.staged, { file = file, prefix = prefix, section = "staged" })
     elseif prefix == "MM" or prefix == "AM" or prefix == "MD" then
-      table.insert(status.staged, { file = file, prefix = prefix, action = "unstage" })
-      table.insert(status.unstaged, { file = file, prefix = prefix, action = "add" })
+      table.insert(section.staged, { file = file, prefix = prefix, section = "staged" })
+      table.insert(section.unstaged, { file = file, prefix = prefix, section = "unstaged" })
     elseif prefix == "UU" then
-      table.insert(status.unmerged, { file = file, prefix = prefix, action = "add" })
+      table.insert(section.unmerged, { file = file, prefix = prefix, section = "unmerged" })
     else
-      error(prefix .. " " .. file)
+      error(line)
     end
   end
 
   local extmarks = {}
 
   local function add_lines(type)
-    if #status[type] > 0 then
+    if #section[type] > 0 then
       table.insert(data.lines, type:upper())
-      data.status[#data.lines] = type:upper()
+      data.section[#data.lines] = type:upper()
       table.insert(extmarks, {
         line = #data.lines,
         col = 1,
         end_col = #data.lines[#data.lines],
         hl = "@keyword",
       })
-      for _, s in ipairs(status[type]) do
+      for _, s in ipairs(section[type]) do
         table.insert(data.lines, "  " .. s.file)
-        data.status[#data.lines] = s
+        data.section[#data.lines] = s
       end
     end
   end
