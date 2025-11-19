@@ -32,7 +32,7 @@ function M.run(cmd, fargs, on_exit)
   vim.list_extend(command, cmd)
   vim.list_extend(command, fargs or {})
 
-  local ret
+  local ret, exit_code
   vim.fn.jobstart(command, {
     cwd = vim.fn.getcwd(),
     env = {
@@ -57,6 +57,7 @@ function M.run(cmd, fargs, on_exit)
         on_exit(stdout, code)
       else
         ret = stdout
+        exit_code = code
       end
     end,
   })
@@ -66,7 +67,7 @@ function M.run(cmd, fargs, on_exit)
       return ret ~= nil
     end, 100)
 
-    return ret
+    return ret, exit_code
   end
 end
 
