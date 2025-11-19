@@ -7,6 +7,7 @@
 vim.g.mapleader = vim.keycode "<Space>"
 
 require "me.monkeypatching"
+require "me.disable"
 
 vim.pack.add {
   "https://github.com/nvim-tree/nvim-web-devicons",
