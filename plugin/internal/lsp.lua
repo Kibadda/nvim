@@ -9,7 +9,9 @@ vim.lsp.log.set_level(vim.log.levels.WARN)
 vim.diagnostic.config {
   severity_sort = true,
   jump = {
-    float = true,
+    on_jump = function(diagnostic, bufnr)
+      vim.diagnostic.show(nil, bufnr, diagnostic)
+    end,
   },
   signs = {
     severity = { min = vim.diagnostic.severity.ERROR },
