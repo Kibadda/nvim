@@ -9,8 +9,12 @@ vim.lsp.log.set_level(vim.log.levels.WARN)
 vim.diagnostic.config {
   severity_sort = true,
   jump = {
-    on_jump = function(diagnostic, bufnr)
-      vim.diagnostic.show(nil, bufnr, diagnostic)
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float {
+        bufnr = bufnr,
+        scope = "cursor",
+        focus = false,
+      }
     end,
   },
   signs = {

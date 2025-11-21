@@ -2,13 +2,22 @@ local M = {}
 
 local methods = vim.lsp.protocol.Methods
 
-local commands = {
+M.commands = {
   diff = function(arguments)
     require("me.git.commands").diff:run(vim.list_extend(arguments.cached and { "--cached" } or {}, arguments.files))
   end,
 
+  open = function(arguments)
+    if arguments.commit then
+      local url = require("me.git.utils").get_url()
+      local rev = require("me.git.utils").run({ "rev-parse" }, { "--verify", arguments.commit })[1]
+
+      vim.ui.open(url .. "/commit/" .. rev)
+    end
+  end,
+
   restore = function(arguments)
-    require("me.git.commands").restore:run(vim.list_extend({ "--staged" }, arguments.files))
+    require("me.git.commands").restore:run(vim.list_extend(arguments.staged and { "--staged" } or {}, arguments.files))
   end,
 
   add = function(arguments)
@@ -35,10 +44,11 @@ local commands = {
 local capabilities = {
   codeActionProvider = true,
   executeCommandProvider = {
-    commands = vim.tbl_keys(commands),
+    commands = vim.tbl_keys(M.commands),
   },
   hoverProvider = true,
   signatureHelpProvider = {},
+  definitionProvider = true,
 }
 
 local handlers = {
@@ -78,10 +88,32 @@ local handlers = {
     callback(nil, { contents = " " })
   end,
 
+  --- @type fun(params: lsp.DefinitionParams, callback: function)
+  [methods.textDocument_definition] = function(params, callback)
+    local bufnr = vim.uri_to_bufnr(params.textDocument.uri)
+
+    if vim.b[bufnr].lsp and vim.b[bufnr].lsp[methods.textDocument_definition] then
+      vim.b[bufnr].lsp[methods.textDocument_definition](params)
+    else
+      return
+    end
+
+    local pos = vim.api.nvim_win_get_cursor(0)
+
+    callback(nil, {
+      uri = params.textDocument.uri,
+      ---@type lsp.Range
+      range = {
+        start = { line = pos[1] - 1, character = pos[2] },
+        ["end"] = { line = pos[1] - 1, character = pos[2] },
+      },
+    })
+  end,
+
   --- @type fun(params: lsp.ExecuteCommandParams, callback: function)
   [methods.workspace_executeCommand] = function(params, callback)
-    if commands[params.command] then
-      commands[params.command](params.arguments)
+    if M.commands[params.command] then
+      M.commands[params.command](params.arguments)
     else
       return
     end

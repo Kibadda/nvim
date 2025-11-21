@@ -170,6 +170,22 @@ autocmd("LspAttach", {
           end
         end,
       },
+      [methods.textDocument_selectionRange] = {
+        {
+          lhs = "<C-Space>",
+          mode = { "n", "x" },
+          rhs = function()
+            vim.lsp.buf.selection_range(1)
+          end,
+        },
+        {
+          lhs = "<C-S-Space>",
+          mode = "x",
+          rhs = function()
+            vim.lsp.buf.selection_range(-1)
+          end,
+        },
+      },
       [methods.textDocument_completion] = {
         function()
           vim.lsp.completion.enable(true, client.id, bufnr, {

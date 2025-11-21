@@ -9,7 +9,7 @@ M.__index = M
 local buffers = {}
 
 vim.api.nvim_create_autocmd("User", {
-  group = M.ns,
+  group = vim.api.nvim_create_augroup("GitPostRun", { clear = true }),
   pattern = "GitPostRun",
   callback = function()
     vim.iter(buffers):filter(vim.api.nvim_buf_is_valid):each(function(buf)
@@ -122,6 +122,8 @@ function M:on_exit(stdout, code)
   vim.bo[self.bufnr].bufhidden = "wipe"
   vim.b[self.bufnr].lsp = self.lsp
   vim.b[self.bufnr].fargs = self.fargs
+
+  vim.cmd.syntax "off"
 
   pcall(vim.treesitter.start, self.bufnr, self.cmd[1])
 

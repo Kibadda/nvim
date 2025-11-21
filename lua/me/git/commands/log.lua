@@ -7,6 +7,45 @@ local M = {
 local data = {}
 
 M.lsp = {
+  [vim.lsp.protocol.Methods.textDocument_codeAction] = function(params)
+    --- @cast params lsp.CodeActionParams
+
+    if params.range.start.line ~= params.range["end"].line then
+      return {}
+    end
+
+    local commit = data[params.range.start.line + 1]
+
+    if not commit then
+      return {}
+    end
+
+    return {
+      {
+        title = "open",
+        command = {
+          title = "open",
+          command = "open",
+          arguments = {
+            commit = commit,
+          },
+        },
+      },
+    }
+  end,
+
+  [vim.lsp.protocol.Methods.textDocument_definition] = function(params)
+    --- @cast params lsp.DefinitionParams
+
+    local commit = data[params.position.line + 1]
+
+    if not commit then
+      return
+    end
+
+    require("me.git.lsp").commands.open { commit = commit }
+  end,
+
   [vim.lsp.protocol.Methods.textDocument_hover] = function(params)
     --- @cast params lsp.HoverParams
 
