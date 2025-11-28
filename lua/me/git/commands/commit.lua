@@ -42,6 +42,20 @@ function M:pre_run(fargs)
   end
 end
 
+function M:on_error(stdout, code)
+  stdout = table.concat(stdout, "\n")
+
+  if code == 128 then
+    return "Could not connect to Yubikey"
+  elseif stdout:find "up to date" then
+    vim.cmd.Git()
+
+    return "Empty commit"
+  elseif stdout:find "empty commit message" then
+    return "Empty commit message"
+  end
+end
+
 function M.completions(fargs)
   if fargs[1] == "--fixup" then
     return {}

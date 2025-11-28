@@ -19,13 +19,14 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 function M:run(fargs, nested)
-  if self.pre_run then
+  if nested ~= false and self.pre_run then
     if self:pre_run(fargs) == false then
       return
     end
   end
 
   self.fargs = fargs
+  self.nested = nested
 
   require("me.git.utils").run(self.cmd, fargs, function(stdout, code)
     self:on_exit(stdout, code)
@@ -73,7 +74,7 @@ function M:ensure_layout()
       win = 0,
       height = 25,
     })
-  else
+  elseif self.nested ~= false then
     vim.api.nvim_set_current_win(self.win)
     vim.api.nvim_set_current_buf(self.bufnr)
   end
@@ -81,7 +82,11 @@ end
 
 function M:on_exit(stdout, code)
   if code ~= 0 then
-    vim.notify(table.concat(stdout, "\n"), vim.log.levels.ERROR)
+    local message = self.on_error and self:on_error(stdout, code)
+      or ("code " .. tostring(code) .. "\n" .. table.concat(stdout, "\n"))
+
+    vim.notify("[ERROR]\n" .. message, vim.log.levels.ERROR)
+
     return
   end
 
@@ -114,16 +119,11 @@ function M:on_exit(stdout, code)
     })
   end
 
-  for _, keymap in ipairs(data.keymaps) do
-    vim.keymap.set("n", keymap.lhs, keymap.rhs, { buffer = self.bufnr })
-  end
-
   vim.bo[self.bufnr].filetype = self.cmd[1]
   vim.bo[self.bufnr].bufhidden = "wipe"
+  vim.bo[self.bufnr].syntax = "off"
   vim.b[self.bufnr].lsp = self.lsp
   vim.b[self.bufnr].fargs = self.fargs
-
-  vim.cmd.syntax "off"
 
   pcall(vim.treesitter.start, self.bufnr, self.cmd[1])
 
@@ -132,9 +132,17 @@ function M:on_exit(stdout, code)
     vim.api.nvim_buf_delete(self.bufnr, { force = true })
   end
 
-  vim.keymap.set("n", "q", cancel, { buffer = self.bufnr })
-  vim.keymap.set("n", "<Esc>", cancel, { buffer = self.bufnr })
-  vim.keymap.set({ "i", "n" }, "<C-c>", cancel, { buffer = self.bufnr })
+  local function set(mode, lhs, rhs)
+    vim.keymap.set(mode, lhs, rhs, { buffer = self.bufnr })
+  end
+
+  for _, keymap in ipairs(data.keymaps) do
+    set("n", keymap.lhs, keymap.rhs)
+  end
+
+  set("n", "q", cancel)
+  set("n", "<Esc>", cancel)
+  set({ "i", "n" }, "<C-c>", cancel)
 
   vim.b[self.bufnr].refresh = function(nested)
     if self.can_refresh then

@@ -41,11 +41,13 @@ function M.run(cmd, fargs, on_exit)
     pty = true,
     width = 80,
     on_stdout = function(_, lines)
-      line = line .. lines[1]:gsub("\r", "")
+      line = line .. lines[1]:gsub("\r", ""):gsub("\x1b%[K", "")
+
+      line = line:gsub("hint: Waiting for your editor to close the file... ", "")
 
       for i = 2, #lines do
         table.insert(stdout, line)
-        line = lines[i]:gsub("\r", "")
+        line = lines[i]:gsub("\r", ""):gsub("\x1b%[K", "")
       end
     end,
     on_exit = function(_, code)

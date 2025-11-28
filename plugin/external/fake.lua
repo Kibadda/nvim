@@ -1,4 +1,4 @@
-vim.pack.add({ "https://github.com/Kibadda/fake.nvim" }, { load = true })
+vim.pack.add { "https://github.com/Kibadda/fake.nvim" }
 
 if vim.g.loaded_plugin_fake then
   return

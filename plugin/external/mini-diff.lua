@@ -1,4 +1,4 @@
-vim.pack.add({ "https://github.com/echasnovski/mini.diff" }, { load = true })
+vim.pack.add { "https://github.com/echasnovski/mini.diff" }
 
 if vim.g.loaded_plugin_mini_diff then
   return

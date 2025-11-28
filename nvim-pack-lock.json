@@ -1,48 +1,44 @@
 {
   "plugins": {
     "conform.nvim": {
-      "rev": "9fd3d5e",
+      "rev": "4993e07fac6679d0a5005aa7499e0bad2bd39f19",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fake.nvim": {
-      "rev": "1964d9d",
+      "rev": "1964d9d202f24db74b4ab55e6024e3a4f961f517",
       "src": "https://github.com/Kibadda/fake.nvim"
     },
-    "git.nvim": {
-      "rev": "00112a2",
-      "src": "https://github.com/Kibadda/git.nvim"
-    },
     "mini.ai": {
-      "rev": "11c5718",
+      "rev": "bfb26d9072670c3aaefab0f53024b2f3729c8083",
       "src": "https://github.com/echasnovski/mini.ai"
     },
     "mini.diff": {
-      "rev": "98fc732",
+      "rev": "fbb93ea1728e7c9d0944df8bd022a68402bd2e7e",
       "src": "https://github.com/echasnovski/mini.diff"
     },
     "mini.hipatterns": {
-      "rev": "5629d5f",
+      "rev": "add8d8abad602787377ec5d81f6b248605828e0f",
       "src": "https://github.com/echasnovski/mini.hipatterns"
     },
     "mini.pick": {
-      "rev": "bb764a5",
+      "rev": "b4351399db5043a781a32699a1bde60b747f711f",
       "src": "https://github.com/echasnovski/mini.pick"
     },
     "nvim-treesitter": {
-      "rev": "645f42e8",
+      "rev": "c5871d9d870c866fea9f271f1a3b3f29049a4793",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
     "nvim-web-devicons": {
-      "rev": "8dcb311",
+      "rev": "8dcb311b0c92d460fac00eac706abd43d94d68af",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "starter.nvim": {
-      "rev": "eac5af7",
+      "rev": "eac5af76489505af0cbdf3bab122cf9da2254a2d",
       "src": "https://github.com/Kibadda/starter.nvim"
     },
     "vim-pasta": {
-      "rev": "2b78670",
+      "rev": "2b786703eef9f82ae7a56f3de4ee43e1e5efaaa5",
       "src": "https://github.com/ku1ik/vim-pasta"
     }
   }

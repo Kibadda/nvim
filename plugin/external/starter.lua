@@ -1,4 +1,4 @@
-vim.pack.add({ "https://github.com/Kibadda/starter.nvim" }, { load = true })
+vim.pack.add { "https://github.com/Kibadda/starter.nvim" }
 
 if vim.g.loaded_plugin_starter then
   return

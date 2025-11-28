@@ -1,4 +1,4 @@
-vim.pack.add({ "https://github.com/echasnovski/mini.ai" }, { load = true })
+vim.pack.add { "https://github.com/echasnovski/mini.ai" }
 
 if vim.g.loaded_plugin_mini_ai then
   return

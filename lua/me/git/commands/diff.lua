@@ -93,6 +93,14 @@ M.lsp = {
   end,
 }
 
+function M:pre_run(fargs)
+  if fargs[1] == "--cached" then
+    table.insert(fargs, 2, "--")
+  else
+    table.insert(fargs, 1, "--")
+  end
+end
+
 function M.completions(fargs)
   if #fargs > 1 then
     if fargs[1] == "--cached" then

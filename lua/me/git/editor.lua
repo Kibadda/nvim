@@ -61,7 +61,7 @@ function M.start(file, client)
   vim.api.nvim_buf_attach(bufnr, false, {
     on_detach = function()
       pcall(vim.treesitter.stop, bufnr)
-      vim.rpcnotify(socket, "nvim_command", cancelled and "qall!" or "qall")
+      vim.rpcnotify(socket, "nvim_exec2", cancelled and "quitall!" or "quitall", {})
       vim.fn.chanclose(socket)
     end,
   })

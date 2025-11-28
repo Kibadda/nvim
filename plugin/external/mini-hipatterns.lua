@@ -1,4 +1,4 @@
-vim.pack.add({ "https://github.com/echasnovski/mini.hipatterns" }, { load = true })
+vim.pack.add { "https://github.com/echasnovski/mini.hipatterns" }
 
 if vim.g.loaded_plugin_mini_hipatterns then
   return

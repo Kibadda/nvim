@@ -40,20 +40,24 @@ M.commands = {
   end,
 }
 
---- @type lsp.ServerCapabilities
-local capabilities = {
-  codeActionProvider = true,
-  executeCommandProvider = {
-    commands = vim.tbl_keys(M.commands),
-  },
-  hoverProvider = true,
-  signatureHelpProvider = {},
-  definitionProvider = true,
-}
-
 local handlers = {
+  --- @type fun(_, callback: fun(_, result: lsp.InitializeResult))
   [methods.initialize] = function(_, callback)
-    callback(nil, { capabilities = capabilities })
+    callback(nil, {
+      serverInfo = {
+        name = "git",
+        version = "1.0",
+      },
+      capabilities = {
+        codeActionProvider = true,
+        executeCommandProvider = {
+          commands = vim.tbl_keys(M.commands),
+        },
+        hoverProvider = true,
+        signatureHelpProvider = {},
+        definitionProvider = true,
+      },
+    })
   end,
 
   [methods.shutdown] = function(_, callback)

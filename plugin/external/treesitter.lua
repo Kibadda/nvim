@@ -1,4 +1,4 @@
-vim.pack.add({ { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" } }, { load = true })
+vim.pack.add { { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" } }
 
 if vim.g.loaded_plugin_treesitter then
   return
