@@ -30,6 +30,7 @@ autocmd("BufEnter", {
   group = group,
   pattern = "term://*",
   callback = function()
+    vim.opt_local.listchars:remove "trail"
     vim.cmd.startinsert()
   end,
 })
