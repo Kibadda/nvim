@@ -68,4 +68,13 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("PackChanged", {
+  group = group,
+  callback = function(args)
+    if args.data.spec.name == "nvim-treesitter" and (args.data.kind == "install" or args.data.kind == "update") then
+      vim.cmd.TSUpdate()
+    end
+  end,
+})
+
 require("nvim-treesitter").install(parser_names)
