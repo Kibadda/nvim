@@ -5,26 +5,26 @@ end
 vim.g.loaded_plugin_statusline = 1
 
 local mode_mapping = {
-  n = { text = "NORMAL", hl = "StatusLineNormal" },
-  v = { text = "VISUAL", hl = "StatusLineVisual" },
-  V = { text = "VISUAL", hl = "StatusLineVisual" },
-  ["\22"] = { text = "VISUAL", hl = "StatusLineVisual" },
-  s = { text = "SELECT", hl = "StatusLineSelect" },
-  S = { text = "SELECT", hl = "StatusLineSelect" },
-  ["\19"] = { text = "SELECT", hl = "StatusLineSelect" },
-  i = { text = "INSERT", hl = "StatusLineInsert" },
-  R = { text = "REPLACE", hl = "StatusLineReplace" },
-  c = { text = "COMMAND", hl = "StatusLineCommand" },
-  r = { text = "CONFIRM", hl = "StatusLineConfirm" },
-  ["!"] = { text = "TERMINAL", hl = "StatusLineTerminal" },
-  t = { text = "TERMINAL", hl = "StatusLineTerminal" },
+  n = { text = "NORMAL", hl = "BrightYellow" },
+  v = { text = "VISUAL", hl = "BrightOrange" },
+  V = { text = "VISUAL", hl = "BrightOrange" },
+  ["\22"] = { text = "VISUAL", hl = "BrightOrange" },
+  s = { text = "SELECT", hl = "BrightOrange" },
+  S = { text = "SELECT", hl = "BrightOrange" },
+  ["\19"] = { text = "SELECT", hl = "BrightOrange" },
+  i = { text = "INSERT", hl = "BrightGreen" },
+  R = { text = "REPLACE", hl = "BrightPurple" },
+  c = { text = "COMMAND", hl = "BrightBlue" },
+  r = { text = "CONFIRM", hl = "BrightRed" },
+  ["!"] = { text = "TERMINAL", hl = "BrightYellow" },
+  t = { text = "TERMINAL", hl = "BrightYellow" },
 }
 
 local function mode()
   local mod = mode_mapping[vim.fn.mode()]
 
   return {
-    section = "%#" .. mod.hl .. "# " .. mod.text .. " %#" .. mod.hl .. "Separator#%* ",
+    section = "%#" .. mod.hl .. "Reverse# " .. mod.text .. " %#" .. mod.hl .. "#%* ",
     length = #mod.text + 4,
   }
 end
@@ -34,7 +34,7 @@ local function git()
   local branch = _git.branch()
 
   local data = {
-    section = "%#StatusLineGitHead# " .. branch,
+    section = " " .. branch,
     length = #branch + 5,
     priority = 5,
   }
@@ -63,7 +63,7 @@ local function git()
     end
   end
 
-  data.section = data.section .. " %#" .. mode_mapping[vim.fn.mode()].hl .. "Separator#%* "
+  data.section = data.section .. " %#" .. mode_mapping[vim.fn.mode()].hl .. "#%* "
 
   return data
 end
@@ -87,7 +87,7 @@ local function diagnostics()
       .. hint
       .. " %#"
       .. mode_mapping[vim.fn.mode()].hl
-      .. "Separator#%* ",
+      .. "#%* ",
     length = tostring(error):len() + tostring(warning):len() + tostring(info):len() + tostring(hint):len() + 8,
     priority = 3,
   }
@@ -142,7 +142,7 @@ local function clients()
   local list = #names > 0 and table.concat(names, ", ") or "LS inactive"
 
   return {
-    section = " %#" .. mode_mapping[vim.fn.mode()].hl .. "Separator# %#StatusLineClients#" .. list .. "%*",
+    section = " %#" .. mode_mapping[vim.fn.mode()].hl .. "# %*" .. list,
     length = list:len() + 4,
     priority = 2,
   }
@@ -152,8 +152,8 @@ local function format()
   return {
     section = " %#"
       .. mode_mapping[vim.fn.mode()].hl
-      .. "Separator# %#"
-      .. (vim.g.AutoFormat == 1 and "StatusLineFormatOn" or "StatusLineFormatOff")
+      .. "# %#"
+      .. (vim.g.AutoFormat == 1 and "BrightGreen" or "BrightRed")
       .. "#"
       .. (vim.g.AutoFormat == 1 and "✓" or "✗")
       .. "%*",
@@ -180,7 +180,7 @@ local function position()
   local mod = mode_mapping[vim.fn.mode()]
 
   return {
-    section = " %#" .. mod.hl .. "Separator#%#" .. mod.hl .. "#" .. ruler .. "%*",
+    section = " %#" .. mod.hl .. "#%#" .. mod.hl .. "Reverse#" .. ruler .. "%*",
     length = ruler:len() + 2,
   }
 end

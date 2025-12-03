@@ -5,7 +5,7 @@ end
 vim.g.loaded_plugin_winbar = 1
 
 local function zoomed()
-  return vim.g.is_zoomed == 1 and " %#WinBarZoomed#!%*" or ""
+  return vim.g.is_zoomed == 1 and " %#BrightRed#!%*" or ""
 end
 
 local function icon()
@@ -32,11 +32,11 @@ local function filepath(path)
     path = "./" .. path
   end
 
-  return path .. "/%#WinBarFilename#" .. filename .. "%*"
+  return path .. "/%#BrightBlue#" .. filename .. "%*"
 end
 
 local function modified()
-  return vim.bo.modified and " %#WinBarModified#●︎%*" or ""
+  return vim.bo.modified and " %#BrightRed#●︎%*" or ""
 end
 
 function Winbar()
