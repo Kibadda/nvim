@@ -11,10 +11,16 @@ local buffers = {}
 vim.api.nvim_create_autocmd("User", {
   group = vim.api.nvim_create_augroup("GitPostRun", { clear = true }),
   pattern = "GitPostRun",
-  callback = function()
-    vim.iter(buffers):filter(vim.api.nvim_buf_is_valid):each(function(buf)
-      vim.b[buf].refresh(false)
-    end)
+  callback = function(args)
+    vim
+      .iter(buffers)
+      :filter(vim.api.nvim_buf_is_valid)
+      :filter(function(bufnr)
+        return bufnr ~= args.data.bufnr
+      end)
+      :each(function(buf)
+        vim.b[buf].refresh(false)
+      end)
   end,
 })
 
@@ -34,6 +40,9 @@ function M:run(fargs, nested)
     if nested ~= false then
       vim.api.nvim_exec_autocmds("User", {
         pattern = "GitPostRun",
+        data = {
+          bufnr = self.bufnr,
+        },
       })
     end
   end)
