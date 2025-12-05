@@ -47,7 +47,7 @@ function M:on_error(stdout, code)
 
   if code == 128 then
     return "Could not connect to Yubikey"
-  elseif stdout:find "up to date" then
+  elseif stdout:find "up to date" or stdout:find "no changes added to commit" then
     vim.cmd.Git()
 
     return "Empty commit"

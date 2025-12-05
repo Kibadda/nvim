@@ -19,11 +19,7 @@ end
 function M.run(cmd, fargs, on_exit)
   ensure_git_editor()
 
-  local line = ""
-  local stdout = {}
-
   local command = {
-    "git",
     "--no-pager",
     "-c",
     "color.ui=never",
@@ -32,37 +28,72 @@ function M.run(cmd, fargs, on_exit)
   vim.list_extend(command, cmd)
   vim.list_extend(command, fargs or {})
 
-  local ret, exit_code
-  vim.fn.jobstart(command, {
+  local editor = vim.v.progpath .. " --headless --clean -u " .. client_path
+
+  local env = {}
+  for k, v in
+    pairs(vim.tbl_extend("force", vim.uv.os_environ(), {
+      GIT_EDITOR = editor,
+      GIT_SEQUENCE_EDITOR = editor,
+      GIT_PAGER = "",
+      NO_COLOR = 1,
+      TERM = "dumb",
+    }))
+  do
+    table.insert(env, string.format("%s=%s", k, tostring(v)))
+  end
+
+  local process
+  local stdout = assert(vim.uv.new_pipe())
+  local out = {}
+  local ret, exit_code, is_done
+  local opts = {
+    args = command,
     cwd = vim.fn.getcwd(),
-    env = {
-      GIT_EDITOR = vim.v.progpath .. " --headless --clean -u " .. client_path,
+    env = env,
+    stdio = {
+      nil,
+      stdout,
+      nil,
     },
-    pty = true,
-    width = 80,
-    on_stdout = function(_, lines)
-      line = line .. lines[1]:gsub("\r", ""):gsub("\x1b%[K", "")
+  }
+  process = vim.uv.spawn("git", opts, function(code)
+    if is_done then
+      return
+    end
+    is_done = true
+    if process:is_closing() then
+      return
+    end
+    process:close()
 
-      line = line:gsub("hint: Waiting for your editor to close the file... ", "")
+    local trimmed_out = table.concat(out):gsub("\n+$", "")
 
-      for i = 2, #lines do
-        table.insert(stdout, line)
-        line = lines[i]:gsub("\r", ""):gsub("\x1b%[K", "")
-      end
-    end,
-    on_exit = function(_, code)
-      if line ~= "" then
-        table.insert(stdout, line)
-      end
+    if trimmed_out ~= "" then
+      out = vim.split(trimmed_out, "\n")
+    else
+      out = {}
+    end
 
-      if on_exit then
-        on_exit(stdout, code)
-      else
-        ret = stdout
-        exit_code = code
-      end
-    end,
-  })
+    if on_exit then
+      vim.schedule(function()
+        on_exit(out, code)
+      end)
+    else
+      ret = out
+      exit_code = code
+    end
+  end)
+
+  stdout:read_start(function(e, data)
+    if e then
+      return table.insert(out, 1, "ERROR: " .. e)
+    end
+    if data ~= nil then
+      return table.insert(out, data)
+    end
+    stdout:close()
+  end)
 
   if not on_exit then
     vim.wait(5000, function()

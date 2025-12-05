@@ -100,7 +100,7 @@ function M:on_buf_load(stdout)
 
     if prefix == "??" then
       table.insert(section.untracked, { file = file, prefix = prefix, section = "untracked" })
-    elseif prefix == " M" or prefix == " D" then
+    elseif prefix == " M" or prefix == " A" or prefix == " D" then
       table.insert(section.unstaged, { file = file, prefix = prefix, section = "unstaged" })
     elseif prefix == "M " or prefix == "A " or prefix == "D " or prefix == "R " then
       table.insert(section.staged, { file = file, prefix = prefix, section = "staged" })
