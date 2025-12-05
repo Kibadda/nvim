@@ -9,11 +9,16 @@ vim.lsp.config["lua-language-server"] = {
 
     local library = {}
 
-    table.insert(library, vim.env.VIMRUNTIME .. "/lua")
-    table.insert(library, params.rootPath .. "/lua")
+    if vim.fn.stdpath "config" == params.rootPath then
+      table.insert(library, vim.env.VIMRUNTIME .. "/lua")
 
-    for _, plugin in ipairs(vim.pack.get()) do
-      table.insert(library, plugin.path .. "/lua")
+      for _, plugin in ipairs(vim.pack.get()) do
+        table.insert(library, plugin.path .. "/lua")
+      end
+    end
+
+    if vim.fn.isdirectory(params.rootPath .. "/lua") == 1 then
+      table.insert(library, params.rootPath .. "/lua")
     end
 
     --- @diagnostic disable-next-line:undefined-field
