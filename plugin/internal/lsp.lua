@@ -35,4 +35,5 @@ vim.lsp.enable {
   "intelephense",
   "typescript-language-server",
   "tinymist",
+  "elixir-ls",
 }

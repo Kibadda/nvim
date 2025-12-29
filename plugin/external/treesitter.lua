@@ -24,6 +24,8 @@ local parsers = {
   "nix",
   "bash",
   "typst",
+  "elixir",
+  "heex",
 
   {
     name = "smarty",
