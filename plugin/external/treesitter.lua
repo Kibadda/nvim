@@ -26,6 +26,7 @@ local parsers = {
   "typst",
   "elixir",
   "heex",
+  "blade",
 
   {
     name = "smarty",
