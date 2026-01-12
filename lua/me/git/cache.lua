@@ -42,6 +42,16 @@ function F.short_branch()
   return format_branches "remotes/[^/]+/"
 end
 
+function F.stashes()
+  local stashes = {}
+
+  for _, stash in ipairs(require("me.git.utils").run({ "stash" }, { "list" })) do
+    table.insert(stashes, stash:match "^(stash@{%d+})")
+  end
+
+  return stashes
+end
+
 setmetatable(M, {
   __index = function(self, key)
     if F[key] then

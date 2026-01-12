@@ -23,10 +23,30 @@ M.lsp = {
 function M:pre_run(fargs)
   if fargs[1] == "list" then
     self.show_output_in_buffer = true
-  elseif vim.tbl_contains({ "drop", "pop", "apply" }, fargs[1]) then
-    local stash = require("me.git.utils").select_stash()
+  elseif fargs[1] == "show" then
+    self.show_output_in_buffer = true
 
-    table.insert(fargs, stash)
+    if #fargs == 1 then
+      local stash = require("me.git.utils").select_stash()
+
+      if not stash then
+        return false
+      end
+
+      table.insert(fargs, stash)
+    end
+
+    table.insert(fargs, 2, "-p")
+  elseif vim.tbl_contains({ "drop", "pop", "apply" }, fargs[1]) then
+    if #fargs == 1 then
+      local stash = require("me.git.utils").select_stash()
+
+      if not stash then
+        return false
+      end
+
+      table.insert(fargs, stash)
+    end
   else
     local insert
     for i, arg in ipairs(fargs) do
@@ -56,13 +76,15 @@ end
 
 function M.completions(fargs)
   if #fargs > 1 then
-    if vim.tbl_contains({ "drop", "pop", "apply", "list" }, fargs[1]) then
+    if fargs[1] == "list" then
       return {}
+    elseif vim.tbl_contains({ "drop", "pop", "apply", "show" }, fargs[1]) then
+      return require("me.git.cache").stashes
     else
       return { "--staged", "--include-untracked", "--message" }
     end
   else
-    return { "drop", "pop", "apply", "list", "--staged", "--include-untracked", "--message" }
+    return { "drop", "pop", "apply", "list", "show", "--staged", "--include-untracked", "--message" }
   end
 end
 
