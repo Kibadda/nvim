@@ -94,10 +94,12 @@ M.lsp = {
 }
 
 function M:pre_run(fargs)
-  if fargs[1] == "--cached" then
-    table.insert(fargs, 2, "--")
-  else
-    table.insert(fargs, 1, "--")
+  if #fargs ~= 1 or fargs[1]:match "[a-z0-9%.]*" == nil then
+    if fargs[1] == "--cached" then
+      table.insert(fargs, 2, "--")
+    else
+      table.insert(fargs, 1, "--")
+    end
   end
 end
 
