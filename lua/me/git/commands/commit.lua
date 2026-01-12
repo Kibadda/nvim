@@ -42,16 +42,16 @@ function M:pre_run(fargs)
   end
 end
 
-function M:on_error(stdout, code)
-  stdout = table.concat(stdout, "\n")
+function M:on_error(code, stderr)
+  stderr = table.concat(stderr, "\n")
 
   if code == 128 then
     return "Could not connect to Yubikey"
-  elseif stdout:find "up to date" or stdout:find "no changes added to commit" then
+  elseif stderr:find "up to date" or stderr:find "no changes added to commit" then
     vim.cmd.Git()
 
     return "Empty commit"
-  elseif stdout:find "empty commit message" then
+  elseif stderr:find "empty commit message" then
     return "Empty commit message"
   end
 end

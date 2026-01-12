@@ -52,13 +52,13 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusG
 
     cache[args.buf] = cache[args.buf] or {}
 
-    require("me.git.utils").run({ "rev-parse" }, { "--abbrev-ref", "HEAD" }, function(branch, code1)
+    require("me.git.utils").run({ "rev-parse" }, { "--abbrev-ref", "HEAD" }, function(code1, branch)
       if code1 ~= 0 or not branch or branch[1] == "" then
         cache[args.buf].branch = "no git"
       elseif branch[1] ~= "HEAD" then
         cache[args.buf].branch = branch[1]
       else
-        require("me.git.utils").run({ "rev-parse" }, { "--short", "HEAD" }, function(hash, code2)
+        require("me.git.utils").run({ "rev-parse" }, { "--short", "HEAD" }, function(code2, hash)
           if code2 ~= 0 or not hash[1] or hash[1] == "" then
             cache[args.buf].branch = "HEAD"
           else
@@ -74,7 +74,7 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusG
       require("me.git.utils").run(
         { "show" },
         { ":" .. bufname },
-        vim.schedule_wrap(function(result)
+        vim.schedule_wrap(function(_, result)
           if not vim.api.nvim_buf_is_valid(args.buf) then
             return
           end

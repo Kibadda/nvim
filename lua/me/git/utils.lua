@@ -45,7 +45,9 @@ function M.run(cmd, fargs, on_exit)
 
   local process
   local stdout = assert(vim.uv.new_pipe())
+  local stderr = assert(vim.uv.new_pipe())
   local out = {}
+  local err = {}
   local ret, exit_code, is_done
   local opts = {
     args = command,
@@ -54,7 +56,7 @@ function M.run(cmd, fargs, on_exit)
     stdio = {
       nil,
       stdout,
-      nil,
+      stderr,
     },
   }
   process = vim.uv.spawn("git", opts, function(code)
@@ -68,6 +70,7 @@ function M.run(cmd, fargs, on_exit)
     process:close()
 
     local trimmed_out = table.concat(out):gsub("\n+$", "")
+    local trimmed_err = table.concat(err):gsub("\n+$", "")
 
     if trimmed_out ~= "" then
       out = vim.split(trimmed_out, "\n")
@@ -75,9 +78,15 @@ function M.run(cmd, fargs, on_exit)
       out = {}
     end
 
+    if trimmed_err ~= "" then
+      err = vim.split(trimmed_err, "\n")
+    else
+      err = {}
+    end
+
     if on_exit then
       vim.schedule(function()
-        on_exit(out, code)
+        on_exit(code, out, err)
       end)
     else
       ret = out
@@ -93,6 +102,16 @@ function M.run(cmd, fargs, on_exit)
       return table.insert(out, data)
     end
     stdout:close()
+  end)
+
+  stderr:read_start(function(e, data)
+    if e then
+      return table.insert(err, 1, "ERROR: " .. e)
+    end
+    if data ~= nil then
+      return table.insert(err, data)
+    end
+    stderr:close()
   end)
 
   if not on_exit then

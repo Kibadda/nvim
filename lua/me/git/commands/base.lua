@@ -34,8 +34,8 @@ function M:run(fargs, nested)
   self.fargs = fargs
   self.nested = nested
 
-  require("me.git.utils").run(self.cmd, fargs, function(stdout, code)
-    self:on_exit(stdout, code)
+  require("me.git.utils").run(self.cmd, fargs, function(code, stdout, stderr)
+    self:on_exit(code, stdout, stderr)
 
     if nested ~= false then
       vim.api.nvim_exec_autocmds("User", {
@@ -89,10 +89,10 @@ function M:ensure_layout()
   end
 end
 
-function M:on_exit(stdout, code)
+function M:on_exit(code, stdout, stderr)
   if code ~= 0 then
-    local message = self.on_error and self:on_error(stdout, code)
-      or ("code " .. tostring(code) .. "\n" .. table.concat(stdout, "\n"))
+    local message = self.on_error and self:on_error(code, stderr)
+      or ("code " .. tostring(code) .. "\n" .. table.concat(stderr, "\n"))
 
     vim.notify("[ERROR]\n" .. message, vim.log.levels.ERROR)
 
