@@ -48,6 +48,7 @@ M.lsp = {
 
     if section == "untracked" then
       action "add"
+      action "delete"
     elseif section == "unstaged" then
       action "add"
       action("add --edit", { command = "add", arguments = { edit = true } })

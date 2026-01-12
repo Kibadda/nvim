@@ -24,6 +24,19 @@ M.commands = {
     require("me.git.commands").add:run(vim.list_extend(arguments.edit and { "--edit" } or {}, arguments.files))
   end,
 
+  delete = function(arguments)
+    require("me.git.utils").run(
+      { "clean", "-df" },
+      vim.list_extend(arguments.edit and { "--edit" } or {}, arguments.files),
+      function()
+        vim.api.nvim_exec_autocmds("User", {
+          pattern = "GitPostRun",
+          data = {},
+        })
+      end
+    )
+  end,
+
   apply_patch = function(arguments)
     local tmp = vim.fn.tempname()
     vim.fn.writefile(arguments.patch, tmp)
