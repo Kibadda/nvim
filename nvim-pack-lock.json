@@ -5,7 +5,7 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fake.nvim": {
-      "rev": "1964d9d202f24db74b4ab55e6024e3a4f961f517",
+      "rev": "943f2058facdaa36556da32edb0f435e439287a1",
       "src": "https://github.com/Kibadda/fake.nvim"
     },
     "mini.ai": {

@@ -1,4 +1,4 @@
-vim.lsp.config["elixir-ls"] = {
+return {
   cmd = { "elixir-ls" },
   root_markers = { "mix.exs" },
   filetypes = { "elixir", "heex" },
