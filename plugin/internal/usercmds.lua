@@ -61,6 +61,20 @@ end, {
   nargs = 0,
 })
 
+vim.api.nvim_create_user_command("PackUpdate", function()
+  vim.pack.update()
+end, {
+  bang = false,
+  nargs = 0,
+})
+
+vim.api.nvim_create_user_command("PackInstall", function()
+  vim.pack.update(nil, { target = "lockfile" })
+end, {
+  bang = false,
+  nargs = 0,
+})
+
 vim.api.nvim_create_user_command("Rename", function()
   local function real(path)
     return vim.fs.normalize(vim.uv.fs_realpath(path) or path)
