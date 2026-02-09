@@ -12,8 +12,6 @@ end
 
 local groups = {
   highlight = augroup("LspAttachHighlight", { clear = false }),
-  codelens = augroup("LspAttachCodelens", { clear = false }),
-  inlay = augroup("LspAttachInlay", { clear = false }),
 }
 
 local function feedkeys(keys)
@@ -120,14 +118,7 @@ autocmd("LspAttach", {
           end,
         },
         function()
-          clear { group = groups.codelens, buffer = bufnr }
-          autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            group = groups.codelens,
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.codelens.refresh { bufnr = bufnr }
-            end,
-          })
+          vim.lsp.codelens.enable(true, { bufnr = bufnr })
         end,
       },
       [methods.textDocument_documentHighlight] = {
