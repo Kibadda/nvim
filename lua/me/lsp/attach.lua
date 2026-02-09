@@ -264,6 +264,31 @@ autocmd("LspAttach", {
           end,
         },
       },
+      [methods.textDocument_inlineCompletion] = {
+        {
+          mode = "i",
+          lhs = "<C-z>",
+          rhs = function()
+            if vim.lsp.inline_completion.is_enabled { bufnr = bufnr } then
+              vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
+            else
+              feedkeys "<C-e>"
+              vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+              vim.lsp.inline_completion.select { bufnr = bufnr, count = 0 }
+            end
+          end,
+        },
+        {
+          mode = "i",
+          lhs = "<C-S-Space>",
+          rhs = function()
+            if vim.lsp.inline_completion.is_enabled { bufnr = bufnr } then
+              vim.lsp.inline_completion.get { bufnr = bufnr }
+              vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
+            end
+          end,
+        },
+      },
     }
 
     for method, mappings in pairs(maps) do
