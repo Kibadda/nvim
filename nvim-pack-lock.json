@@ -33,6 +33,10 @@
       "rev": "803353450c374192393f5387b6a0176d0972b848",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
+    "sidekick.nvim": {
+      "rev": "c2bdf8cfcd87a6be5f8b84322c1b5052e78e302e",
+      "src": "https://github.com/folke/sidekick.nvim"
+    },
     "starter.nvim": {
       "rev": "eac5af76489505af0cbdf3bab122cf9da2254a2d",
       "src": "https://github.com/Kibadda/starter.nvim"
