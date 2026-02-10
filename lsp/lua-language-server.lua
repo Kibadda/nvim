@@ -9,7 +9,7 @@ return {
 
     local library = {}
 
-    if vim.fn.stdpath "config" == params.rootPath then
+    if vim.fs.basename(params.rootPath) == "nvim" then
       table.insert(library, vim.env.VIMRUNTIME .. "/lua")
 
       for _, plugin in ipairs(vim.pack.get()) do
