@@ -88,17 +88,17 @@ autocmd("LspAttach", {
       },
       [methods.textDocument_implementation] = {
         {
-          lhs = "gs",
+          lhs = "gI",
           rhs = function()
-            vim.lsp.buf.document_symbol { on_list = on_list }
+            vim.lsp.buf.implementation { on_list = on_list }
           end,
         },
       },
       [methods.textDocument_documentSymbol] = {
         {
-          lhs = "gI",
+          lhs = "gs",
           rhs = function()
-            vim.lsp.buf.implementation { on_list = on_list }
+            vim.lsp.buf.document_symbol { on_list = on_list }
           end,
         },
       },
@@ -117,9 +117,12 @@ autocmd("LspAttach", {
             vim.lsp.codelens.run()
           end,
         },
-        function()
-          vim.lsp.codelens.enable(true, { bufnr = bufnr })
-        end,
+        {
+          lhs = "grL",
+          rhs = function()
+            vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
+          end,
+        },
       },
       [methods.textDocument_documentHighlight] = {
         function()
@@ -140,6 +143,11 @@ autocmd("LspAttach", {
           })
         end,
       },
+      [methods.textDocument_linkedEditingRange] = {
+        function()
+          vim.lsp.linked_editing_range.enable(true, { client_id = client.id })
+        end,
+      },
       [methods.textDocument_inlayHint] = {
         {
           lhs = "gri",
@@ -150,7 +158,7 @@ autocmd("LspAttach", {
       },
       [methods.textDocument_documentColor] = {
         function()
-          require("mini.hipatterns").disable(bufnr)
+          vim.b[bufnr].minihipatterns_disable = true
           vim.lsp.document_color.enable(true, bufnr)
         end,
       },
