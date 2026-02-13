@@ -36,5 +36,6 @@ vim.lsp.enable {
   "typescript-language-server",
   "tinymist",
   "elixir-ls",
+  "kotlin-lsp",
   "rust-analyzer",
 }
