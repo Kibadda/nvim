@@ -19,6 +19,7 @@ M.lsp = {
     local hunk_start, hunk_end = nil, nil
     local block_start, block_end = nil, nil
     local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    local filename = nil
 
     for i = params.range.start.line + 1, 1, -1 do
       if not hunk_start and vim.startswith(lines[i], "@@") then
@@ -26,6 +27,9 @@ M.lsp = {
       end
       if not block_start and vim.startswith(lines[i], "diff") then
         block_start = i
+      end
+      if not filename and vim.startswith(lines[i], "+++") then
+        filename = string.sub(lines[i], 7)
       end
     end
 
@@ -71,6 +75,21 @@ M.lsp = {
             bufnr = bufnr,
             reverse = reverse,
             patch = vim.api.nvim_buf_get_lines(bufnr, block_start - 1, block_end, false),
+          },
+        },
+      })
+    end
+
+    if not reverse and filename then
+      table.insert(codeactions, {
+        title = "stage hunk --edit",
+        command = {
+          title = "stage hunk --edit",
+          command = "add",
+          arguments = {
+            bufnr = bufnr,
+            edit = true,
+            files = { filename },
           },
         },
       })
