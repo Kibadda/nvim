@@ -4,6 +4,7 @@ local M = {
   show_output_in_buffer = true,
 }
 
+--- @type { lines: string[], section: { file: string, section: string }[] }
 local data = {}
 
 M.lsp = {
@@ -67,18 +68,28 @@ M.lsp = {
   [vim.lsp.protocol.Methods.textDocument_hover] = function(params)
     --- @cast params lsp.HoverParams
 
-    if type(data.section[params.position.line + 1]) == "table" then
-      require("me.git.commands").diff:run(
-        vim.list_extend(
-          data.section[params.position.line + 1].section == "staged" and { "--cached" } or {},
-          { data.section[params.position.line + 1].file }
-        )
-      )
-    elseif data.section[params.position.line + 1] == "STAGED" then
-      require("me.git.commands").diff:run { "--cached" }
-    elseif data.section[params.position.line + 1] == "UNSTAGED" then
-      require("me.git.commands").diff:run {}
+    local s = data.section[params.position.line + 1]
+    local cmd = {}
+
+    if s.section == "staged" then
+      table.insert(cmd, "--cached")
     end
+
+    if s.file then
+      table.insert(cmd, s.file)
+    else
+      local i = params.position.line + 2
+      while true do
+        if not data.section[i] or not data.section[i].file then
+          break
+        end
+
+        table.insert(cmd, data.section[i].file)
+        i = i + 1
+      end
+    end
+
+    require("me.git.commands").diff:run(cmd)
   end,
 }
 
@@ -100,16 +111,16 @@ function M:on_buf_load(stdout)
     local file = line:sub(4)
 
     if prefix == "??" then
-      table.insert(section.untracked, { file = file, prefix = prefix, section = "untracked" })
+      table.insert(section.untracked, { file = file, section = "untracked" })
     elseif prefix == " M" or prefix == " A" or prefix == " D" then
-      table.insert(section.unstaged, { file = file, prefix = prefix, section = "unstaged" })
+      table.insert(section.unstaged, { file = file, section = "unstaged" })
     elseif prefix == "M " or prefix == "A " or prefix == "D " or prefix == "R " then
-      table.insert(section.staged, { file = file, prefix = prefix, section = "staged" })
+      table.insert(section.staged, { file = file, section = "staged" })
     elseif prefix == "MM" or prefix == "AM" or prefix == "MD" or prefix == "AD" then
-      table.insert(section.staged, { file = file, prefix = prefix, section = "staged" })
-      table.insert(section.unstaged, { file = file, prefix = prefix, section = "unstaged" })
+      table.insert(section.staged, { file = file, section = "staged" })
+      table.insert(section.unstaged, { file = file, section = "unstaged" })
     elseif prefix == "UU" then
-      table.insert(section.unmerged, { file = file, prefix = prefix, section = "unmerged" })
+      table.insert(section.unmerged, { file = file, section = "unmerged" })
     else
       error(line)
     end
@@ -120,7 +131,7 @@ function M:on_buf_load(stdout)
   local function add_lines(type)
     if #section[type] > 0 then
       table.insert(data.lines, type:upper())
-      data.section[#data.lines] = type:upper()
+      data.section[#data.lines] = { section = type }
       table.insert(extmarks, {
         line = #data.lines,
         col = 1,
