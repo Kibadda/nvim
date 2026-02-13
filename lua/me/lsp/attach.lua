@@ -42,266 +42,172 @@ autocmd("LspAttach", {
       end
     end
 
-    local methods = vim.lsp.protocol.Methods
+    local function map(lhs, rhs, mode)
+      vim.keymap.set(mode or "n", lhs, rhs, { buffer = bufnr })
+    end
 
-    --- @type table<string, ({ lhs: string, rhs: function, mode?: string|string[] }|function)[]>
-    local maps = {
-      [methods.textDocument_definition] = {
-        {
-          lhs = "gd",
-          rhs = function()
-            vim.lsp.buf.definition { on_list = on_list }
-          end,
-        },
-        {
-          lhs = "gD",
-          rhs = function()
-            local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
-            vim.lsp.buf_request(bufnr, methods.textDocument_definition, params, function(_, result)
-              if not result or vim.tbl_isempty(result) then
-                return nil
-              end
+    if client:supports_method "textDocument/definition" then
+      map("gd", function()
+        vim.lsp.buf.definition { on_list = on_list }
+      end)
+    end
 
-              local buf = vim.lsp.util.preview_location(result[1], {})
+    if client:supports_method "textDocument/references" then
+      map("grr", function()
+        vim.lsp.buf.references({ includeDeclaration = false }, { on_list = on_list })
+      end)
+    end
 
-              if buf then
-                local cur_buf = vim.api.nvim_get_current_buf()
-                local filetype = vim.bo[cur_buf].filetype
-                if filetype == "php" then
-                  filetype = "php_only"
-                end
-                vim.bo[buf].filetype = filetype
-              end
-            end)
-          end,
-        },
-      },
-      [methods.textDocument_references] = {
-        {
-          lhs = "grr",
-          rhs = function()
-            vim.lsp.buf.references({
-              includeDeclaration = false,
-            }, { on_list = on_list })
-          end,
-        },
-      },
-      [methods.textDocument_implementation] = {
-        {
-          lhs = "gI",
-          rhs = function()
-            vim.lsp.buf.implementation { on_list = on_list }
-          end,
-        },
-      },
-      [methods.textDocument_documentSymbol] = {
-        {
-          lhs = "gs",
-          rhs = function()
-            vim.lsp.buf.document_symbol { on_list = on_list }
-          end,
-        },
-      },
-      [methods.workspace_symbol] = {
-        {
-          lhs = "gS",
-          rhs = function()
-            vim.lsp.buf.workspace_symbol(nil, { on_list = on_list })
-          end,
-        },
-      },
-      [methods.textDocument_codeLens] = {
-        {
-          lhs = "grl",
-          rhs = function()
-            vim.lsp.codelens.run()
-          end,
-        },
-        {
-          lhs = "grL",
-          rhs = function()
-            vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
-          end,
-        },
-      },
-      [methods.textDocument_documentHighlight] = {
-        function()
-          clear { group = groups.highlight, buffer = bufnr }
-          autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            group = groups.highlight,
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.document_highlight()
-            end,
-          })
-          autocmd({ "BufLeave", "CursorMoved", "InsertEnter" }, {
-            group = groups.highlight,
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.clear_references()
-            end,
-          })
+    if client:supports_method "textDocument/implementation" then
+      map("gI", function()
+        vim.lsp.buf.implementation { on_list = on_list }
+      end)
+    end
+
+    if client:supports_method "textDocument/documentSymbol" then
+      map("gs", function()
+        vim.lsp.buf.document_symbol { on_list = on_list }
+      end)
+    end
+
+    if client:supports_method "textDocument/codeLens" then
+      map("grl", function()
+        vim.lsp.codelens.run()
+      end)
+      map("grL", function()
+        vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
+      end)
+    end
+
+    if client:supports_method "textDocument/inlayHint" then
+      map("gri", function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
+      end)
+    end
+
+    if client:supports_method "textDocument/documentHighlight" then
+      clear { group = groups.highlight, buffer = bufnr }
+      autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+        group = groups.highlight,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.document_highlight()
         end,
-      },
-      [methods.textDocument_linkedEditingRange] = {
-        function()
-          vim.lsp.linked_editing_range.enable(true, { client_id = client.id })
+      })
+      autocmd({ "BufLeave", "CursorMoved", "InsertEnter" }, {
+        group = groups.highlight,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.clear_references()
         end,
-      },
-      [methods.textDocument_inlayHint] = {
-        {
-          lhs = "gri",
-          rhs = function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
-          end,
-        },
-      },
-      [methods.textDocument_documentColor] = {
-        function()
-          vim.b[bufnr].minihipatterns_disable = true
-          vim.lsp.document_color.enable(true, bufnr)
-        end,
-      },
-      [methods.textDocument_formatting] = {
-        function()
-          if not vim.b[bufnr].formatter then
-            vim.b[bufnr].formatter = vim.lsp.buf.format
-          end
-        end,
-      },
-      [methods.textDocument_selectionRange] = {
-        {
-          lhs = "<C-Space>",
-          mode = { "n", "x" },
-          rhs = function()
-            vim.lsp.buf.selection_range(1)
-          end,
-        },
-        {
-          lhs = "<C-S-Space>",
-          mode = "x",
-          rhs = function()
-            vim.lsp.buf.selection_range(-1)
-          end,
-        },
-      },
-      [methods.textDocument_completion] = {
-        function()
-          vim.lsp.completion.enable(true, client.id, bufnr, {
-            autotrigger = true,
-            convert = function(item)
-              local word = item.label
+      })
+    end
 
-              if item.insertTextFormat == vim.lsp.protocol.InsertTextFormat.Snippet then
-                word = (item.insertText or item.label):gsub("%b()", "")
-              elseif item.textEdit then
-                word = item.textEdit.newText:match "^(%S*)" or item.textEdit.newText
-              elseif item.insertText and item.insertText ~= "" then
-                word = item.insertText
-              end
+    if client:supports_method "textDocument/linkedEditingRange" then
+      vim.lsp.linked_editing_range.enable(true, { client_id = client.id })
+    end
 
-              return {
-                abbr = item.label:gsub("%b()", ""),
-                word = word,
-              }
-            end,
-          })
-        end,
-        {
-          mode = "i",
-          lhs = "<C-Space>",
-          rhs = function()
-            vim.lsp.completion.get()
-          end,
-        },
-        {
-          mode = "i",
-          lhs = "<CR>",
-          rhs = function()
-            if vim.fn.pumvisible() == 1 then
-              local info = vim.fn.complete_info()
+    if client:supports_method "textDocument/documentColor" then
+      vim.b[bufnr].minihipatterns_disable = true
+      vim.lsp.document_color.enable(true, bufnr)
+    end
 
-              if info.selected == -1 or not should_confirm then
-                feedkeys "<C-e><CR>"
-              else
-                feedkeys "<C-y>"
-              end
-            else
-              feedkeys "<CR>"
-            end
-          end,
-        },
-        {
-          mode = { "i", "s" },
-          lhs = "<Tab>",
-          rhs = function()
-            local function has_words_before()
-              local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-              return col ~= 0 and not vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s"
-            end
+    if client:supports_method "textDocument/selectionRange" then
+      map("<C-Space>", function()
+        vim.lsp.buf.selection_range(1)
+      end, { "n", "x" })
+      map("<C-S-Space>", function()
+        vim.lsp.buf.selection_range(-1)
+      end, "x")
+    end
 
-            if vim.fn.pumvisible() == 1 then
-              should_confirm = true
-              feedkeys "<C-n>"
-            elseif has_words_before() then
-              vim.lsp.completion.get()
-            else
-              feedkeys "<Tab>"
-            end
-          end,
-        },
-        {
-          mode = { "i", "s" },
-          lhs = "<S-Tab>",
-          rhs = function()
-            if vim.fn.pumvisible() == 1 then
-              should_confirm = true
-              feedkeys "<C-p>"
-            else
-              feedkeys "<S-Tab>"
-            end
-          end,
-        },
-      },
-      [methods.textDocument_inlineCompletion] = {
-        {
-          mode = "i",
-          lhs = "<C-z>",
-          rhs = function()
-            if vim.lsp.inline_completion.is_enabled { bufnr = bufnr } then
-              vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
-            else
-              feedkeys "<C-e>"
-              vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
-              vim.lsp.inline_completion.select { bufnr = bufnr, count = 0 }
-            end
-          end,
-        },
-        {
-          mode = "i",
-          lhs = "<C-S-Space>",
-          rhs = function()
-            if vim.lsp.inline_completion.is_enabled { bufnr = bufnr } then
-              vim.lsp.inline_completion.get { bufnr = bufnr }
-              vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
-            end
-          end,
-        },
-      },
-    }
-
-    for method, mappings in pairs(maps) do
-      if method == "_" or client:supports_method(method) then
-        for _, mapping in ipairs(mappings) do
-          if type(mapping) == "table" then
-            vim.keymap.set(mapping.mode or "n", mapping.lhs, mapping.rhs, {
-              buffer = bufnr,
-            })
-          else
-            mapping()
-          end
-        end
+    if client:supports_method "textDocument/formatting" then
+      if not vim.b[bufnr].formatter then
+        vim.b[bufnr].formatter = vim.lsp.buf.format
       end
+    end
+
+    if client:supports_method "textDocument/onTypeFormatting" then
+      vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
+    end
+
+    if client:supports_method "textDocument/completion" then
+      vim.lsp.completion.enable(true, client.id, bufnr, {
+        autotrigger = true,
+        convert = function(item)
+          local word = item.label
+
+          if item.insertTextFormat == vim.lsp.protocol.InsertTextFormat.Snippet then
+            word = (item.insertText or item.label):gsub("%b()", "")
+          elseif item.textEdit then
+            word = item.textEdit.newText:match "^(%S*)" or item.textEdit.newText
+          elseif item.insertText and item.insertText ~= "" then
+            word = item.insertText
+          end
+
+          return {
+            abbr = item.label:gsub("%b()", ""),
+            word = word,
+          }
+        end,
+      })
+      map("<C-Space>", function()
+        vim.lsp.completion.get()
+      end, "i")
+      map("<CR>", function()
+        if vim.fn.pumvisible() == 1 then
+          local info = vim.fn.complete_info()
+
+          if info.selected == -1 or not should_confirm then
+            feedkeys "<C-e><CR>"
+          else
+            feedkeys "<C-y>"
+          end
+        else
+          feedkeys "<CR>"
+        end
+      end, "i")
+      map("<Tab>", function()
+        local function has_words_before()
+          local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+          return col ~= 0 and not vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s"
+        end
+
+        if vim.fn.pumvisible() == 1 then
+          should_confirm = true
+          feedkeys "<C-n>"
+        elseif has_words_before() then
+          vim.lsp.completion.get()
+        else
+          feedkeys "<Tab>"
+        end
+      end, { "i", "s" })
+      map("<S-Tab>", function()
+        if vim.fn.pumvisible() == 1 then
+          should_confirm = true
+          feedkeys "<C-p>"
+        else
+          feedkeys "<S-Tab>"
+        end
+      end, { "i", "s" })
+    end
+
+    if client:supports_method "textDocument/inlineCompletion" then
+      map("<C-z>", function()
+        if vim.lsp.inline_completion.is_enabled { bufnr = bufnr } then
+          vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
+        else
+          feedkeys "<C-e>"
+          vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+          vim.lsp.inline_completion.select { bufnr = bufnr, count = 0 }
+        end
+      end, "i")
+      map("<C-S-Space>", function()
+        if vim.lsp.inline_completion.is_enabled { bufnr = bufnr } then
+          vim.lsp.inline_completion.get { bufnr = bufnr }
+          vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
+        end
+      end, "i")
     end
   end,
 })
