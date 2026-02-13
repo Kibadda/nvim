@@ -3,22 +3,6 @@ local M = {
 }
 
 M.lsp = {
-  [vim.lsp.protocol.Methods.textDocument_codeAction] = function()
-    return {
-      {
-        title = "show diff",
-        command = {
-          title = "show diff",
-          command = "show_diff",
-          arguments = {
-            files = {},
-            cached = true,
-          },
-        },
-      },
-    }
-  end,
-
   [vim.lsp.protocol.Methods.textDocument_signatureHelp] = function()
     vim.cmd.stopinsert()
 

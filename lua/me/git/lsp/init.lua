@@ -120,7 +120,7 @@ local handlers = {
 
     callback(nil, {
       uri = params.textDocument.uri,
-      ---@type lsp.Range
+      --- @type lsp.Range
       range = {
         start = { line = pos[1] - 1, character = pos[2] },
         ["end"] = { line = pos[1] - 1, character = pos[2] },

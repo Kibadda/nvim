@@ -115,4 +115,29 @@ function M.completions(fargs)
   end
 end
 
+function M:on_buf_load()
+  return {
+    keymaps = {
+      {
+        lhs = "[[",
+        mode = { "n", "x" },
+        rhs = function()
+          for _ = 1, vim.v.count1 do
+            vim.fn.search("^@@ ", "bsW")
+          end
+        end,
+      },
+      {
+        lhs = "]]",
+        mode = { "n", "x" },
+        rhs = function()
+          for _ = 1, vim.v.count1 do
+            vim.fn.search("^@@ ", "sW")
+          end
+        end,
+      },
+    },
+  }
+end
+
 return M
