@@ -15,6 +15,8 @@ return {
       for _, plugin in ipairs(vim.pack.get()) do
         table.insert(library, plugin.path .. "/lua")
       end
+    elseif vim.endswith(vim.fs.basename(params.rootPath), ".nvim") then
+      table.insert(library, vim.env.VIMRUNTIME .. "/lua")
     end
 
     if vim.fn.isdirectory(params.rootPath .. "/lua") == 1 then
