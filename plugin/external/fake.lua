@@ -39,6 +39,34 @@ end
 --- @type fake.config
 vim.g.fake = {
   {
+    enabled = function(buf)
+      return vim.uri_from_bufnr(buf):find "advent%-of%-code" ~= nil
+    end,
+    codeactions = function(buf)
+      local codeactions = {}
+
+      local year, month = vim.uri_from_bufnr(buf):match "lua/advent%-of%-code/([^/]+)/([^/]+)/init%.lua"
+
+      if year and month then
+        table.insert(codeactions, {
+          title = "open",
+          command = {
+            title = "open",
+            command = "open_url",
+            arguments = {
+              url = ("https://adventofcode.com/%s/day/%s"):format(year, tonumber(month)),
+            },
+          },
+        })
+      end
+
+      return codeactions
+    end,
+    snippets = {
+      parse = "--- @param lines string[]\nfunction M:parse(lines)\n\tfor _, line in ipairs(lines) do\n\t\t$0\n\tend\nend",
+    },
+  },
+  {
     filetype = "php",
     snippets = {
       debug = "Util::getLogger()->debug($0);",
