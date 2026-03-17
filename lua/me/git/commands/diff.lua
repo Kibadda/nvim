@@ -5,6 +5,68 @@ local M = {
 }
 
 M.lsp = {
+  [vim.lsp.protocol.Methods.textDocument_codeLens] = function(params)
+    --- @cast params lsp.CodeLensParams
+
+    local bufnr = vim.uri_to_bufnr(params.textDocument.uri)
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    local reverse = vim.b[bufnr].fargs[1] == "--cached"
+
+    local header = {}
+    local hunk_start = nil
+    local hunk = {}
+    local in_hunk = true
+    local lenses = {}
+
+    local function add_lens()
+      if hunk_start then
+        table.insert(lenses, {
+          range = {
+            start = { line = hunk_start - 1, character = 0 },
+            ["end"] = { line = hunk_start, character = 0 },
+          },
+          command = {
+            title = reverse and "unstage" or "stage",
+            command = "apply_patch",
+            arguments = {
+              bufnr = bufnr,
+              reverse = reverse,
+              patch = vim.list_extend(vim.list_extend({}, header), hunk),
+            },
+          },
+        })
+      end
+    end
+
+    for i, line in ipairs(lines) do
+      if in_hunk then
+        if vim.startswith(line, "diff") then
+          add_lens()
+          in_hunk = false
+          header = { line }
+        elseif vim.startswith(line, "@@") then
+          add_lens()
+          hunk = { line }
+          hunk_start = i
+        else
+          table.insert(hunk, line)
+        end
+      else
+        if vim.startswith(line, "@@") then
+          in_hunk = true
+          hunk = { line }
+          hunk_start = i
+        else
+          table.insert(header, line)
+        end
+      end
+    end
+
+    add_lens()
+
+    return lenses
+  end,
+
   [vim.lsp.protocol.Methods.textDocument_codeAction] = function(params)
     --- @cast params lsp.CodeActionParams
 

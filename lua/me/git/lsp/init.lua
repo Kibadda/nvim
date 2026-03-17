@@ -64,6 +64,7 @@ local handlers = {
       },
       capabilities = {
         codeActionProvider = true,
+        codeLensProvider = {},
         executeCommandProvider = {
           commands = vim.tbl_keys(M.commands),
         },
@@ -91,6 +92,21 @@ local handlers = {
     end
 
     callback(nil, codeactions)
+  end,
+
+  --- @type fun(params: lsp.CodeLensParams, callback: function)
+  [methods.textDocument_codeLens] = function(params, callback)
+    local bufnr = vim.uri_to_bufnr(params.textDocument.uri)
+
+    local codelenses = {}
+
+    if vim.b[bufnr].lsp and vim.b[bufnr].lsp[methods.textDocument_codeLens] then
+      codelenses = vim.b[bufnr].lsp[methods.textDocument_codeLens](params)
+    else
+      return
+    end
+
+    callback(nil, codelenses)
   end,
 
   --- @type fun(params: lsp.HoverParams, callback: function)

@@ -8,6 +8,57 @@ local M = {
 local data = {}
 
 M.lsp = {
+  [vim.lsp.protocol.Methods.textDocument_codeLens] = function()
+    local lenses = {}
+
+    local function lens(opts)
+      local files = opts.file and { opts.file } or nil
+      if not files then
+        files = {}
+        local i = opts.i + 1
+        while true do
+          if not data.section[i] or not data.section[i].file then
+            break
+          end
+
+          table.insert(files, data.section[i].file)
+          i = i + 1
+        end
+      end
+
+      table.insert(lenses, {
+        range = {
+          start = { line = opts.i - 1, character = 0 },
+          ["end"] = { line = opts.i, character = 0 },
+        },
+        command = {
+          title = opts.title,
+          command = opts.command or opts.title,
+          arguments = vim.tbl_extend("force", {
+            files = files,
+          }, opts.arguments or {}),
+        },
+      })
+    end
+
+    for i, d in ipairs(data.section) do
+      if d.section == "untracked" then
+        lens { title = "add", i = i, file = d.file }
+        lens { title = "delete", i = i, file = d.file }
+      elseif d.section == "unstaged" then
+        lens { title = "add", i = i, file = d.file }
+        lens { title = "edit", command = "add", arguments = { edit = true }, i = i, file = d.file }
+        lens { title = "restore", i = i, file = d.file }
+      elseif d.section == "staged" then
+        lens { title = "restore", arguments = { staged = true }, i = i, file = d.file }
+      elseif d.section == "unmerged" then
+        lens { title = "add", i = i, file = d.file }
+      end
+    end
+
+    return lenses
+  end,
+
   [vim.lsp.protocol.Methods.textDocument_codeAction] = function(params)
     --- @cast params lsp.CodeActionParams
 
