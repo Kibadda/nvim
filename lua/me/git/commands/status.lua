@@ -167,10 +167,10 @@ function M:on_buf_load(stdout)
       table.insert(section.unstaged, { file = file, section = "unstaged" })
     elseif prefix == "M " or prefix == "A " or prefix == "D " or prefix == "R " then
       table.insert(section.staged, { file = file, section = "staged" })
-    elseif prefix == "MM" or prefix == "AM" or prefix == "MD" or prefix == "AD" then
+    elseif prefix == "MM" or prefix == "AM" or prefix == "MD" or prefix == "AD" or prefix == "RM" then
       table.insert(section.staged, { file = file, section = "staged" })
       table.insert(section.unstaged, { file = file, section = "unstaged" })
-    elseif prefix == "UU" then
+    elseif prefix == "UU" or prefix == "AA" then
       table.insert(section.unmerged, { file = file, section = "unmerged" })
     else
       error(line)
