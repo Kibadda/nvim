@@ -127,9 +127,9 @@ autocmd("LspAttach", {
       end
     end
 
-    if client:supports_method "textDocument/onTypeFormatting" then
-      vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
-    end
+    -- if client:supports_method "textDocument/onTypeFormatting" then
+    --   vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
+    -- end
 
     if client:supports_method "textDocument/completion" then
       vim.lsp.completion.enable(true, client.id, bufnr, {
