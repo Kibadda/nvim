@@ -61,11 +61,32 @@ end, {
   nargs = 0,
 })
 
-vim.api.nvim_create_user_command("PackUpdate", function()
-  vim.pack.update()
+vim.api.nvim_create_user_command("PackUpdate", function(data)
+  vim.pack.update(#data.fargs > 0 and data.fargs or nil)
 end, {
   bang = false,
-  nargs = 0,
+  nargs = "*",
+  complete = function(_, cmdline, _)
+    local cmd = cmdline:match "^PackUpdate%s+(.*)$"
+    local split = vim.split(cmd, "%s+")
+
+    local plugins = {}
+    for _, plugin in ipairs(vim.pack.get()) do
+      table.insert(plugins, plugin.spec.name)
+    end
+
+    local complete = vim.tbl_filter(function(opt)
+      if vim.tbl_contains(split, opt) then
+        return false
+      end
+
+      return string.find(opt, "^" .. split[#split]:gsub("%-", "%%-")) ~= nil
+    end, plugins)
+
+    table.sort(complete)
+
+    return complete
+  end,
 })
 
 vim.api.nvim_create_user_command("PackInstall", function()
