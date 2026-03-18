@@ -34,7 +34,7 @@
       "src": "https://github.com/folke/sidekick.nvim"
     },
     "starter.nvim": {
-      "rev": "eac5af76489505af0cbdf3bab122cf9da2254a2d",
+      "rev": "7ca64d8ccdabd86eeba78dcf964d855d1ea21018",
       "src": "https://github.com/Kibadda/starter.nvim"
     },
     "vim-pasta": {
