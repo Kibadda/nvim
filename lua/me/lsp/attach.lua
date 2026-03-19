@@ -109,7 +109,7 @@ autocmd("LspAttach", {
 
     if client:supports_method "textDocument/documentColor" then
       vim.b[bufnr].minihipatterns_disable = true
-      vim.lsp.document_color.enable(true, bufnr)
+      vim.lsp.document_color.enable(true, { bufnr = bufnr })
     end
 
     if client:supports_method "textDocument/selectionRange" then
