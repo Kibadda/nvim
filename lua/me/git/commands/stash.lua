@@ -12,8 +12,9 @@ M.lsp = {
     local stash = data[params.position.line + 1]
 
     if stash then
-      require("me.git.commands").diff:run {
-        "HEAD",
+      require("me.git.commands").stash:run {
+        "show",
+        "-p",
         stash,
       }
     end
@@ -25,6 +26,7 @@ function M:pre_run(fargs)
     self.show_output_in_buffer = true
   elseif fargs[1] == "show" then
     self.show_output_in_buffer = true
+    self.filetype = "diff"
 
     if #fargs == 1 then
       local stash = require("me.git.utils").select_stash()

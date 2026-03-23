@@ -131,13 +131,13 @@ function M:on_exit(code, stdout, stderr)
     })
   end
 
-  vim.bo[self.bufnr].filetype = self.cmd[1]
+  vim.bo[self.bufnr].filetype = self.filetype or self.cmd[1]
   vim.bo[self.bufnr].bufhidden = "wipe"
   vim.bo[self.bufnr].syntax = "off"
   vim.b[self.bufnr].lsp = self.lsp
   vim.b[self.bufnr].fargs = self.fargs
 
-  pcall(vim.treesitter.start, self.bufnr, self.cmd[1])
+  pcall(vim.treesitter.start, self.bufnr, self.filetype or self.cmd[1])
 
   local function cancel()
     vim.cmd.stopinsert()
