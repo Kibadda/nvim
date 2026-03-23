@@ -99,7 +99,10 @@ function M:on_exit(code, stdout, stderr)
     return
   end
 
-  if not self.show_output_in_buffer then
+  if
+    not self.show_output_in_buffer
+    or (type(self.show_output_in_buffer) == "function" and not self.show_output_in_buffer(stdout))
+  then
     vim.notify("Done: " .. table.concat(self.cmd, " "))
     return
   end

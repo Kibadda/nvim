@@ -1,5 +1,8 @@
 local M = {
   cmd = { "pull" },
+  show_output_in_buffer = function(stdout)
+    return stdout[1] ~= "Already up to date."
+  end,
 }
 
 function M:on_error(code)
