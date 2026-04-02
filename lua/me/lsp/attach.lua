@@ -28,7 +28,7 @@ autocmd("LspAttach", {
       return
     end
 
-    --- @param opts vim.lsp.LocationOpts.OnList
+    --- @param opts vim.lsp.ListOpts.OnList
     local function on_list(opts)
       if #opts.items == 0 then
         vim.notify("No location found", vim.log.levels.WARN)
@@ -193,7 +193,7 @@ autocmd("LspAttach", {
     end
 
     if client:supports_method "textDocument/inlineCompletion" then
-      map("<C-z>", function()
+      map("<C-.>", function()
         if vim.lsp.inline_completion.is_enabled { bufnr = bufnr } then
           vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
         else
@@ -202,7 +202,7 @@ autocmd("LspAttach", {
           vim.lsp.inline_completion.select { bufnr = bufnr, count = 0 }
         end
       end, "i")
-      map("<C-S-Space>", function()
+      map("<C-S-.>", function()
         if vim.lsp.inline_completion.is_enabled { bufnr = bufnr } then
           vim.lsp.inline_completion.get { bufnr = bufnr }
           vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
