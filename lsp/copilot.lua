@@ -19,6 +19,7 @@ return {
   },
   on_attach = function(client, bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, "CopilotSignIn", function()
+      --- @diagnostic disable-next-line:param-type-mismatch
       client:request("signIn", vim.empty_dict(), function(err, result)
         if err then
           return
@@ -40,6 +41,7 @@ return {
       end)
     end, {})
     vim.api.nvim_buf_create_user_command(bufnr, "CopilotSignOut", function()
+      --- @diagnostic disable-next-line:param-type-mismatch
       client:request("signOut", vim.empty_dict(), function(err)
         if err then
           return
