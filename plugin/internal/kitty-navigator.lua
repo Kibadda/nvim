@@ -36,7 +36,7 @@ local function navigate(direction)
   end
 end
 
-vim.keymap.set("n", "<C-h>", navigate "h", { desc = "Kitty Left" })
-vim.keymap.set("n", "<C-j>", navigate "j", { desc = "Kitty Down" })
-vim.keymap.set("n", "<C-k>", navigate "k", { desc = "Kitty Up" })
-vim.keymap.set("n", "<C-l>", navigate "l", { desc = "Kitty Right" })
+vim.keymap.set({ "n", "c" }, "<C-h>", navigate "h", { desc = "Kitty Left" })
+vim.keymap.set({ "n", "c" }, "<C-j>", navigate "j", { desc = "Kitty Down" })
+vim.keymap.set({ "n", "c" }, "<C-k>", navigate "k", { desc = "Kitty Up" })
+vim.keymap.set({ "n", "c" }, "<C-l>", navigate "l", { desc = "Kitty Right" })
