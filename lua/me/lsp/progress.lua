@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd("LspProgress", {
 
     vim.api.nvim_echo({ { value.message or "done" } }, false, {
       id = "lsp-progress[" .. client.id .. "]",
+      source = "lsp",
       kind = "progress",
       title = string.format("[%s] %s", client.name, value.title),
       status = value.kind ~= "end" and "running" or "success",
