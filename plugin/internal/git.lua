@@ -30,7 +30,7 @@ vim.keymap.set("n", "gG", function()
   end
 end)
 
-vim.keymap.set("n", "gF", function()
+vim.keymap.set({ "n", "x" }, "gF", function()
   local url = require("me.git.utils").get_url()
 
   if not url then
@@ -45,7 +45,20 @@ vim.keymap.set("n", "gF", function()
 
   local bufname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 
-  vim.ui.open(url .. "/blob/" .. branch .. "/" .. bufname)
+  url = url .. "/blob/" .. branch .. "/" .. bufname
+
+  if vim.fn.mode() == "V" then
+    local sline = vim.fn.line "v"
+    local eline = vim.fn.line "."
+
+    if sline > eline then
+      sline, eline = eline, sline
+    end
+
+    url = url .. "#L" .. sline .. "-L" .. eline
+  end
+
+  vim.ui.open(url)
 end)
 
 vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusGained", "DirChanged" }, {
