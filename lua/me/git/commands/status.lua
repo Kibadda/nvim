@@ -1,5 +1,5 @@
 local M = {
-  cmd = { "status", "--porcelain" },
+  cmd = { "status", "--porcelain", "-b" },
   can_refresh = true,
   show_output_in_buffer = true,
 }
@@ -122,6 +122,10 @@ M.lsp = {
     local s = data.section[params.position.line + 1]
     local cmd = {}
 
+    if not s then
+      return false
+    end
+
     if s.section == "staged" then
       table.insert(cmd, "--cached")
     end
@@ -157,23 +161,42 @@ function M:on_buf_load(stdout)
     unmerged = {},
   }
 
-  for _, line in ipairs(stdout) do
-    local prefix = line:sub(1, 2)
-    local file = line:sub(4)
+  local tracking_info = nil
 
-    if prefix == "??" then
-      table.insert(section.untracked, { file = file, section = "untracked" })
-    elseif prefix == " M" or prefix == " A" or prefix == " D" then
-      table.insert(section.unstaged, { file = file, section = "unstaged" })
-    elseif prefix == "M " or prefix == "A " or prefix == "D " or prefix == "R " then
-      table.insert(section.staged, { file = file, section = "staged" })
-    elseif prefix == "MM" or prefix == "AM" or prefix == "MD" or prefix == "AD" or prefix == "RM" then
-      table.insert(section.staged, { file = file, section = "staged" })
-      table.insert(section.unstaged, { file = file, section = "unstaged" })
-    elseif prefix == "UU" or prefix == "AA" then
-      table.insert(section.unmerged, { file = file, section = "unmerged" })
+  for _, line in ipairs(stdout) do
+    -- Parse branch header line (e.g., "## main...origin/main [ahead 1, behind 2]")
+    if line:sub(1, 2) == "##" then
+      local branch_info = line:sub(4)
+      local ahead = branch_info:match "%[.*ahead (%d+)"
+      local behind = branch_info:match "%[.*behind (%d+)"
+
+      if ahead and behind then
+        tracking_info = string.format("diverged (+%s/-%s)", ahead, behind)
+      elseif ahead then
+        tracking_info = string.format("ahead +%s", ahead)
+      elseif behind then
+        tracking_info = string.format("behind -%s", behind)
+      elseif branch_info:find "%.%.%." then
+        tracking_info = "up to date"
+      end
     else
-      error(line)
+      local prefix = line:sub(1, 2)
+      local file = line:sub(4)
+
+      if prefix == "??" then
+        table.insert(section.untracked, { file = file, section = "untracked" })
+      elseif prefix == " M" or prefix == " A" or prefix == " D" then
+        table.insert(section.unstaged, { file = file, section = "unstaged" })
+      elseif prefix == "M " or prefix == "A " or prefix == "D " or prefix == "R " then
+        table.insert(section.staged, { file = file, section = "staged" })
+      elseif prefix == "MM" or prefix == "AM" or prefix == "MD" or prefix == "AD" or prefix == "RM" then
+        table.insert(section.staged, { file = file, section = "staged" })
+        table.insert(section.unstaged, { file = file, section = "unstaged" })
+      elseif prefix == "UU" or prefix == "AA" then
+        table.insert(section.unmerged, { file = file, section = "unmerged" })
+      else
+        error(line)
+      end
     end
   end
 
@@ -200,6 +223,27 @@ function M:on_buf_load(stdout)
   add_lines "unstaged"
   add_lines "untracked"
   add_lines "unmerged"
+
+  if tracking_info then
+    table.insert(data.lines, "")
+    table.insert(data.lines, tracking_info)
+
+    local hl = "@comment"
+    if tracking_info:find "^ahead" then
+      hl = "@diff.plus"
+    elseif tracking_info:find "^behind" then
+      hl = "@diff.minus"
+    elseif tracking_info:find "^diverged" then
+      hl = "@diff.delta"
+    end
+
+    table.insert(extmarks, {
+      line = #data.lines,
+      col = 1,
+      end_col = #data.lines[#data.lines],
+      hl = hl,
+    })
+  end
 
   return {
     lines = data.lines,
