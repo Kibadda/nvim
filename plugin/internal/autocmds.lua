@@ -7,10 +7,10 @@ vim.g.loaded_plugin_autocmds = 1
 local autocmd = vim.api.nvim_create_autocmd
 local group = vim.api.nvim_create_augroup("Autocmds", { clear = true })
 
-autocmd("TextYankPost", {
+autocmd({ "TextYankPost", "TextPutPost" }, {
   group = group,
   callback = function()
-    vim.hl.on_yank()
+    vim.hl.hl_op()
   end,
 })
 
