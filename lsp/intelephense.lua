@@ -94,6 +94,7 @@ return {
         "zlib",
         "wordpress",
         "phpunit",
+        "random",
       },
     },
   },
