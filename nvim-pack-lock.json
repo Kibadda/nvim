@@ -1,7 +1,7 @@
 {
   "plugins": {
     "conform.nvim": {
-      "rev": "18aeab3d63d350dcf44d64c462cc489a3412af40",
+      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fake.nvim": {
@@ -9,24 +9,24 @@
       "src": "https://github.com/Kibadda/fake.nvim"
     },
     "mini.diff": {
-      "rev": "5af2b6be4a4beb673f3196a414f6fd932bbedd48",
+      "rev": "b3d8507929f8df54ab9b08c77564c1afd7d62110",
       "src": "https://github.com/echasnovski/mini.diff"
     },
     "mini.hipatterns": {
-      "rev": "e25cf080aae092a651a92fa5e477f64a61adbebf",
+      "rev": "7c840c71d6a91f53d734cab2b6fe2290d285ec3b",
       "src": "https://github.com/echasnovski/mini.hipatterns"
     },
     "mini.pick": {
-      "rev": "4522d9ab65224675df2cf1ede8c12f0410aae2be",
+      "rev": "04e73ab07222508361095bb6e27621b315e6b9f1",
       "src": "https://github.com/echasnovski/mini.pick"
     },
     "nvim-treesitter": {
-      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "rev": "7248feaca45e4d944591497964bc19afa89ad1c6",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
     "nvim-web-devicons": {
-      "rev": "0d7d35fa946837b8738b17c18d1faa1ac351e7f9",
+      "rev": "0ca28b61a04fe7426cefbdd52c2647ef0e335b5f",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "sidekick.nvim": {
