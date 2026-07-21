@@ -4,8 +4,10 @@ local config = {
   command = "codex",
   direct_prompt_limit = 30000,
   split_ratio = 0.4,
-  split_height = 40,
+  split_width = 80,
 }
+
+local codex_buf = nil
 
 local function current_root()
   return vim.uv.cwd() or vim.fn.getcwd()
@@ -63,6 +65,25 @@ local function prepare_prompt(prompt)
   return ("Read the Neovim context and request from this file before responding: %s"):format(file), vim.fs.dirname(file)
 end
 
+local function codex_wins()
+  if not codex_buf or not vim.api.nvim_buf_is_valid(codex_buf) then
+    return {}
+  end
+
+  return vim.tbl_filter(function(win)
+    return vim.api.nvim_win_get_buf(win) == codex_buf
+  end, vim.api.nvim_tabpage_list_wins(0))
+end
+
+local function open_codex_window(buf)
+  local width = math.min(math.floor(vim.o.columns * config.split_ratio + 0.5), config.split_width)
+  vim.api.nvim_open_win(buf, true, {
+    win = -1,
+    split = "right",
+    width = width,
+  })
+end
+
 local function open_terminal(prompt, extra_dir)
   if vim.fn.executable(config.command) == 0 then
     vim.notify(("Cannot find %q on $PATH"):format(config.command), vim.log.levels.ERROR)
@@ -79,20 +100,20 @@ local function open_terminal(prompt, extra_dir)
   end
 
   local buf = vim.api.nvim_create_buf(true, false)
+  codex_buf = buf
   pcall(vim.api.nvim_buf_set_name, buf, ("codex://%d"):format(vim.uv.hrtime()))
 
-  local height = math.min(math.floor(vim.o.lines * config.split_ratio + 0.5), config.split_height)
-  vim.api.nvim_open_win(buf, true, {
-    win = -1,
-    split = "below",
-    height = height,
-  })
+  open_codex_window(buf)
 
   vim.bo[buf].buflisted = false
   vim.fn.jobstart(cmd, {
     cwd = root,
     term = true,
     on_exit = function(_, code)
+      if codex_buf == buf then
+        codex_buf = nil
+      end
+
       if code ~= 0 then
         vim.schedule(function()
           vim.notify(("Codex exited with code %d"):format(code), vim.log.levels.WARN)
@@ -120,6 +141,24 @@ end
 function M.open(opts)
   opts = opts or {}
   run(opts.prompt or "")
+end
+
+function M.toggle()
+  local wins = codex_wins()
+  if next(wins) ~= nil then
+    for _, win in pairs(wins) do
+      vim.api.nvim_win_close(win, true)
+    end
+
+    return
+  end
+
+  if codex_buf and vim.api.nvim_buf_is_valid(codex_buf) then
+    open_codex_window(codex_buf)
+    return
+  end
+
+  run ""
 end
 
 function M.buffer(opts)

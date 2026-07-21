@@ -37,6 +37,10 @@ vim.keymap.set("n", "<Leader>cx", function()
   codex.open()
 end, { desc = "Codex" })
 
+vim.keymap.set({ "n", "t" }, "<C-p>", function()
+  codex.toggle()
+end, { desc = "Toggle Codex" })
+
 vim.keymap.set("n", "<Leader>cf", function()
   codex.buffer { ask = true }
 end, { desc = "Codex Buffer" })
