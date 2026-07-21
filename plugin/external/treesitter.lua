@@ -29,16 +29,19 @@ local parsers = {
   "blade",
   "kotlin",
   "rust",
+}
 
-  {
+local path = vim.fn.expand "$HOME/Projects/Personal/tree-sitter-smarty"
+if vim.fn.isdirectory(path) == 1 then
+  table.insert(parsers, {
     name = "smarty",
     install_info = {
-      path = vim.fn.expand "$HOME/Projects/Personal/tree-sitter-smarty",
+      path = path,
       files = { "src/parser.c", "src/scanner.c" },
       queries = "queries/smarty",
     },
-  },
-}
+  })
+end
 
 local function add_parsers()
   local treesitter_parsers = require "nvim-treesitter.parsers"
