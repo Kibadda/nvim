@@ -4,6 +4,34 @@ end
 
 vim.g.loaded_plugin_usercmds = 1
 
+local function can_replace_deleted_buffer(candidate, deleted)
+  return candidate ~= deleted
+    and candidate > 0
+    and vim.api.nvim_buf_is_valid(candidate)
+    and vim.fn.buflisted(candidate) == 1
+    and vim.bo[candidate].buftype ~= "terminal"
+end
+
+local function replacement_buffer(deleted)
+  local alt = vim.fn.bufnr "#"
+  if can_replace_deleted_buffer(alt, deleted) then
+    return alt
+  end
+
+  local last = vim.fn.bufnr "$"
+  for candidate = deleted - 1, 1, -1 do
+    if can_replace_deleted_buffer(candidate, deleted) then
+      return candidate
+    end
+  end
+
+  for candidate = last, deleted + 1, -1 do
+    if can_replace_deleted_buffer(candidate, deleted) then
+      return candidate
+    end
+  end
+end
+
 local function delete(opts)
   opts = opts or {}
 
@@ -26,14 +54,9 @@ local function delete(opts)
           return
         end
 
-        local alt = vim.fn.bufnr "#"
-        if alt ~= buf and vim.fn.buflisted(alt) == 1 then
-          vim.api.nvim_win_set_buf(win, alt)
-          return
-        end
-
-        local has_previous = pcall(vim.cmd, "bprevious")
-        if has_previous and buf ~= vim.api.nvim_win_get_buf(win) then
+        local replacement = replacement_buffer(buf)
+        if replacement then
+          vim.api.nvim_win_set_buf(win, replacement)
           return
         end
 
