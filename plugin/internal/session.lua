@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 })
 
 vim.keymap.set("n", "<Leader><Leader>s", function()
-  vim.cmd.restart()
+  vim.cmd.restart { bang = true }
 end)
 vim.keymap.set("n", "<Leader>Sn", function()
   require("me.session").new()
