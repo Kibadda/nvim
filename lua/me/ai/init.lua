@@ -91,13 +91,21 @@ end
 function M.complete(cmdline)
   local cmd = cmdline:match "^AI%s+(%S*)$"
 
-  if not cmd then
-    return {}
+  if cmd then
+    return vim.tbl_filter(function(tool)
+      return vim.startswith(tool, cmd)
+    end, vim.tbl_keys(M.tools))
   end
 
-  return vim.tbl_filter(function(tool)
-    return tool:find("^" .. cmd)
-  end, vim.tbl_keys(M.tools))
+  cmd = cmdline:match "(%S+)$"
+
+  if cmd and vim.startswith(cmd, "{") then
+    return vim.tbl_filter(function(prompt)
+      return vim.startswith(prompt, cmd)
+    end, vim.tbl_keys(M.prompts))
+  end
+
+  return {}
 end
 
 return M

@@ -75,7 +75,7 @@ function M:start()
   self:keys()
   self:open_win()
 
-  vim.api.nvim_create_autocmd("TermClose", {
+  vim.api.nvim_create_autocmd({ "TermClose", "VimLeave" }, {
     group = self.group,
     buffer = self.buf,
     callback = function()
