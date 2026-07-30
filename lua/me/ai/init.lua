@@ -28,6 +28,17 @@ local M = {
 
       return "@" .. path .. ":L" .. args.line1 .. " "
     end,
+    ["{selected}"] = function()
+      local region = vim.fn.getregion(vim.fn.getpos "'<", vim.fn.getpos "'>", {
+        type = vim.fn.visualmode(),
+      })
+
+      local text = table.concat(region, "\n") .. " "
+
+      text = vim.text.indent(0, text)
+
+      return "\n```\n" .. text .. "\n```\n"
+    end,
     ["{this}"] = function(args)
       local path = vim.fn.fnamemodify(vim.fn.expand "%", ":.")
 
