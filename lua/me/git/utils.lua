@@ -16,6 +16,9 @@ local function ensure_git_editor()
   end
 end
 
+--- @param on_exit function
+--- @return nil
+--- @overload fun(cmd, fargs): string[], integer?
 function M.run(cmd, fargs, on_exit)
   ensure_git_editor()
 
@@ -195,6 +198,7 @@ function M.get_url()
     return
   end
 
+  --- @type string?
   local url = M.run({ "config" }, { "--get", string.format("remote.%s.url", remote) })[1]
 
   if not url or url == "" then
