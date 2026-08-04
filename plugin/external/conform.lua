@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(args)
     if #conform.list_formatters(args.buf) > 0 then
       vim.b[args.buf].formatter = conform.format
-      vim.bo[args.buf].formatexpr = "v:lua.require'conform'.formatexpr()"
+      vim.bo[args.buf].formatexpr = require("conform").formatexpr
     end
   end,
 })
