@@ -8,10 +8,6 @@
       "rev": "943f2058facdaa36556da32edb0f435e439287a1",
       "src": "https://github.com/Kibadda/fake.nvim"
     },
-    "mini.diff": {
-      "rev": "b3d8507929f8df54ab9b08c77564c1afd7d62110",
-      "src": "https://github.com/echasnovski/mini.diff"
-    },
     "mini.pick": {
       "rev": "04e73ab07222508361095bb6e27621b315e6b9f1",
       "src": "https://github.com/echasnovski/mini.pick"
