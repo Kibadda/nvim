@@ -23,42 +23,11 @@ vim.keymap.set("n", "<Leader>h", function()
 end)
 
 vim.keymap.set("n", "gG", function()
-  local url = require("me.git.utils").get_url()
-
-  if url then
-    vim.ui.open(url)
-  end
+  require("me.git.open").project()
 end)
 
 vim.keymap.set({ "n", "x" }, "gF", function()
-  local url = require("me.git.utils").get_url()
-
-  if not url then
-    return
-  end
-
-  local branch = require("me.git.utils").run({ "rev-parse" }, { "--abbrev-ref", "HEAD" })[1]
-
-  if not branch or branch == "" then
-    return
-  end
-
-  local bufname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
-
-  url = url .. "/blob/" .. branch .. "/" .. bufname
-
-  if vim.fn.mode() == "V" then
-    local sline = vim.fn.line "v"
-    local eline = vim.fn.line "."
-
-    if sline > eline then
-      sline, eline = eline, sline
-    end
-
-    url = url .. "#L" .. sline .. "-L" .. eline
-  end
-
-  vim.ui.open(url)
+  require("me.git.open").file()
 end)
 
 vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusGained", "DirChanged" }, {
