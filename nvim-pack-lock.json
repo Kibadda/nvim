@@ -12,10 +12,6 @@
       "rev": "b3d8507929f8df54ab9b08c77564c1afd7d62110",
       "src": "https://github.com/echasnovski/mini.diff"
     },
-    "mini.hipatterns": {
-      "rev": "7c840c71d6a91f53d734cab2b6fe2290d285ec3b",
-      "src": "https://github.com/echasnovski/mini.hipatterns"
-    },
     "mini.pick": {
       "rev": "04e73ab07222508361095bb6e27621b315e6b9f1",
       "src": "https://github.com/echasnovski/mini.pick"
@@ -28,10 +24,6 @@
     "nvim-web-devicons": {
       "rev": "0ca28b61a04fe7426cefbdd52c2647ef0e335b5f",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
-    },
-    "sidekick.nvim": {
-      "rev": "208e1c5b8170c01fd1d07df0139322a76479b235",
-      "src": "https://github.com/folke/sidekick.nvim"
     },
     "starter.nvim": {
       "rev": "7ca64d8ccdabd86eeba78dcf964d855d1ea21018",
