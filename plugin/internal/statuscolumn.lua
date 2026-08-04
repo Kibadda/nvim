@@ -24,7 +24,7 @@ local function diagnostics()
 end
 
 local function diff_highlight()
-  local ns = vim.api.nvim_get_namespaces()["MiniDiffViz"]
+  local ns = vim.api.nvim_get_namespaces()["me.git.diff"]
   if ns then
     local extmarks = vim.api.nvim_buf_get_extmarks(
       0,

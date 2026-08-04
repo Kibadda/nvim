@@ -30,6 +30,18 @@ vim.keymap.set({ "n", "x" }, "gF", function()
   require("me.git.open").file()
 end)
 
+vim.keymap.set({ "x", "o" }, "ih", function()
+  require("me.git.hunk").textobject()
+end)
+
+vim.keymap.set({ "n", "x" }, "]h", function()
+  require("me.git.hunk").goto "next"
+end)
+
+vim.keymap.set({ "n", "x" }, "[h", function()
+  require("me.git.hunk").goto "prev"
+end)
+
 vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusGained", "DirChanged" }, {
   group = vim.api.nvim_create_augroup("GitStatus", { clear = true }),
   callback = function(args)
@@ -67,10 +79,12 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusG
           local current = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
 
           local diff = { added = 0, changed = 0, removed = 0 }
+          local marks = {}
+          local hunks = {}
 
           vim.text.diff(table.concat(result, "\n"), table.concat(current, "\n"), {
             ignore_whitespace_change = true,
-            on_hunk = function(_, c1, _, c2)
+            on_hunk = function(_, c1, s2, c2)
               if c1 == 1 and c2 > 1 then
                 diff.added = diff.added + c2
               elseif c1 > 1 and c2 == 1 then
@@ -82,11 +96,25 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusG
                 diff.removed = diff.removed + c1 - delta
               end
 
+              local hunk_type = c1 == 0 and "add" or (c2 == 0 and "delete" or "change")
+              local from = math.max(s2, 1)
+              local to = from + math.max(c2, 1) - 1
+
+              table.insert(hunks, { buf_start = s2, buf_count = c2 })
+
+              for lnum = from, to do
+                if marks[lnum] == nil or hunk_type == "change" then
+                  marks[lnum] = require("me.git.hunk").types[hunk_type]
+                end
+              end
+
               return 0
             end,
           })
 
           cache[args.buf].diff = diff
+          cache[args.buf].hunks = hunks
+          require("me.git.hunk").set_diff_extmarks(args.buf, marks)
         end)
       )
     end

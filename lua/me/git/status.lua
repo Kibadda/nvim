@@ -9,6 +9,7 @@ M.cache = setmetatable({}, {
         changed = 0,
         removed = 0,
       },
+      hunks = {},
     }
   end,
 })
