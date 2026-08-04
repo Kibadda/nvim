@@ -1,12 +1,12 @@
-local M = {}
+local M = {
+  keywords = {
+    TODO = "DiagnosticInfo",
+    CRTX = "DiagnosticWarn",
+    FIX = "DiagnosticError",
+  },
+}
 
 local ns = vim.api.nvim_create_namespace "me.highlight"
-
-local keywords = {
-  TODO = "DiagnosticInfo",
-  CRTX = "DiagnosticWarn",
-  FIX = "DiagnosticError",
-}
 
 local function walk(node, bufnr, comments)
   if node:type() == "comment" then
@@ -19,6 +19,10 @@ end
 
 local function highlight(bufnr)
   vim.schedule(function()
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+      return
+    end
+
     vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
 
     local ok, parser = pcall(vim.treesitter.get_parser, bufnr)
@@ -47,7 +51,7 @@ local function highlight(bufnr)
       if text then
         local row, col = sr, sc
         for line in vim.gsplit(text, "\n", { plain = true }) do
-          for keyword, hl in pairs(keywords) do
+          for keyword, hl in pairs(M.keywords) do
             local from = 1
             while true do
               local s, e = line:find("%f[%w]" .. keyword .. "%f[%W]", from)

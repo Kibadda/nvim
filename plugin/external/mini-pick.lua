@@ -19,6 +19,7 @@ vim.keymap.set("n", "<Leader>f", "<Cmd>Pick files<CR>")
 vim.keymap.set("n", "<Leader>F", "<Cmd>Pick files vcs=false<CR>")
 vim.keymap.set("n", "<Leader>b", "<Cmd>Pick buffers<CR>")
 vim.keymap.set("n", "<Leader>sg", "<Cmd>Pick grep_live<CR>")
+vim.keymap.set("n", "<Leader>st", "<Cmd>Pick todos<CR>")
 vim.keymap.set("n", "<Leader>sh", "<Cmd>Pick help<CR>")
 vim.keymap.set("n", "<Leader>sr", "<Cmd>Pick resume<CR>")
 
@@ -31,6 +32,10 @@ function pick.start(opts)
 
   if opts.initial_query then
     local query = opts.initial_query
+
+    if type(query) == "string" then
+      query = { query }
+    end
 
     vim.api.nvim_create_autocmd("User", {
       pattern = "MiniPickStart",
@@ -122,6 +127,21 @@ function pick.registry.grep_live()
   pick.builtin.grep_live({}, {
     with_qflist = true,
   })
+end
+
+function pick.registry.todos(opts)
+  opts = opts or {}
+
+  local keywords = require("me.highlight").keywords
+
+  local pattern = table.concat(
+    vim.tbl_map(function(keyword)
+      return "\\b" .. keyword .. "\\b"
+    end, vim.tbl_keys(keywords)),
+    "|"
+  )
+
+  pick.builtin.grep({ pattern = pattern }, { with_qflist = true })
 end
 
 function pick.registry.files(opts)
