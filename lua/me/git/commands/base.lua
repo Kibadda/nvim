@@ -123,6 +123,7 @@ function M:on_exit(code, stdout, stderr)
   vim.api.nvim_buf_set_lines(self.bufnr, 0, -1, false, data.lines)
   vim.bo[self.bufnr].modifiable = false
   vim.bo[self.bufnr].modified = false
+  vim.bo[self.bufnr].buftype = "nofile"
 
   for _, extmark in ipairs(data.extmarks) do
     vim.api.nvim_buf_set_extmark(self.bufnr, self.ns, extmark.line - 1, extmark.col - 1, {
