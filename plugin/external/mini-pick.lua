@@ -83,7 +83,7 @@ function pick.start(opts)
     }
   end
 
-  minipick_start(opts)
+  return minipick_start(opts)
 end
 
 function pick.registry.lsp(opts)
