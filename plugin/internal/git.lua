@@ -71,8 +71,15 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusG
       require("me.git.utils").run(
         { "show" },
         { ":" .. bufname },
-        vim.schedule_wrap(function(_, result)
+        vim.schedule_wrap(function(code, result)
           if not vim.api.nvim_buf_is_valid(args.buf) then
+            return
+          end
+
+          if code ~= 0 then
+            cache[args.buf].diff = { added = 0, changed = 0, removed = 0 }
+            cache[args.buf].hunks = {}
+            require("me.git.hunk").set_diff_extmarks(args.buf, {})
             return
           end
 
