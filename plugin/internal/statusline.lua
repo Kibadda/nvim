@@ -138,14 +138,6 @@ local function clients()
     table.insert(names, client.name .. "[" .. client.id .. "]")
   end
 
-  local ok, conform = pcall(require, "conform")
-
-  if ok then
-    for _, source in ipairs(conform.list_formatters(0)) do
-      table.insert(names, source.name)
-    end
-  end
-
   local list = #names > 0 and table.concat(names, ", ") or "LS inactive"
 
   return {

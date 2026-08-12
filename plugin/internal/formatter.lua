@@ -16,11 +16,27 @@ vim.keymap.set("n", "<Leader>lf", function()
   end
 end)
 
+local group = vim.api.nvim_create_augroup "AutoFormatter"
+
 vim.api.nvim_create_autocmd("BufWritePre", {
-  group = vim.api.nvim_create_augroup("AutoFormatter", { clear = true }),
+  group = group,
   callback = function()
     if vim.g.AutoFormat == 1 and vim.b.formatter then
       vim.b.formatter()
     end
   end,
 })
+
+local formatter = require "me.formatter"
+
+for _, tool in ipairs(formatter.tools) do
+  vim.api.nvim_create_autocmd("FileType", {
+    group = group,
+    pattern = tool.filetypes,
+    callback = function(args)
+      vim.b[args.buf].formatter = function()
+        formatter.format(tool)
+      end
+    end,
+  })
+end

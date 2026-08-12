@@ -1,9 +1,5 @@
 {
   "plugins": {
-    "conform.nvim": {
-      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
-      "src": "https://github.com/stevearc/conform.nvim"
-    },
     "fake.nvim": {
       "rev": "943f2058facdaa36556da32edb0f435e439287a1",
       "src": "https://github.com/Kibadda/fake.nvim"
