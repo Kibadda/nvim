@@ -90,7 +90,8 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusG
           local hunks = {}
 
           vim.text.diff(table.concat(result, "\n"), table.concat(current, "\n"), {
-            ignore_whitespace_change = true,
+            ignore_cr_at_eol = true,
+            ignore_whitespace_change_at_eol = true,
             on_hunk = function(_, c1, s2, c2)
               if c1 == 1 and c2 > 1 then
                 diff.added = diff.added + c2
