@@ -3,7 +3,7 @@ local M = {
     add = "Added",
     change = "Changed",
     delete = "Removed",
-  }
+  },
 }
 
 local ns = vim.api.nvim_create_namespace "me.git.diff"
@@ -80,7 +80,7 @@ function M.textobject()
   vim.cmd(string.format("normal! %dGV%dG", region.from, region.to))
 end
 
-function M.goto(direction)
+function M.goto_hunk(direction)
   local ranges = get_ranges()
   local n = #ranges
 

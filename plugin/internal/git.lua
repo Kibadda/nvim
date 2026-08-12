@@ -35,11 +35,11 @@ vim.keymap.set({ "x", "o" }, "ih", function()
 end)
 
 vim.keymap.set({ "n", "x" }, "]h", function()
-  require("me.git.hunk").goto "next"
+  require("me.git.hunk").goto_hunk "next"
 end)
 
 vim.keymap.set({ "n", "x" }, "[h", function()
-  require("me.git.hunk").goto "prev"
+  require("me.git.hunk").goto_hunk "prev"
 end)
 
 vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter", "FocusGained", "DirChanged" }, {
