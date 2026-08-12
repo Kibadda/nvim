@@ -2,13 +2,6 @@ return {
   cmd = { "intelephense", "--stdio" },
   root_markers = { "composer.json", ".git/" },
   filetypes = { "php" },
-  capabilities = {
-    textDocument = {
-      formatting = {
-        dynamicRegistration = false,
-      },
-    },
-  },
   commands = {
     ["editor.action.triggerParameterHints"] = function()
       vim.lsp.buf.signature_help()
