@@ -1,5 +1,3 @@
--- TODO: loader during commands
-
 local M = {}
 
 function M.run(data)

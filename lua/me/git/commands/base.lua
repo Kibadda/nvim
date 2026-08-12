@@ -34,7 +34,10 @@ function M:run(fargs, nested)
   self.fargs = fargs
   self.nested = nested
 
-  require("me.git.utils").run(self.cmd, fargs, function(code, stdout, stderr)
+  require("me.git.loader").start(self.cmd)
+
+  local ok, err = pcall(require("me.git.utils").run, self.cmd, fargs, function(code, stdout, stderr)
+    require("me.git.loader").stop(self.cmd)
     self:on_exit(code, stdout, stderr)
 
     if nested ~= false then
@@ -46,6 +49,11 @@ function M:run(fargs, nested)
       })
     end
   end)
+
+  if not ok then
+    require("me.git.loader").stop(self.cmd)
+    vim.notify(err --[[@as string]], vim.log.levels.ERROR)
+  end
 end
 
 function M:complete(arg_lead)

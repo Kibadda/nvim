@@ -63,6 +63,13 @@ local function git()
     end
   end
 
+  local loader = require("me.git.loader").text()
+
+  if loader ~= "" then
+    data.section = data.section .. " " .. loader
+    data.length = data.length + loader:len() + 1
+  end
+
   data.section = data.section .. " %#" .. mode_mapping[vim.fn.mode()].hl .. "#%* "
 
   return data
