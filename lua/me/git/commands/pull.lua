@@ -5,26 +5,11 @@ local M = {
   end,
 }
 
-local data = {}
-
 M.lsp = {
-  -- TODO: maybe dont show whole diff but fist show commits
   [vim.lsp.protocol.Methods.textDocument_hover] = function()
-    if data.diff then
-      require("me.git.commands").diff:run { data.diff }
-    end
+    require("me.git.commands").log:run { "HEAD@{1}..HEAD" }
   end,
 }
-
-function M:on_buf_load(stdout)
-  local diff = stdout[1]:match "^Updating (.*)$"
-
-  if diff then
-    data.diff = diff
-  end
-
-  return {}
-end
 
 function M:on_error(code)
   if code == 125 then
