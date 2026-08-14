@@ -25,11 +25,13 @@ M.lsp = {
     local commit = data[params.position.line + 1]
 
     if commit then
-      local parent
+      local parent = commit .. "^"
+
       if params.position.line + 1 == #data then
-        parent = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
-      else
-        parent = commit .. "^"
+        parent = require("me.git.utils").run({ "rev-parse" }, { "--verify", commit .. "^" })[1]
+        if not parent then
+          parent = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+        end
       end
 
       require("me.git.commands").diff:run {
