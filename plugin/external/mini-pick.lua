@@ -90,6 +90,7 @@ function pick.registry.lsp(opts)
   opts = opts or {}
 
   pick.start {
+    with_qflist = true,
     source = {
       name = opts.title or "LSP",
       items = vim.tbl_map(function(item)
