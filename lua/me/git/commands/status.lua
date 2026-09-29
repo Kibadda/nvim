@@ -1,5 +1,5 @@
 local M = {
-  cmd = { "status", "--porcelain", "-b" },
+  cmd = { "status", "--porcelain", "-b", "-z" },
   can_refresh = true,
   show_output_in_buffer = true,
 }
@@ -163,7 +163,12 @@ function M:on_buf_load(stdout)
 
   local tracking_info = nil
 
-  for _, line in ipairs(stdout) do
+  local i = 1
+
+  while stdout[i] do
+    local line = stdout[i]
+    i = i + 1
+
     -- Parse branch header line (e.g., "## main...origin/main [ahead 1, behind 2]")
     if line:sub(1, 2) == "##" then
       local branch_info = line:sub(4)
@@ -187,20 +192,32 @@ function M:on_buf_load(stdout)
         table.insert(section.untracked, { file = file, section = "untracked" })
       elseif prefix == " M" or prefix == " A" or prefix == " D" then
         table.insert(section.unstaged, { file = file, section = "unstaged" })
-      elseif prefix == "M " or prefix == "A " or prefix == "D " or prefix == "R " then
+      elseif prefix == "M " or prefix == "A " or prefix == "D " or prefix == "R " or prefix == "C " then
         table.insert(section.staged, { file = file, section = "staged" })
       elseif prefix == "MM" or prefix == "AM" or prefix == "MD" or prefix == "AD" or prefix == "RM" then
         table.insert(section.staged, { file = file, section = "staged" })
         table.insert(section.unstaged, { file = file, section = "unstaged" })
-      elseif prefix == "UU" or prefix == "AA" then
+      elseif prefix == "UU" or prefix == "AA" or prefix == "DU" then
         table.insert(section.unmerged, { file = file, section = "unmerged" })
       else
         error(line)
+      end
+
+      if prefix:sub(1, 1) == "R" or prefix:sub(1, 1) == "C" then
+        i = i + 1
       end
     end
   end
 
   local extmarks = {}
+
+  local function printable(file)
+    return (
+      file:gsub("%c", function(c)
+        return c == "\t" and "\\t" or c == "\n" and "\\n" or c == "\r" and "\\r" or ("\\%03o"):format(c:byte())
+      end)
+    )
+  end
 
   local function add_lines(type)
     if #section[type] > 0 then
@@ -213,7 +230,7 @@ function M:on_buf_load(stdout)
         hl = "@keyword",
       })
       for _, s in ipairs(section[type]) do
-        table.insert(data.lines, "  " .. s.file)
+        table.insert(data.lines, "  " .. printable(s.file))
         data.section[#data.lines] = s
       end
     end
@@ -252,19 +269,23 @@ function M:on_buf_load(stdout)
       {
         lhs = "<Cr>",
         rhs = function()
-          local row = vim.api.nvim_win_get_cursor(0)[1]
-          local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+          local entry = data.section[vim.api.nvim_win_get_cursor(0)[1]]
+          if not entry or not entry.file then
+            return
+          end
           vim.cmd.wincmd "w"
-          vim.cmd.edit(vim.trim(line))
+          vim.cmd.edit(vim.fn.fnameescape(entry.file))
         end,
       },
       {
         lhs = "<C-Cr>",
         rhs = function()
-          local row = vim.api.nvim_win_get_cursor(0)[1]
-          local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+          local entry = data.section[vim.api.nvim_win_get_cursor(0)[1]]
+          if not entry or not entry.file then
+            return
+          end
           vim.api.nvim_buf_delete(self.bufnr, { force = true })
-          vim.cmd.edit(vim.trim(line))
+          vim.cmd.edit(vim.fn.fnameescape(entry.file))
         end,
       },
     },

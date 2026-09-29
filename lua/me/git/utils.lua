@@ -16,16 +16,22 @@ local function ensure_git_editor()
   end
 end
 
+--- @param cmd string[]
+--- @param fargs string[]
 --- @param on_exit function
 --- @return nil
---- @overload fun(cmd, fargs): string[], integer?
+--- @overload fun(cmd: string[], fargs: string[]): string[], integer?
 function M.run(cmd, fargs, on_exit)
   ensure_git_editor()
+
+  local sep = (vim.tbl_contains(cmd, "-z") or vim.tbl_contains(fargs or {}, "-z")) and "\0" or "\n"
 
   local command = {
     "--no-pager",
     "-c",
     "color.ui=never",
+    "-c",
+    "core.quotePath=false",
   }
 
   vim.list_extend(command, cmd)
@@ -72,11 +78,18 @@ function M.run(cmd, fargs, on_exit)
     end
     process:close()
 
-    local trimmed_out = table.concat(out):gsub("\n+$", "")
-    local trimmed_err = table.concat(err):gsub("\n+$", "")
+    local function rtrim(s)
+      while #s > 0 and s:sub(-#sep) == sep do
+        s = s:sub(1, -#sep - 1)
+      end
+      return s
+    end
+
+    local trimmed_out = rtrim(table.concat(out))
+    local trimmed_err = rtrim(table.concat(err))
 
     if trimmed_out ~= "" then
-      out = vim.split(trimmed_out, "\n")
+      out = vim.split(trimmed_out, sep, { plain = true })
     else
       out = {}
     end

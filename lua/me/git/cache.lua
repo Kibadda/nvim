@@ -3,17 +3,17 @@ local M = {}
 local F = {}
 
 function F.staged()
-  return require("me.git.utils").run({ "diff" }, { "--cached", "--name-only" })
+  return require("me.git.utils").run({ "diff" }, { "--cached", "--name-only", "-z" })
 end
 
 function F.unstaged()
   local files = {}
 
-  for _, file in ipairs(require("me.git.utils").run({ "diff" }, { "--name-only" })) do
+  for _, file in ipairs(require("me.git.utils").run({ "diff" }, { "--name-only", "-z" })) do
     files[file] = true
   end
 
-  for _, file in ipairs(require("me.git.utils").run({ "ls-files" }, { "--others", "--exclude-standard" })) do
+  for _, file in ipairs(require("me.git.utils").run({ "ls-files" }, { "--others", "--exclude-standard", "-z" })) do
     files[file] = true
   end
 
