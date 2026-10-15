@@ -23,12 +23,13 @@ end
 local function format_branches(sub)
   local branches = {}
 
-  for _, branch in ipairs(require("me.git.utils").run({ "branch" }, { "--column=plain" })) do
-    if not branch:find "HEAD" and branch ~= "" then
-      branch = vim.trim(branch:gsub("*", ""):gsub(sub, ""))
-    end
+  for _, branch in ipairs(require("me.git.utils").run({ "branch" }, { "--all", "--column=plain" })) do
+    branch = vim.trim(branch:gsub("*", ""))
+    branch = branch:match "([^%s]+)"
 
-    branches[branch] = true
+    if branch and branch ~= "" and not branch:find "HEAD" then
+      branches[branch:gsub(sub, "")] = true
+    end
   end
 
   return vim.tbl_keys(branches)
